@@ -264,21 +264,41 @@ namespace VisionAssist.Vision
                     gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                 }
 
-                // HP
-                GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                // MP
-                GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                // Attack
-                GLOBAL.hfrmControl.SetAttackImagePos(FinalImage.SubMat(new Rect(837, 399, 42, 47)));
-                // Search Area
-                GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalImage.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
-                // Search Item Area
-                GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalImage.SubMat(new Rect(702, 489, 287, 74)),
-                    new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
+                Parallel.Invoke(
+                    () => 
+                    {                 
+                        // HP
+                        GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+                    },
+                    () =>
+                    {
+                        // MP
+                        GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+                    },
+                    () =>
+                    {
+                        // Attack
+                        GLOBAL.hfrmControl.SetAttackImagePos(FinalImage.SubMat(new Rect(837, 399, 42, 47)));
+                    },
+                    () =>
+                    {
+                        // Search Area
+                        GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalImage.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
+                    },
+                    () =>
+                    {
+                        // Search Item Area
+                        GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalImage.SubMat(new Rect(702, 489, 287, 74)),
+                            new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
+                    },
+                    () =>
+                    {
+                        picVision.Image?.Dispose();
+                        picVision.Image = FinalImage.ToBitmap();
+                    }
+                );
 
-                picVision.Image?.Dispose();
 
-                picVision.Image = FinalImage.ToBitmap();
 
                 mat.Release();
                 FinalImage.Release();

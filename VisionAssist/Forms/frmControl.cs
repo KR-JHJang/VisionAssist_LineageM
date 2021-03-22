@@ -75,7 +75,7 @@ namespace VisionAssist.Forms
         private void RunThread()
         {
             //bgwSearchSkillPos.RunWorkerAsync();
-            bgwEvadeAttack.RunWorkerAsync();
+            //bgwEvadeAttack.RunWorkerAsync();
             //bgwMP.RunWorkerAsync();
             //bgwHP.RunWorkerAsync();
 
@@ -135,7 +135,7 @@ namespace VisionAssist.Forms
 
             while(true)
             {
-                if(gImageProcess != null)
+                if(gImageProcess != null) 
                     break;
             }
         }
@@ -223,7 +223,6 @@ namespace VisionAssist.Forms
         public void SetAttackImagePos(Mat src)
         {
             matAttack?.Release();
-
             matAttack = src;
 
             OpenCvSharp.Size size = new OpenCvSharp.Size(
@@ -235,6 +234,7 @@ namespace VisionAssist.Forms
             //gImageProcess.ConvertRGB2GRAY(matAttack);
 
             RefreshPicBox(matAttack.Clone(), picboxUserAttack);
+            EvadeAttack();
         }
 
         public void SetMessage(string msg)
@@ -375,6 +375,10 @@ namespace VisionAssist.Forms
                 }
 
                 result.retMat.Release();
+            }
+            else
+            {
+                return;
             }
         }
 
