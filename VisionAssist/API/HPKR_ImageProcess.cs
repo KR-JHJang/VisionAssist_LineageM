@@ -345,7 +345,7 @@ namespace HPKR.API
             for (int col = 0; col < src.Cols; col++)
             {
                 for (int rows = 0; rows < src.Rows; rows++)
-                {
+                {       
                     Vec3b pt = src.At<Vec3b>(rows, col);
 
                     if(pt.Item0 == 0x00)

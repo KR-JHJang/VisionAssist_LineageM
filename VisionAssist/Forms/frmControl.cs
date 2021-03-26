@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Security.Policy;
 using VisionAssist.API;
 using System.Diagnostics;
+using Size = OpenCvSharp.Size;
 
 namespace VisionAssist.Forms
 {
@@ -234,7 +235,10 @@ namespace VisionAssist.Forms
             //gImageProcess.ConvertRGB2GRAY(matAttack);
 
             RefreshPicBox(matAttack.Clone(), picboxUserAttack);
-            EvadeAttack();
+            if (EvadeAttack())
+            {
+                ExcuteEvade();
+            }
         }
 
         public void SetMessage(string msg)
@@ -346,15 +350,15 @@ namespace VisionAssist.Forms
             Invalidate();
         }
 
-        private void EvadeAttack()
+        private bool EvadeAttack()
         {
-            if (matAttack != null && matPKImage != null)
-            {
+            //if (matAttack != null && matPKImage != null)
+            //{
                 VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
 
-                lblMatchingRatio.Invoke(new Action(() =>
+                lblMatchingRatioEvade.Invoke(new Action(() =>
                 {
-                    lblMatchingRatio.Text = result.maxval.ToString() + " %";
+                    lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
                 }));
 
                 if (chkUserAttackEvade.Checked)
@@ -369,17 +373,14 @@ namespace VisionAssist.Forms
                 else
                     bEvadeAttack = false;
 
-                if (bEvadeAttack)
-                {
-                    ExcuteEvade();
-                }
-
                 result.retMat.Release();
-            }
-            else
-            {
-                return;
-            }
+            //}
+            //else
+            //{
+            //    return;
+            //}
+
+            return bEvadeAttack;
         }
 
         private void bgwEvadeAttack_DoWork(object sender, DoWorkEventArgs e)
@@ -396,9 +397,9 @@ namespace VisionAssist.Forms
                 {
                     VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
 
-                    lblMatchingRatio.Invoke(new Action(()=>
+                    lblMatchingRatioEvade.Invoke(new Action(()=>
                     {
-                        lblMatchingRatio.Text = result.maxval.ToString() + " %";
+                        lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
                     }));
 
                     if(chkUserAttackEvade.Checked)
@@ -444,8 +445,8 @@ namespace VisionAssist.Forms
 
         private void SearchSkillPos()
         {
-            if (matSearchSkillArea != null && matGunner_ManaChange != null)
-            {
+            //if (matSearchSkillArea != null && matGunner_ManaChange != null)
+            //{
                 Random r = new Random();
 
                 if (bRefillMP)
@@ -467,7 +468,8 @@ namespace VisionAssist.Forms
 
                     // 타겟 이미지랑 유사 정도 1에 가까울 수록 같음
                     var threshold = 0.53;
-                    System.Console.WriteLine(maxval);
+                    System.Console.WriteLine("Search Skill : {0}", maxval);
+
                     if (maxval >= threshold)
                     {
                         int X = (int)(maxloc.X + matSearchSkillAreaStartX) + (matGunner_ManaChange.Width / 2);
@@ -494,8 +496,8 @@ namespace VisionAssist.Forms
                     //result.Release();
                 }
 
-                Thread.Sleep(r.Next(400, 1000));
-            }
+                //Thread.Sleep(r.Next(400, 1000));
+            //}
         }
 
         private void bgwSearchSkillPos_DoWork(object sender, DoWorkEventArgs e)
@@ -590,18 +592,29 @@ namespace VisionAssist.Forms
 
                 int longParameter = GLOBAL.hfrmVision.GetLongParameter(X, Y);
 
-                Thread.Sleep((r.Next(2000, 3000)));
+                //Thread.Sleep((r.Next(2000, 3000)));
 
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, longParameter);
 
                 // 서치된 부분을 빨간 테두리로
-                //Rect rect = new Rect(result.maxloc.X, result.maxloc.Y, matGunner_ManaChange.Width, matGunner_ManaChange.Height);
-                //Cv2.Rectangle(GrayArea, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
+                Rect rect = new Rect(result.maxloc.X, result.maxloc.Y, result.retMat.Width, result.retMat.Height);
+                Cv2.Rectangle(result.retMat, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
+
+                lblMatchingRatioExcute.Invoke(new Action(() =>
+                {
+                    lblMatchingRatioExcute.Text = result.maxval.ToString();
+                }));
+
+                if (picEvadeTest.Image != null)
+                    picEvadeTest.Image.Dispose();
+
+                Cv2.Resize(result.retMat, result.retMat, new Size(picEvadeTest.Width, picEvadeTest.Height), 0,0,InterpolationFlags.Cubic);
+
+                picEvadeTest.Image = result.retMat.ToBitmap();
 
                 //표시
-                //Cv2.ImShow("template1_show", result.result);
-                //Cv2.ImShow("org", matGunner_ManaChange);
+                //Cv2.ImShow("template1_show", result.retMat);
                 //Cv2.WaitKey(0);
             }
         }
@@ -631,7 +644,7 @@ namespace VisionAssist.Forms
 
                     if (ratio <= 0)
                         return;
-
+                        
                     ratio = Math.Round(ratio, 2);
                 }
                 catch (Exception ex)
@@ -845,6 +858,16 @@ namespace VisionAssist.Forms
 
                 Thread.Sleep(100);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblMatchingRatioEvade_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

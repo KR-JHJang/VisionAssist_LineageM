@@ -33,16 +33,10 @@ namespace VisionAssist.Forms
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.lblMatchingRatio = new System.Windows.Forms.Label();
+            this.lblMatchingRatioEvade = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.chkUserAttackEvade = new System.Windows.Forms.CheckBox();
             this.picboxUserAttack = new System.Windows.Forms.PictureBox();
-            this.tbxVUpper = new System.Windows.Forms.TextBox();
-            this.tbxVLower = new System.Windows.Forms.TextBox();
-            this.tbxSUpper = new System.Windows.Forms.TextBox();
-            this.tbxSLower = new System.Windows.Forms.TextBox();
-            this.tbxUpper = new System.Windows.Forms.TextBox();
-            this.tbxLower = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblMatchingRatioMP = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -75,6 +69,10 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.picEvadeTest = new System.Windows.Forms.PictureBox();
+            this.lblMatchingRatioExcute = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -93,6 +91,8 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -111,13 +111,8 @@ namespace VisionAssist.Forms
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage1.Controls.Add(this.groupBox7);
             this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Controls.Add(this.tbxVUpper);
-            this.tabPage1.Controls.Add(this.tbxVLower);
-            this.tabPage1.Controls.Add(this.tbxSUpper);
-            this.tabPage1.Controls.Add(this.tbxSLower);
-            this.tabPage1.Controls.Add(this.tbxUpper);
-            this.tabPage1.Controls.Add(this.tbxLower);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -130,7 +125,7 @@ namespace VisionAssist.Forms
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.lblMatchingRatio);
+            this.groupBox5.Controls.Add(this.lblMatchingRatioEvade);
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.chkUserAttackEvade);
             this.groupBox5.Controls.Add(this.picboxUserAttack);
@@ -142,25 +137,27 @@ namespace VisionAssist.Forms
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "공격회피";
             // 
-            // lblMatchingRatio
+            // lblMatchingRatioEvade
             // 
-            this.lblMatchingRatio.AutoSize = true;
-            this.lblMatchingRatio.ForeColor = System.Drawing.Color.Lime;
-            this.lblMatchingRatio.Location = new System.Drawing.Point(121, 47);
-            this.lblMatchingRatio.Name = "lblMatchingRatio";
-            this.lblMatchingRatio.Size = new System.Drawing.Size(41, 12);
-            this.lblMatchingRatio.TabIndex = 3;
-            this.lblMatchingRatio.Text = "0.00 %";
+            this.lblMatchingRatioEvade.AutoSize = true;
+            this.lblMatchingRatioEvade.ForeColor = System.Drawing.Color.Lime;
+            this.lblMatchingRatioEvade.Location = new System.Drawing.Point(33, 46);
+            this.lblMatchingRatioEvade.Name = "lblMatchingRatioEvade";
+            this.lblMatchingRatioEvade.Size = new System.Drawing.Size(41, 12);
+            this.lblMatchingRatioEvade.TabIndex = 3;
+            this.lblMatchingRatioEvade.Text = "0.00 %";
+            this.lblMatchingRatioEvade.Click += new System.EventHandler(this.lblMatchingRatioEvade_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Yellow;
-            this.label1.Location = new System.Drawing.Point(94, 47);
+            this.label1.Location = new System.Drawing.Point(6, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "M.R";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // chkUserAttackEvade
             // 
@@ -182,60 +179,6 @@ namespace VisionAssist.Forms
             this.picboxUserAttack.Size = new System.Drawing.Size(42, 47);
             this.picboxUserAttack.TabIndex = 1;
             this.picboxUserAttack.TabStop = false;
-            // 
-            // tbxVUpper
-            // 
-            this.tbxVUpper.Location = new System.Drawing.Point(6, 579);
-            this.tbxVUpper.Name = "tbxVUpper";
-            this.tbxVUpper.Size = new System.Drawing.Size(100, 21);
-            this.tbxVUpper.TabIndex = 13;
-            this.tbxVUpper.Text = "0";
-            this.tbxVUpper.Visible = false;
-            // 
-            // tbxVLower
-            // 
-            this.tbxVLower.Location = new System.Drawing.Point(6, 551);
-            this.tbxVLower.Name = "tbxVLower";
-            this.tbxVLower.Size = new System.Drawing.Size(100, 21);
-            this.tbxVLower.TabIndex = 12;
-            this.tbxVLower.Text = "0";
-            this.tbxVLower.Visible = false;
-            // 
-            // tbxSUpper
-            // 
-            this.tbxSUpper.Location = new System.Drawing.Point(6, 524);
-            this.tbxSUpper.Name = "tbxSUpper";
-            this.tbxSUpper.Size = new System.Drawing.Size(100, 21);
-            this.tbxSUpper.TabIndex = 11;
-            this.tbxSUpper.Text = "0";
-            this.tbxSUpper.Visible = false;
-            // 
-            // tbxSLower
-            // 
-            this.tbxSLower.Location = new System.Drawing.Point(6, 496);
-            this.tbxSLower.Name = "tbxSLower";
-            this.tbxSLower.Size = new System.Drawing.Size(100, 21);
-            this.tbxSLower.TabIndex = 10;
-            this.tbxSLower.Text = "0";
-            this.tbxSLower.Visible = false;
-            // 
-            // tbxUpper
-            // 
-            this.tbxUpper.Location = new System.Drawing.Point(6, 469);
-            this.tbxUpper.Name = "tbxUpper";
-            this.tbxUpper.Size = new System.Drawing.Size(100, 21);
-            this.tbxUpper.TabIndex = 9;
-            this.tbxUpper.Text = "0";
-            this.tbxUpper.Visible = false;
-            // 
-            // tbxLower
-            // 
-            this.tbxLower.Location = new System.Drawing.Point(6, 441);
-            this.tbxLower.Name = "tbxLower";
-            this.tbxLower.Size = new System.Drawing.Size(100, 21);
-            this.tbxLower.TabIndex = 8;
-            this.tbxLower.Text = "0";
-            this.tbxLower.Visible = false;
             // 
             // groupBox4
             // 
@@ -561,6 +504,48 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.lblMatchingRatioExcute);
+            this.groupBox7.Controls.Add(this.label5);
+            this.groupBox7.Controls.Add(this.picEvadeTest);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox7.Location = new System.Drawing.Point(3, 380);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(216, 92);
+            this.groupBox7.TabIndex = 16;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "테스트 폼";
+            // 
+            // picEvadeTest
+            // 
+            this.picEvadeTest.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picEvadeTest.Location = new System.Drawing.Point(3, 17);
+            this.picEvadeTest.Name = "picEvadeTest";
+            this.picEvadeTest.Size = new System.Drawing.Size(210, 47);
+            this.picEvadeTest.TabIndex = 2;
+            this.picEvadeTest.TabStop = false;
+            // 
+            // lblMatchingRatioExcute
+            // 
+            this.lblMatchingRatioExcute.AutoSize = true;
+            this.lblMatchingRatioExcute.ForeColor = System.Drawing.Color.Lime;
+            this.lblMatchingRatioExcute.Location = new System.Drawing.Point(33, 72);
+            this.lblMatchingRatioExcute.Name = "lblMatchingRatioExcute";
+            this.lblMatchingRatioExcute.Size = new System.Drawing.Size(41, 12);
+            this.lblMatchingRatioExcute.TabIndex = 4;
+            this.lblMatchingRatioExcute.Text = "0.00 %";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.Yellow;
+            this.label5.Location = new System.Drawing.Point(6, 72);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(28, 12);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "M.R";
+            // 
             // frmControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -571,7 +556,6 @@ namespace VisionAssist.Forms
             this.Size = new System.Drawing.Size(230, 654);
             this.tabMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).EndInit();
@@ -591,6 +575,9 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -617,16 +604,10 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picboxMP;
         private System.ComponentModel.BackgroundWorker bgwExcuteEvade;
         private System.ComponentModel.BackgroundWorker bgwSearchSkillPos;
-        private System.Windows.Forms.TextBox tbxUpper;
-        private System.Windows.Forms.TextBox tbxLower;
-        private System.Windows.Forms.TextBox tbxVUpper;
-        private System.Windows.Forms.TextBox tbxVLower;
-        private System.Windows.Forms.TextBox tbxSUpper;
-        private System.Windows.Forms.TextBox tbxSLower;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.PictureBox picboxUserAttack;
         private System.Windows.Forms.CheckBox chkUserAttackEvade;
-        private System.Windows.Forms.Label lblMatchingRatio;
+        private System.Windows.Forms.Label lblMatchingRatioEvade;
         private System.Windows.Forms.Label label1;
         private System.ComponentModel.BackgroundWorker bgwEvadeAttack;
         private System.ComponentModel.BackgroundWorker bgwMP;
@@ -643,5 +624,9 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.CheckBox chkAvoidHP;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.ComponentModel.BackgroundWorker bgwHP;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.PictureBox picEvadeTest;
+        private System.Windows.Forms.Label lblMatchingRatioExcute;
+        private System.Windows.Forms.Label label5;
     }
 }

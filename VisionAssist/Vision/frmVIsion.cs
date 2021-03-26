@@ -298,8 +298,6 @@ namespace VisionAssist.Vision
                     }
                 );
 
-
-
                 mat.Release();
                 FinalImage.Release();
                 stBitmap.Dispose();
