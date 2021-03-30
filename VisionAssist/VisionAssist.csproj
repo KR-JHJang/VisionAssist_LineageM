@@ -127,6 +127,12 @@
     <Compile Include="Forms\frmControl.Designer.cs">
       <DependentUpon>frmControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmTop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\frmTop.Designer.cs">
+      <DependentUpon>frmTop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vision\frmVIsion.cs">
@@ -140,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmControl.resx">
       <DependentUpon>frmControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTop.resx">
+      <DependentUpon>frmTop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -183,6 +192,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Components\Images\Teleport_Scroll.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Components\Images\GreatHeal_Self.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

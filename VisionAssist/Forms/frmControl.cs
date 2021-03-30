@@ -160,7 +160,7 @@ namespace VisionAssist.Forms
         public void SetHPImagePos(Mat src)
         {
             matHP?.Release();
-            matHP = src;
+            matHP = src.Clone();
 
             OpenCvSharp.Size size = new OpenCvSharp.Size(
             picboxHP.Size.Width,
@@ -180,7 +180,7 @@ namespace VisionAssist.Forms
         public void SetMPImagePos(Mat src)
         {
             matMP?.Release();
-            matMP = src;
+            matMP = src.Clone();
             
             OpenCvSharp.Size size = new OpenCvSharp.Size(
             picboxMP.Size.Width,
@@ -203,8 +203,8 @@ namespace VisionAssist.Forms
         public void SetSearchSkillAreaImage(Mat src, Rect Area)
         {
             matSearchSkillArea?.Release();
+            matSearchSkillArea = src.Clone();
 
-            matSearchSkillArea = src;
             matSearchSkillAreaStartX = Area.X;
             matSearchSkillAreaStartY = Area.Y;
         }
@@ -213,10 +213,9 @@ namespace VisionAssist.Forms
         {
             gLMImageList.InsertMat(src, idx);
 
-            if (matSearchItemArea != null)
-                matSearchItemArea.Release();
+            matSearchItemArea?.Release();
+            matSearchItemArea = src.Clone();
 
-            matSearchItemArea = src;
             matSearchItemAreaStartX = Area.X;
             matSearchItemAreaStartY = Area.Y;
         }
@@ -224,7 +223,7 @@ namespace VisionAssist.Forms
         public void SetAttackImagePos(Mat src)
         {
             matAttack?.Release();
-            matAttack = src;
+            matAttack = src.Clone();
 
             OpenCvSharp.Size size = new OpenCvSharp.Size(
             picboxUserAttack.Size.Width,

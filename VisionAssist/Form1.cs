@@ -19,6 +19,7 @@ namespace VisionAssist
         private Point MousePoint;
         private frmVIsion gfrmVision;
         private frmControl gfrmControl;
+        private frmTop gfrmTop;
 
         private bool bFindWindow = false;
         public frmMain()
@@ -82,6 +83,15 @@ namespace VisionAssist
             {
                 GLOBAL.SetParent(gfrmControl.Handle, Parenthandle);
                 GLOBAL.SetWindowPos(gfrmControl.Handle, IntPtr.Zero, 0, 0, pnlRight.Width, pnlRight.Height, 0);
+            }));
+
+            gfrmTop = new frmTop();
+            Parenthandle = pnlTop.Handle;
+
+            pnlVision.Invoke(new Action(delegate
+            {
+                GLOBAL.SetParent(gfrmTop.Handle, Parenthandle);
+                GLOBAL.SetWindowPos(gfrmTop.Handle, IntPtr.Zero, 0, 0, pnlTop.Width, pnlTop.Height, 0);
             }));
 
         }
