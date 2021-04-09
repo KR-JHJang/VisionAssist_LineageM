@@ -76,7 +76,7 @@ namespace VisionAssist.Forms
         private void RunThread()
         {
             //bgwSearchSkillPos.RunWorkerAsync();
-            //bgwEvadeAttack.RunWorkerAsync();
+            bgwEvadeAttack.RunWorkerAsync();
             //bgwMP.RunWorkerAsync();
             //bgwHP.RunWorkerAsync();
 
@@ -234,10 +234,10 @@ namespace VisionAssist.Forms
             //gImageProcess.ConvertRGB2GRAY(matAttack);
 
             RefreshPicBox(matAttack.Clone(), picboxUserAttack);
-            if (EvadeAttack())
-            {
-                ExcuteEvade();
-            }
+            //if (EvadeAttack())
+            //{
+            //    ExcuteEvade();
+            //}
         }
 
         public void SetMessage(string msg)
