@@ -26,21 +26,21 @@ namespace VisionAssist.API
             string val,
             string filePath);
 
-        public static string Read(string Section, string Key, string Path)
+        public static string IniRead(string Section, string Key, string Path)
         {
             StringBuilder strValue = new StringBuilder(255);
             GetPrivateProfileString(Section, Key, "0", strValue, 255, Path);
             return strValue.ToString().Trim();
         }
 
-        public static string ReadNotNull(string Section, string Key, string Path)
+        public static string IniReadNotNull(string Section, string Key, string Path)
         {
             StringBuilder strValue = new StringBuilder(255);
             GetPrivateProfileString(Section, Key, "", strValue, 255, Path);
             return strValue.ToString().Trim();
         }
 
-        public static void Write(string Section, string Key, string Value, string Path)
+        public static void IniWrite(string Section, string Key, string Value, string Path)
         {
             WritePrivateProfileString(Section, Key, Value, Path);
         }

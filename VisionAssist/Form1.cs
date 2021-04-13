@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -48,7 +49,7 @@ namespace VisionAssist
                 processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
             }
 
-           // GLOBAL.ReadSetupFile("./Setup.ini");
+           GLOBAL.ReadSetupFile(Directory.GetCurrentDirectory() + "\\Param.ini");
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
