@@ -81,6 +81,7 @@ namespace VisionAssist.Forms
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.bgwUseGroups = new System.ComponentModel.BackgroundWorker();
+            this.bgwCheckRadioButtonSelect = new System.ComponentModel.BackgroundWorker();
             this.gbox2.SuspendLayout();
             this.gbox1.SuspendLayout();
             this.gbox3.SuspendLayout();
@@ -659,6 +660,12 @@ namespace VisionAssist.Forms
             this.bgwUseGroups.WorkerSupportsCancellation = true;
             this.bgwUseGroups.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwUseGroups_DoWork);
             // 
+            // bgwCheckRadioButtonSelect
+            // 
+            this.bgwCheckRadioButtonSelect.WorkerReportsProgress = true;
+            this.bgwCheckRadioButtonSelect.WorkerSupportsCancellation = true;
+            this.bgwCheckRadioButtonSelect.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCheckRadioButtonSelect_DoWork);
+            // 
             // frmTop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -741,5 +748,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.ComponentModel.BackgroundWorker bgwUseGroups;
+        private System.ComponentModel.BackgroundWorker bgwCheckRadioButtonSelect;
     }
 }

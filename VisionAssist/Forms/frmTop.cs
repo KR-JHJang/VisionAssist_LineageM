@@ -99,14 +99,13 @@ namespace VisionAssist.Forms
             GLOBAL._tskillboxes.Add(new Tskillbox(checkBox2, gbox2, radioButtons2));
             GLOBAL._tskillboxes.Add(new Tskillbox(checkBox3, gbox3, radioButtons3));
             GLOBAL._tskillboxes.Add(new Tskillbox(checkBox4, gbox4, radioButtons4));
-
-            //_tskillboxes[0].checkBox = checkBox1;
         }
 
         private void RunThread()
         {
             bgwRunFlag.RunWorkerAsync();
             bgwUseGroups.RunWorkerAsync();
+            bgwCheckRadioButtonSelect.RunWorkerAsync();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -171,6 +170,32 @@ namespace VisionAssist.Forms
                     }));
                 }
 
+
+                Thread.Sleep(100);
+            }
+        }
+
+        private void bgwCheckRadioButtonSelect_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                if (GLOBAL._tskillboxes == null)
+                    continue;
+
+                for (int idx = 0; idx < GLOBAL._tskillboxes.Count; idx++)
+                {
+                    for (int i = 0; i < GLOBAL._tskillboxes[idx].RadioButtons.Count; i++)
+                    {
+                        if (GLOBAL._tskillboxes[idx].RadioButtons[i].Checked)
+                        {
+                            GLOBAL._tskillpos[idx] = i;
+
+                            //System.Console.WriteLine(" GLOBAL._tskillboxes[{0}].SetSelectNum({1})", idx, i);
+                            //System.Console.WriteLine(" GLOBAL._tskillpos[idx] = : {1}", idx, GLOBAL._tskillpos[idx]);
+                            break;
+                        }
+                    }
+                }
 
                 Thread.Sleep(100);
             }

@@ -252,7 +252,10 @@ namespace VisionAssist.Forms
             {
                 if (EvadeAttack())
                 {
-
+                    if(GLOBAL._tskillboxes[3].IsUsed())
+                    {
+                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                    }
                 }
             }
             //if (EvadeAttack())
@@ -587,6 +590,12 @@ namespace VisionAssist.Forms
 
                 //Monitor.Exit(GLOBAL.monitorLock);
             }
+        }
+
+        private void SimpleExcuteEvade(int Param)
+        {
+            GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
+            GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
         }
 
         private void ExcuteEvade()
