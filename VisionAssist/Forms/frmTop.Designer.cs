@@ -29,50 +29,50 @@ namespace VisionAssist.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.grbMP = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.radioButton10 = new System.Windows.Forms.RadioButton();
-            this.gtbHeal = new System.Windows.Forms.GroupBox();
-            this.radioButton11 = new System.Windows.Forms.RadioButton();
-            this.radioButton12 = new System.Windows.Forms.RadioButton();
-            this.radioButton13 = new System.Windows.Forms.RadioButton();
-            this.radioButton14 = new System.Windows.Forms.RadioButton();
-            this.radioButton15 = new System.Windows.Forms.RadioButton();
-            this.radioButton16 = new System.Windows.Forms.RadioButton();
-            this.radioButton17 = new System.Windows.Forms.RadioButton();
-            this.radioButton18 = new System.Windows.Forms.RadioButton();
-            this.radioButton19 = new System.Windows.Forms.RadioButton();
-            this.radioButton20 = new System.Windows.Forms.RadioButton();
-            this.grbSkill1 = new System.Windows.Forms.GroupBox();
-            this.radioButton31 = new System.Windows.Forms.RadioButton();
-            this.radioButton32 = new System.Windows.Forms.RadioButton();
-            this.radioButton33 = new System.Windows.Forms.RadioButton();
-            this.radioButton34 = new System.Windows.Forms.RadioButton();
-            this.radioButton35 = new System.Windows.Forms.RadioButton();
-            this.radioButton36 = new System.Windows.Forms.RadioButton();
-            this.radioButton37 = new System.Windows.Forms.RadioButton();
-            this.radioButton38 = new System.Windows.Forms.RadioButton();
-            this.radioButton39 = new System.Windows.Forms.RadioButton();
-            this.radioButton40 = new System.Windows.Forms.RadioButton();
-            this.grbEvade = new System.Windows.Forms.GroupBox();
-            this.radioButton41 = new System.Windows.Forms.RadioButton();
-            this.radioButton42 = new System.Windows.Forms.RadioButton();
-            this.radioButton43 = new System.Windows.Forms.RadioButton();
-            this.radioButton44 = new System.Windows.Forms.RadioButton();
-            this.radioButton45 = new System.Windows.Forms.RadioButton();
-            this.radioButton46 = new System.Windows.Forms.RadioButton();
-            this.radioButton47 = new System.Windows.Forms.RadioButton();
-            this.radioButton48 = new System.Windows.Forms.RadioButton();
-            this.radioButton49 = new System.Windows.Forms.RadioButton();
-            this.radioButton50 = new System.Windows.Forms.RadioButton();
+            this.gbox2 = new System.Windows.Forms.GroupBox();
+            this.g2r10 = new System.Windows.Forms.RadioButton();
+            this.g2r5 = new System.Windows.Forms.RadioButton();
+            this.g2r9 = new System.Windows.Forms.RadioButton();
+            this.g2r4 = new System.Windows.Forms.RadioButton();
+            this.g2r8 = new System.Windows.Forms.RadioButton();
+            this.g2r3 = new System.Windows.Forms.RadioButton();
+            this.g2r7 = new System.Windows.Forms.RadioButton();
+            this.g2r2 = new System.Windows.Forms.RadioButton();
+            this.g2r6 = new System.Windows.Forms.RadioButton();
+            this.g2r1 = new System.Windows.Forms.RadioButton();
+            this.gbox1 = new System.Windows.Forms.GroupBox();
+            this.g1r10 = new System.Windows.Forms.RadioButton();
+            this.g1r5 = new System.Windows.Forms.RadioButton();
+            this.g1r9 = new System.Windows.Forms.RadioButton();
+            this.g1r4 = new System.Windows.Forms.RadioButton();
+            this.g1r8 = new System.Windows.Forms.RadioButton();
+            this.g1r3 = new System.Windows.Forms.RadioButton();
+            this.g1r7 = new System.Windows.Forms.RadioButton();
+            this.g1r2 = new System.Windows.Forms.RadioButton();
+            this.g1r6 = new System.Windows.Forms.RadioButton();
+            this.g1r1 = new System.Windows.Forms.RadioButton();
+            this.gbox3 = new System.Windows.Forms.GroupBox();
+            this.g3r10 = new System.Windows.Forms.RadioButton();
+            this.g3r5 = new System.Windows.Forms.RadioButton();
+            this.g3r9 = new System.Windows.Forms.RadioButton();
+            this.g3r4 = new System.Windows.Forms.RadioButton();
+            this.g3r8 = new System.Windows.Forms.RadioButton();
+            this.g3r3 = new System.Windows.Forms.RadioButton();
+            this.g3r7 = new System.Windows.Forms.RadioButton();
+            this.g3r2 = new System.Windows.Forms.RadioButton();
+            this.g3r6 = new System.Windows.Forms.RadioButton();
+            this.g3r1 = new System.Windows.Forms.RadioButton();
+            this.gbox4 = new System.Windows.Forms.GroupBox();
+            this.g4r10 = new System.Windows.Forms.RadioButton();
+            this.g4r5 = new System.Windows.Forms.RadioButton();
+            this.g4r9 = new System.Windows.Forms.RadioButton();
+            this.g4r4 = new System.Windows.Forms.RadioButton();
+            this.g4r8 = new System.Windows.Forms.RadioButton();
+            this.g4r3 = new System.Windows.Forms.RadioButton();
+            this.g4r7 = new System.Windows.Forms.RadioButton();
+            this.g4r2 = new System.Windows.Forms.RadioButton();
+            this.g4r6 = new System.Windows.Forms.RadioButton();
+            this.g4r1 = new System.Windows.Forms.RadioButton();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.bgwRunFlag = new System.ComponentModel.BackgroundWorker();
@@ -80,495 +80,500 @@ namespace VisionAssist.Forms
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.grbMP.SuspendLayout();
-            this.gtbHeal.SuspendLayout();
-            this.grbSkill1.SuspendLayout();
-            this.grbEvade.SuspendLayout();
+            this.bgwUseGroups = new System.ComponentModel.BackgroundWorker();
+            this.gbox2.SuspendLayout();
+            this.gbox1.SuspendLayout();
+            this.gbox3.SuspendLayout();
+            this.gbox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // grbMP
-            // 
-            this.grbMP.Controls.Add(this.radioButton10);
-            this.grbMP.Controls.Add(this.radioButton5);
-            this.grbMP.Controls.Add(this.radioButton9);
-            this.grbMP.Controls.Add(this.radioButton4);
-            this.grbMP.Controls.Add(this.radioButton8);
-            this.grbMP.Controls.Add(this.radioButton3);
-            this.grbMP.Controls.Add(this.radioButton7);
-            this.grbMP.Controls.Add(this.radioButton2);
-            this.grbMP.Controls.Add(this.radioButton6);
-            this.grbMP.Controls.Add(this.radioButton1);
-            this.grbMP.Location = new System.Drawing.Point(192, 20);
-            this.grbMP.Name = "grbMP";
-            this.grbMP.Size = new System.Drawing.Size(188, 60);
-            this.grbMP.TabIndex = 2;
-            this.grbMP.TabStop = false;
-            this.grbMP.Text = "자동 마나 스킬 위치";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 15);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(29, 16);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(41, 15);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(29, 16);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "2";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(76, 15);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(29, 16);
-            this.radioButton3.TabIndex = 0;
-            this.radioButton3.Text = "3";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(111, 15);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(29, 16);
-            this.radioButton4.TabIndex = 1;
-            this.radioButton4.Text = "4";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // radioButton5
-            // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(146, 15);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(29, 16);
-            this.radioButton5.TabIndex = 1;
-            this.radioButton5.Text = "5";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(6, 37);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(29, 16);
-            this.radioButton6.TabIndex = 0;
-            this.radioButton6.Text = "6";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            // 
-            // radioButton7
-            // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(41, 37);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(29, 16);
-            this.radioButton7.TabIndex = 1;
-            this.radioButton7.Text = "7";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            // 
-            // radioButton8
-            // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Location = new System.Drawing.Point(76, 37);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(29, 16);
-            this.radioButton8.TabIndex = 0;
-            this.radioButton8.Text = "8";
-            this.radioButton8.UseVisualStyleBackColor = true;
-            // 
-            // radioButton9
-            // 
-            this.radioButton9.AutoSize = true;
-            this.radioButton9.Location = new System.Drawing.Point(111, 37);
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(29, 16);
-            this.radioButton9.TabIndex = 1;
-            this.radioButton9.Text = "9";
-            this.radioButton9.UseVisualStyleBackColor = true;
-            // 
-            // radioButton10
-            // 
-            this.radioButton10.AutoSize = true;
-            this.radioButton10.Location = new System.Drawing.Point(146, 37);
-            this.radioButton10.Name = "radioButton10";
-            this.radioButton10.Size = new System.Drawing.Size(35, 16);
-            this.radioButton10.TabIndex = 1;
-            this.radioButton10.Text = "10";
-            this.radioButton10.UseVisualStyleBackColor = true;
-            // 
-            // gtbHeal
-            // 
-            this.gtbHeal.Controls.Add(this.radioButton11);
-            this.gtbHeal.Controls.Add(this.radioButton12);
-            this.gtbHeal.Controls.Add(this.radioButton13);
-            this.gtbHeal.Controls.Add(this.radioButton14);
-            this.gtbHeal.Controls.Add(this.radioButton15);
-            this.gtbHeal.Controls.Add(this.radioButton16);
-            this.gtbHeal.Controls.Add(this.radioButton17);
-            this.gtbHeal.Controls.Add(this.radioButton18);
-            this.gtbHeal.Controls.Add(this.radioButton19);
-            this.gtbHeal.Controls.Add(this.radioButton20);
-            this.gtbHeal.Location = new System.Drawing.Point(3, 20);
-            this.gtbHeal.Name = "gtbHeal";
-            this.gtbHeal.Size = new System.Drawing.Size(183, 60);
-            this.gtbHeal.TabIndex = 2;
-            this.gtbHeal.TabStop = false;
-            this.gtbHeal.Text = "자동 힐 스킬 위치";
-            // 
-            // radioButton11
-            // 
-            this.radioButton11.AutoSize = true;
-            this.radioButton11.Location = new System.Drawing.Point(146, 37);
-            this.radioButton11.Name = "radioButton11";
-            this.radioButton11.Size = new System.Drawing.Size(35, 16);
-            this.radioButton11.TabIndex = 1;
-            this.radioButton11.Text = "10";
-            this.radioButton11.UseVisualStyleBackColor = true;
-            // 
-            // radioButton12
-            // 
-            this.radioButton12.AutoSize = true;
-            this.radioButton12.Location = new System.Drawing.Point(146, 15);
-            this.radioButton12.Name = "radioButton12";
-            this.radioButton12.Size = new System.Drawing.Size(29, 16);
-            this.radioButton12.TabIndex = 1;
-            this.radioButton12.Text = "5";
-            this.radioButton12.UseVisualStyleBackColor = true;
-            // 
-            // radioButton13
-            // 
-            this.radioButton13.AutoSize = true;
-            this.radioButton13.Location = new System.Drawing.Point(111, 37);
-            this.radioButton13.Name = "radioButton13";
-            this.radioButton13.Size = new System.Drawing.Size(29, 16);
-            this.radioButton13.TabIndex = 1;
-            this.radioButton13.Text = "9";
-            this.radioButton13.UseVisualStyleBackColor = true;
-            // 
-            // radioButton14
-            // 
-            this.radioButton14.AutoSize = true;
-            this.radioButton14.Location = new System.Drawing.Point(111, 15);
-            this.radioButton14.Name = "radioButton14";
-            this.radioButton14.Size = new System.Drawing.Size(29, 16);
-            this.radioButton14.TabIndex = 1;
-            this.radioButton14.Text = "4";
-            this.radioButton14.UseVisualStyleBackColor = true;
-            // 
-            // radioButton15
-            // 
-            this.radioButton15.AutoSize = true;
-            this.radioButton15.Location = new System.Drawing.Point(76, 37);
-            this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(29, 16);
-            this.radioButton15.TabIndex = 0;
-            this.radioButton15.Text = "8";
-            this.radioButton15.UseVisualStyleBackColor = true;
-            // 
-            // radioButton16
-            // 
-            this.radioButton16.AutoSize = true;
-            this.radioButton16.Location = new System.Drawing.Point(76, 15);
-            this.radioButton16.Name = "radioButton16";
-            this.radioButton16.Size = new System.Drawing.Size(29, 16);
-            this.radioButton16.TabIndex = 0;
-            this.radioButton16.Text = "3";
-            this.radioButton16.UseVisualStyleBackColor = true;
-            // 
-            // radioButton17
-            // 
-            this.radioButton17.AutoSize = true;
-            this.radioButton17.Location = new System.Drawing.Point(41, 37);
-            this.radioButton17.Name = "radioButton17";
-            this.radioButton17.Size = new System.Drawing.Size(29, 16);
-            this.radioButton17.TabIndex = 1;
-            this.radioButton17.Text = "7";
-            this.radioButton17.UseVisualStyleBackColor = true;
-            // 
-            // radioButton18
-            // 
-            this.radioButton18.AutoSize = true;
-            this.radioButton18.Location = new System.Drawing.Point(41, 15);
-            this.radioButton18.Name = "radioButton18";
-            this.radioButton18.Size = new System.Drawing.Size(29, 16);
-            this.radioButton18.TabIndex = 1;
-            this.radioButton18.Text = "2";
-            this.radioButton18.UseVisualStyleBackColor = true;
-            // 
-            // radioButton19
-            // 
-            this.radioButton19.AutoSize = true;
-            this.radioButton19.Location = new System.Drawing.Point(6, 37);
-            this.radioButton19.Name = "radioButton19";
-            this.radioButton19.Size = new System.Drawing.Size(29, 16);
-            this.radioButton19.TabIndex = 0;
-            this.radioButton19.Text = "6";
-            this.radioButton19.UseVisualStyleBackColor = true;
-            // 
-            // radioButton20
-            // 
-            this.radioButton20.AutoSize = true;
-            this.radioButton20.Checked = true;
-            this.radioButton20.Location = new System.Drawing.Point(6, 15);
-            this.radioButton20.Name = "radioButton20";
-            this.radioButton20.Size = new System.Drawing.Size(29, 16);
-            this.radioButton20.TabIndex = 0;
-            this.radioButton20.TabStop = true;
-            this.radioButton20.Text = "1";
-            this.radioButton20.UseVisualStyleBackColor = true;
-            // 
-            // grbSkill1
-            // 
-            this.grbSkill1.Controls.Add(this.radioButton31);
-            this.grbSkill1.Controls.Add(this.radioButton32);
-            this.grbSkill1.Controls.Add(this.radioButton33);
-            this.grbSkill1.Controls.Add(this.radioButton34);
-            this.grbSkill1.Controls.Add(this.radioButton35);
-            this.grbSkill1.Controls.Add(this.radioButton36);
-            this.grbSkill1.Controls.Add(this.radioButton37);
-            this.grbSkill1.Controls.Add(this.radioButton38);
-            this.grbSkill1.Controls.Add(this.radioButton39);
-            this.grbSkill1.Controls.Add(this.radioButton40);
-            this.grbSkill1.Location = new System.Drawing.Point(386, 20);
-            this.grbSkill1.Name = "grbSkill1";
-            this.grbSkill1.Size = new System.Drawing.Size(183, 60);
-            this.grbSkill1.TabIndex = 2;
-            this.grbSkill1.TabStop = false;
-            this.grbSkill1.Text = "자동 공격 스킬 위치";
-            // 
-            // radioButton31
-            // 
-            this.radioButton31.AutoSize = true;
-            this.radioButton31.Location = new System.Drawing.Point(146, 37);
-            this.radioButton31.Name = "radioButton31";
-            this.radioButton31.Size = new System.Drawing.Size(35, 16);
-            this.radioButton31.TabIndex = 1;
-            this.radioButton31.Text = "10";
-            this.radioButton31.UseVisualStyleBackColor = true;
-            // 
-            // radioButton32
-            // 
-            this.radioButton32.AutoSize = true;
-            this.radioButton32.Location = new System.Drawing.Point(146, 15);
-            this.radioButton32.Name = "radioButton32";
-            this.radioButton32.Size = new System.Drawing.Size(29, 16);
-            this.radioButton32.TabIndex = 1;
-            this.radioButton32.Text = "5";
-            this.radioButton32.UseVisualStyleBackColor = true;
-            // 
-            // radioButton33
-            // 
-            this.radioButton33.AutoSize = true;
-            this.radioButton33.Location = new System.Drawing.Point(111, 37);
-            this.radioButton33.Name = "radioButton33";
-            this.radioButton33.Size = new System.Drawing.Size(29, 16);
-            this.radioButton33.TabIndex = 1;
-            this.radioButton33.Text = "9";
-            this.radioButton33.UseVisualStyleBackColor = true;
-            // 
-            // radioButton34
-            // 
-            this.radioButton34.AutoSize = true;
-            this.radioButton34.Location = new System.Drawing.Point(111, 15);
-            this.radioButton34.Name = "radioButton34";
-            this.radioButton34.Size = new System.Drawing.Size(29, 16);
-            this.radioButton34.TabIndex = 1;
-            this.radioButton34.Text = "4";
-            this.radioButton34.UseVisualStyleBackColor = true;
-            // 
-            // radioButton35
-            // 
-            this.radioButton35.AutoSize = true;
-            this.radioButton35.Location = new System.Drawing.Point(76, 37);
-            this.radioButton35.Name = "radioButton35";
-            this.radioButton35.Size = new System.Drawing.Size(29, 16);
-            this.radioButton35.TabIndex = 0;
-            this.radioButton35.Text = "8";
-            this.radioButton35.UseVisualStyleBackColor = true;
-            // 
-            // radioButton36
-            // 
-            this.radioButton36.AutoSize = true;
-            this.radioButton36.Location = new System.Drawing.Point(76, 15);
-            this.radioButton36.Name = "radioButton36";
-            this.radioButton36.Size = new System.Drawing.Size(29, 16);
-            this.radioButton36.TabIndex = 0;
-            this.radioButton36.Text = "3";
-            this.radioButton36.UseVisualStyleBackColor = true;
-            // 
-            // radioButton37
-            // 
-            this.radioButton37.AutoSize = true;
-            this.radioButton37.Location = new System.Drawing.Point(41, 37);
-            this.radioButton37.Name = "radioButton37";
-            this.radioButton37.Size = new System.Drawing.Size(29, 16);
-            this.radioButton37.TabIndex = 1;
-            this.radioButton37.Text = "7";
-            this.radioButton37.UseVisualStyleBackColor = true;
-            // 
-            // radioButton38
-            // 
-            this.radioButton38.AutoSize = true;
-            this.radioButton38.Location = new System.Drawing.Point(41, 15);
-            this.radioButton38.Name = "radioButton38";
-            this.radioButton38.Size = new System.Drawing.Size(29, 16);
-            this.radioButton38.TabIndex = 1;
-            this.radioButton38.Text = "2";
-            this.radioButton38.UseVisualStyleBackColor = true;
-            // 
-            // radioButton39
-            // 
-            this.radioButton39.AutoSize = true;
-            this.radioButton39.Location = new System.Drawing.Point(6, 37);
-            this.radioButton39.Name = "radioButton39";
-            this.radioButton39.Size = new System.Drawing.Size(29, 16);
-            this.radioButton39.TabIndex = 0;
-            this.radioButton39.Text = "6";
-            this.radioButton39.UseVisualStyleBackColor = true;
-            // 
-            // radioButton40
-            // 
-            this.radioButton40.AutoSize = true;
-            this.radioButton40.Checked = true;
-            this.radioButton40.Location = new System.Drawing.Point(6, 15);
-            this.radioButton40.Name = "radioButton40";
-            this.radioButton40.Size = new System.Drawing.Size(29, 16);
-            this.radioButton40.TabIndex = 0;
-            this.radioButton40.TabStop = true;
-            this.radioButton40.Text = "1";
-            this.radioButton40.UseVisualStyleBackColor = true;
-            // 
-            // grbEvade
-            // 
-            this.grbEvade.Controls.Add(this.radioButton41);
-            this.grbEvade.Controls.Add(this.radioButton42);
-            this.grbEvade.Controls.Add(this.radioButton43);
-            this.grbEvade.Controls.Add(this.radioButton44);
-            this.grbEvade.Controls.Add(this.radioButton45);
-            this.grbEvade.Controls.Add(this.radioButton46);
-            this.grbEvade.Controls.Add(this.radioButton47);
-            this.grbEvade.Controls.Add(this.radioButton48);
-            this.grbEvade.Controls.Add(this.radioButton49);
-            this.grbEvade.Controls.Add(this.radioButton50);
-            this.grbEvade.Location = new System.Drawing.Point(575, 20);
-            this.grbEvade.Name = "grbEvade";
-            this.grbEvade.Size = new System.Drawing.Size(188, 60);
-            this.grbEvade.TabIndex = 3;
-            this.grbEvade.TabStop = false;
-            this.grbEvade.Text = "공격 회피 아이템 위치";
-            // 
-            // radioButton41
-            // 
-            this.radioButton41.AutoSize = true;
-            this.radioButton41.Location = new System.Drawing.Point(146, 37);
-            this.radioButton41.Name = "radioButton41";
-            this.radioButton41.Size = new System.Drawing.Size(35, 16);
-            this.radioButton41.TabIndex = 1;
-            this.radioButton41.Text = "10";
-            this.radioButton41.UseVisualStyleBackColor = true;
-            // 
-            // radioButton42
-            // 
-            this.radioButton42.AutoSize = true;
-            this.radioButton42.Location = new System.Drawing.Point(146, 15);
-            this.radioButton42.Name = "radioButton42";
-            this.radioButton42.Size = new System.Drawing.Size(29, 16);
-            this.radioButton42.TabIndex = 1;
-            this.radioButton42.Text = "5";
-            this.radioButton42.UseVisualStyleBackColor = true;
-            // 
-            // radioButton43
-            // 
-            this.radioButton43.AutoSize = true;
-            this.radioButton43.Location = new System.Drawing.Point(111, 37);
-            this.radioButton43.Name = "radioButton43";
-            this.radioButton43.Size = new System.Drawing.Size(29, 16);
-            this.radioButton43.TabIndex = 1;
-            this.radioButton43.Text = "9";
-            this.radioButton43.UseVisualStyleBackColor = true;
-            // 
-            // radioButton44
-            // 
-            this.radioButton44.AutoSize = true;
-            this.radioButton44.Location = new System.Drawing.Point(111, 15);
-            this.radioButton44.Name = "radioButton44";
-            this.radioButton44.Size = new System.Drawing.Size(29, 16);
-            this.radioButton44.TabIndex = 1;
-            this.radioButton44.Text = "4";
-            this.radioButton44.UseVisualStyleBackColor = true;
-            // 
-            // radioButton45
-            // 
-            this.radioButton45.AutoSize = true;
-            this.radioButton45.Location = new System.Drawing.Point(76, 37);
-            this.radioButton45.Name = "radioButton45";
-            this.radioButton45.Size = new System.Drawing.Size(29, 16);
-            this.radioButton45.TabIndex = 0;
-            this.radioButton45.Text = "8";
-            this.radioButton45.UseVisualStyleBackColor = true;
-            // 
-            // radioButton46
-            // 
-            this.radioButton46.AutoSize = true;
-            this.radioButton46.Location = new System.Drawing.Point(76, 15);
-            this.radioButton46.Name = "radioButton46";
-            this.radioButton46.Size = new System.Drawing.Size(29, 16);
-            this.radioButton46.TabIndex = 0;
-            this.radioButton46.Text = "3";
-            this.radioButton46.UseVisualStyleBackColor = true;
-            // 
-            // radioButton47
-            // 
-            this.radioButton47.AutoSize = true;
-            this.radioButton47.Location = new System.Drawing.Point(41, 37);
-            this.radioButton47.Name = "radioButton47";
-            this.radioButton47.Size = new System.Drawing.Size(29, 16);
-            this.radioButton47.TabIndex = 1;
-            this.radioButton47.Text = "7";
-            this.radioButton47.UseVisualStyleBackColor = true;
-            // 
-            // radioButton48
-            // 
-            this.radioButton48.AutoSize = true;
-            this.radioButton48.Location = new System.Drawing.Point(41, 15);
-            this.radioButton48.Name = "radioButton48";
-            this.radioButton48.Size = new System.Drawing.Size(29, 16);
-            this.radioButton48.TabIndex = 1;
-            this.radioButton48.Text = "2";
-            this.radioButton48.UseVisualStyleBackColor = true;
-            // 
-            // radioButton49
-            // 
-            this.radioButton49.AutoSize = true;
-            this.radioButton49.Location = new System.Drawing.Point(6, 37);
-            this.radioButton49.Name = "radioButton49";
-            this.radioButton49.Size = new System.Drawing.Size(29, 16);
-            this.radioButton49.TabIndex = 0;
-            this.radioButton49.Text = "6";
-            this.radioButton49.UseVisualStyleBackColor = true;
-            // 
-            // radioButton50
-            // 
-            this.radioButton50.AutoSize = true;
-            this.radioButton50.Checked = true;
-            this.radioButton50.Location = new System.Drawing.Point(6, 15);
-            this.radioButton50.Name = "radioButton50";
-            this.radioButton50.Size = new System.Drawing.Size(29, 16);
-            this.radioButton50.TabIndex = 0;
-            this.radioButton50.TabStop = true;
-            this.radioButton50.Text = "1";
-            this.radioButton50.UseVisualStyleBackColor = true;
+            // gbox2
+            // 
+            this.gbox2.Controls.Add(this.g2r10);
+            this.gbox2.Controls.Add(this.g2r5);
+            this.gbox2.Controls.Add(this.g2r9);
+            this.gbox2.Controls.Add(this.g2r4);
+            this.gbox2.Controls.Add(this.g2r8);
+            this.gbox2.Controls.Add(this.g2r3);
+            this.gbox2.Controls.Add(this.g2r7);
+            this.gbox2.Controls.Add(this.g2r2);
+            this.gbox2.Controls.Add(this.g2r6);
+            this.gbox2.Controls.Add(this.g2r1);
+            this.gbox2.Location = new System.Drawing.Point(192, 20);
+            this.gbox2.Name = "gbox2";
+            this.gbox2.Size = new System.Drawing.Size(188, 60);
+            this.gbox2.TabIndex = 2;
+            this.gbox2.TabStop = false;
+            this.gbox2.Tag = "2";
+            this.gbox2.Text = "자동 마나 스킬 위치";
+            // 
+            // g2r10
+            // 
+            this.g2r10.AutoSize = true;
+            this.g2r10.Location = new System.Drawing.Point(146, 37);
+            this.g2r10.Name = "g2r10";
+            this.g2r10.Size = new System.Drawing.Size(35, 16);
+            this.g2r10.TabIndex = 1;
+            this.g2r10.Text = "10";
+            this.g2r10.UseVisualStyleBackColor = true;
+            // 
+            // g2r5
+            // 
+            this.g2r5.AutoSize = true;
+            this.g2r5.Location = new System.Drawing.Point(146, 15);
+            this.g2r5.Name = "g2r5";
+            this.g2r5.Size = new System.Drawing.Size(29, 16);
+            this.g2r5.TabIndex = 1;
+            this.g2r5.Text = "5";
+            this.g2r5.UseVisualStyleBackColor = true;
+            // 
+            // g2r9
+            // 
+            this.g2r9.AutoSize = true;
+            this.g2r9.Location = new System.Drawing.Point(111, 37);
+            this.g2r9.Name = "g2r9";
+            this.g2r9.Size = new System.Drawing.Size(29, 16);
+            this.g2r9.TabIndex = 1;
+            this.g2r9.Text = "9";
+            this.g2r9.UseVisualStyleBackColor = true;
+            // 
+            // g2r4
+            // 
+            this.g2r4.AutoSize = true;
+            this.g2r4.Location = new System.Drawing.Point(111, 15);
+            this.g2r4.Name = "g2r4";
+            this.g2r4.Size = new System.Drawing.Size(29, 16);
+            this.g2r4.TabIndex = 1;
+            this.g2r4.Text = "4";
+            this.g2r4.UseVisualStyleBackColor = true;
+            // 
+            // g2r8
+            // 
+            this.g2r8.AutoSize = true;
+            this.g2r8.Location = new System.Drawing.Point(76, 37);
+            this.g2r8.Name = "g2r8";
+            this.g2r8.Size = new System.Drawing.Size(29, 16);
+            this.g2r8.TabIndex = 0;
+            this.g2r8.Text = "8";
+            this.g2r8.UseVisualStyleBackColor = true;
+            // 
+            // g2r3
+            // 
+            this.g2r3.AutoSize = true;
+            this.g2r3.Location = new System.Drawing.Point(76, 15);
+            this.g2r3.Name = "g2r3";
+            this.g2r3.Size = new System.Drawing.Size(29, 16);
+            this.g2r3.TabIndex = 0;
+            this.g2r3.Text = "3";
+            this.g2r3.UseVisualStyleBackColor = true;
+            // 
+            // g2r7
+            // 
+            this.g2r7.AutoSize = true;
+            this.g2r7.Location = new System.Drawing.Point(41, 37);
+            this.g2r7.Name = "g2r7";
+            this.g2r7.Size = new System.Drawing.Size(29, 16);
+            this.g2r7.TabIndex = 1;
+            this.g2r7.Text = "7";
+            this.g2r7.UseVisualStyleBackColor = true;
+            // 
+            // g2r2
+            // 
+            this.g2r2.AutoSize = true;
+            this.g2r2.Location = new System.Drawing.Point(41, 15);
+            this.g2r2.Name = "g2r2";
+            this.g2r2.Size = new System.Drawing.Size(29, 16);
+            this.g2r2.TabIndex = 1;
+            this.g2r2.Text = "2";
+            this.g2r2.UseVisualStyleBackColor = true;
+            // 
+            // g2r6
+            // 
+            this.g2r6.AutoSize = true;
+            this.g2r6.Location = new System.Drawing.Point(6, 37);
+            this.g2r6.Name = "g2r6";
+            this.g2r6.Size = new System.Drawing.Size(29, 16);
+            this.g2r6.TabIndex = 0;
+            this.g2r6.Text = "6";
+            this.g2r6.UseVisualStyleBackColor = true;
+            // 
+            // g2r1
+            // 
+            this.g2r1.AutoSize = true;
+            this.g2r1.Checked = true;
+            this.g2r1.Location = new System.Drawing.Point(6, 15);
+            this.g2r1.Name = "g2r1";
+            this.g2r1.Size = new System.Drawing.Size(29, 16);
+            this.g2r1.TabIndex = 0;
+            this.g2r1.TabStop = true;
+            this.g2r1.Text = "1";
+            this.g2r1.UseVisualStyleBackColor = true;
+            // 
+            // gbox1
+            // 
+            this.gbox1.Controls.Add(this.g1r10);
+            this.gbox1.Controls.Add(this.g1r5);
+            this.gbox1.Controls.Add(this.g1r9);
+            this.gbox1.Controls.Add(this.g1r4);
+            this.gbox1.Controls.Add(this.g1r8);
+            this.gbox1.Controls.Add(this.g1r3);
+            this.gbox1.Controls.Add(this.g1r7);
+            this.gbox1.Controls.Add(this.g1r2);
+            this.gbox1.Controls.Add(this.g1r6);
+            this.gbox1.Controls.Add(this.g1r1);
+            this.gbox1.Location = new System.Drawing.Point(3, 20);
+            this.gbox1.Name = "gbox1";
+            this.gbox1.Size = new System.Drawing.Size(183, 60);
+            this.gbox1.TabIndex = 2;
+            this.gbox1.TabStop = false;
+            this.gbox1.Tag = "1";
+            this.gbox1.Text = "자동 힐 스킬 위치";
+            // 
+            // g1r10
+            // 
+            this.g1r10.AutoSize = true;
+            this.g1r10.Location = new System.Drawing.Point(146, 37);
+            this.g1r10.Name = "g1r10";
+            this.g1r10.Size = new System.Drawing.Size(35, 16);
+            this.g1r10.TabIndex = 1;
+            this.g1r10.Text = "10";
+            this.g1r10.UseVisualStyleBackColor = true;
+            // 
+            // g1r5
+            // 
+            this.g1r5.AutoSize = true;
+            this.g1r5.Location = new System.Drawing.Point(146, 15);
+            this.g1r5.Name = "g1r5";
+            this.g1r5.Size = new System.Drawing.Size(29, 16);
+            this.g1r5.TabIndex = 1;
+            this.g1r5.Text = "5";
+            this.g1r5.UseVisualStyleBackColor = true;
+            // 
+            // g1r9
+            // 
+            this.g1r9.AutoSize = true;
+            this.g1r9.Location = new System.Drawing.Point(111, 37);
+            this.g1r9.Name = "g1r9";
+            this.g1r9.Size = new System.Drawing.Size(29, 16);
+            this.g1r9.TabIndex = 1;
+            this.g1r9.Text = "9";
+            this.g1r9.UseVisualStyleBackColor = true;
+            // 
+            // g1r4
+            // 
+            this.g1r4.AutoSize = true;
+            this.g1r4.Location = new System.Drawing.Point(111, 15);
+            this.g1r4.Name = "g1r4";
+            this.g1r4.Size = new System.Drawing.Size(29, 16);
+            this.g1r4.TabIndex = 1;
+            this.g1r4.Text = "4";
+            this.g1r4.UseVisualStyleBackColor = true;
+            // 
+            // g1r8
+            // 
+            this.g1r8.AutoSize = true;
+            this.g1r8.Location = new System.Drawing.Point(76, 37);
+            this.g1r8.Name = "g1r8";
+            this.g1r8.Size = new System.Drawing.Size(29, 16);
+            this.g1r8.TabIndex = 0;
+            this.g1r8.Text = "8";
+            this.g1r8.UseVisualStyleBackColor = true;
+            // 
+            // g1r3
+            // 
+            this.g1r3.AutoSize = true;
+            this.g1r3.Location = new System.Drawing.Point(76, 15);
+            this.g1r3.Name = "g1r3";
+            this.g1r3.Size = new System.Drawing.Size(29, 16);
+            this.g1r3.TabIndex = 0;
+            this.g1r3.Text = "3";
+            this.g1r3.UseVisualStyleBackColor = true;
+            // 
+            // g1r7
+            // 
+            this.g1r7.AutoSize = true;
+            this.g1r7.Location = new System.Drawing.Point(41, 37);
+            this.g1r7.Name = "g1r7";
+            this.g1r7.Size = new System.Drawing.Size(29, 16);
+            this.g1r7.TabIndex = 1;
+            this.g1r7.Text = "7";
+            this.g1r7.UseVisualStyleBackColor = true;
+            // 
+            // g1r2
+            // 
+            this.g1r2.AutoSize = true;
+            this.g1r2.Location = new System.Drawing.Point(41, 15);
+            this.g1r2.Name = "g1r2";
+            this.g1r2.Size = new System.Drawing.Size(29, 16);
+            this.g1r2.TabIndex = 1;
+            this.g1r2.Text = "2";
+            this.g1r2.UseVisualStyleBackColor = true;
+            // 
+            // g1r6
+            // 
+            this.g1r6.AutoSize = true;
+            this.g1r6.Location = new System.Drawing.Point(6, 37);
+            this.g1r6.Name = "g1r6";
+            this.g1r6.Size = new System.Drawing.Size(29, 16);
+            this.g1r6.TabIndex = 0;
+            this.g1r6.Text = "6";
+            this.g1r6.UseVisualStyleBackColor = true;
+            // 
+            // g1r1
+            // 
+            this.g1r1.AutoSize = true;
+            this.g1r1.Checked = true;
+            this.g1r1.Location = new System.Drawing.Point(6, 15);
+            this.g1r1.Name = "g1r1";
+            this.g1r1.Size = new System.Drawing.Size(29, 16);
+            this.g1r1.TabIndex = 0;
+            this.g1r1.TabStop = true;
+            this.g1r1.Text = "1";
+            this.g1r1.UseVisualStyleBackColor = true;
+            // 
+            // gbox3
+            // 
+            this.gbox3.Controls.Add(this.g3r10);
+            this.gbox3.Controls.Add(this.g3r5);
+            this.gbox3.Controls.Add(this.g3r9);
+            this.gbox3.Controls.Add(this.g3r4);
+            this.gbox3.Controls.Add(this.g3r8);
+            this.gbox3.Controls.Add(this.g3r3);
+            this.gbox3.Controls.Add(this.g3r7);
+            this.gbox3.Controls.Add(this.g3r2);
+            this.gbox3.Controls.Add(this.g3r6);
+            this.gbox3.Controls.Add(this.g3r1);
+            this.gbox3.Location = new System.Drawing.Point(386, 20);
+            this.gbox3.Name = "gbox3";
+            this.gbox3.Size = new System.Drawing.Size(183, 60);
+            this.gbox3.TabIndex = 2;
+            this.gbox3.TabStop = false;
+            this.gbox3.Tag = "3";
+            this.gbox3.Text = "자동 공격 스킬 위치";
+            // 
+            // g3r10
+            // 
+            this.g3r10.AutoSize = true;
+            this.g3r10.Location = new System.Drawing.Point(146, 37);
+            this.g3r10.Name = "g3r10";
+            this.g3r10.Size = new System.Drawing.Size(35, 16);
+            this.g3r10.TabIndex = 1;
+            this.g3r10.Text = "10";
+            this.g3r10.UseVisualStyleBackColor = true;
+            // 
+            // g3r5
+            // 
+            this.g3r5.AutoSize = true;
+            this.g3r5.Location = new System.Drawing.Point(146, 15);
+            this.g3r5.Name = "g3r5";
+            this.g3r5.Size = new System.Drawing.Size(29, 16);
+            this.g3r5.TabIndex = 1;
+            this.g3r5.Text = "5";
+            this.g3r5.UseVisualStyleBackColor = true;
+            // 
+            // g3r9
+            // 
+            this.g3r9.AutoSize = true;
+            this.g3r9.Location = new System.Drawing.Point(111, 37);
+            this.g3r9.Name = "g3r9";
+            this.g3r9.Size = new System.Drawing.Size(29, 16);
+            this.g3r9.TabIndex = 1;
+            this.g3r9.Text = "9";
+            this.g3r9.UseVisualStyleBackColor = true;
+            // 
+            // g3r4
+            // 
+            this.g3r4.AutoSize = true;
+            this.g3r4.Location = new System.Drawing.Point(111, 15);
+            this.g3r4.Name = "g3r4";
+            this.g3r4.Size = new System.Drawing.Size(29, 16);
+            this.g3r4.TabIndex = 1;
+            this.g3r4.Text = "4";
+            this.g3r4.UseVisualStyleBackColor = true;
+            // 
+            // g3r8
+            // 
+            this.g3r8.AutoSize = true;
+            this.g3r8.Location = new System.Drawing.Point(76, 37);
+            this.g3r8.Name = "g3r8";
+            this.g3r8.Size = new System.Drawing.Size(29, 16);
+            this.g3r8.TabIndex = 0;
+            this.g3r8.Text = "8";
+            this.g3r8.UseVisualStyleBackColor = true;
+            // 
+            // g3r3
+            // 
+            this.g3r3.AutoSize = true;
+            this.g3r3.Location = new System.Drawing.Point(76, 15);
+            this.g3r3.Name = "g3r3";
+            this.g3r3.Size = new System.Drawing.Size(29, 16);
+            this.g3r3.TabIndex = 0;
+            this.g3r3.Text = "3";
+            this.g3r3.UseVisualStyleBackColor = true;
+            // 
+            // g3r7
+            // 
+            this.g3r7.AutoSize = true;
+            this.g3r7.Location = new System.Drawing.Point(41, 37);
+            this.g3r7.Name = "g3r7";
+            this.g3r7.Size = new System.Drawing.Size(29, 16);
+            this.g3r7.TabIndex = 1;
+            this.g3r7.Text = "7";
+            this.g3r7.UseVisualStyleBackColor = true;
+            // 
+            // g3r2
+            // 
+            this.g3r2.AutoSize = true;
+            this.g3r2.Location = new System.Drawing.Point(41, 15);
+            this.g3r2.Name = "g3r2";
+            this.g3r2.Size = new System.Drawing.Size(29, 16);
+            this.g3r2.TabIndex = 1;
+            this.g3r2.Text = "2";
+            this.g3r2.UseVisualStyleBackColor = true;
+            // 
+            // g3r6
+            // 
+            this.g3r6.AutoSize = true;
+            this.g3r6.Location = new System.Drawing.Point(6, 37);
+            this.g3r6.Name = "g3r6";
+            this.g3r6.Size = new System.Drawing.Size(29, 16);
+            this.g3r6.TabIndex = 0;
+            this.g3r6.Text = "6";
+            this.g3r6.UseVisualStyleBackColor = true;
+            // 
+            // g3r1
+            // 
+            this.g3r1.AutoSize = true;
+            this.g3r1.Checked = true;
+            this.g3r1.Location = new System.Drawing.Point(6, 15);
+            this.g3r1.Name = "g3r1";
+            this.g3r1.Size = new System.Drawing.Size(29, 16);
+            this.g3r1.TabIndex = 0;
+            this.g3r1.TabStop = true;
+            this.g3r1.Text = "1";
+            this.g3r1.UseVisualStyleBackColor = true;
+            // 
+            // gbox4
+            // 
+            this.gbox4.Controls.Add(this.g4r10);
+            this.gbox4.Controls.Add(this.g4r5);
+            this.gbox4.Controls.Add(this.g4r9);
+            this.gbox4.Controls.Add(this.g4r4);
+            this.gbox4.Controls.Add(this.g4r8);
+            this.gbox4.Controls.Add(this.g4r3);
+            this.gbox4.Controls.Add(this.g4r7);
+            this.gbox4.Controls.Add(this.g4r2);
+            this.gbox4.Controls.Add(this.g4r6);
+            this.gbox4.Controls.Add(this.g4r1);
+            this.gbox4.Location = new System.Drawing.Point(575, 20);
+            this.gbox4.Name = "gbox4";
+            this.gbox4.Size = new System.Drawing.Size(188, 60);
+            this.gbox4.TabIndex = 3;
+            this.gbox4.TabStop = false;
+            this.gbox4.Tag = "4";
+            this.gbox4.Text = "공격 회피 아이템 위치";
+            // 
+            // g4r10
+            // 
+            this.g4r10.AutoSize = true;
+            this.g4r10.Location = new System.Drawing.Point(146, 37);
+            this.g4r10.Name = "g4r10";
+            this.g4r10.Size = new System.Drawing.Size(35, 16);
+            this.g4r10.TabIndex = 1;
+            this.g4r10.Text = "10";
+            this.g4r10.UseVisualStyleBackColor = true;
+            // 
+            // g4r5
+            // 
+            this.g4r5.AutoSize = true;
+            this.g4r5.Location = new System.Drawing.Point(146, 15);
+            this.g4r5.Name = "g4r5";
+            this.g4r5.Size = new System.Drawing.Size(29, 16);
+            this.g4r5.TabIndex = 1;
+            this.g4r5.Text = "5";
+            this.g4r5.UseVisualStyleBackColor = true;
+            // 
+            // g4r9
+            // 
+            this.g4r9.AutoSize = true;
+            this.g4r9.Location = new System.Drawing.Point(111, 37);
+            this.g4r9.Name = "g4r9";
+            this.g4r9.Size = new System.Drawing.Size(29, 16);
+            this.g4r9.TabIndex = 1;
+            this.g4r9.Text = "9";
+            this.g4r9.UseVisualStyleBackColor = true;
+            // 
+            // g4r4
+            // 
+            this.g4r4.AutoSize = true;
+            this.g4r4.Location = new System.Drawing.Point(111, 15);
+            this.g4r4.Name = "g4r4";
+            this.g4r4.Size = new System.Drawing.Size(29, 16);
+            this.g4r4.TabIndex = 1;
+            this.g4r4.Text = "4";
+            this.g4r4.UseVisualStyleBackColor = true;
+            // 
+            // g4r8
+            // 
+            this.g4r8.AutoSize = true;
+            this.g4r8.Location = new System.Drawing.Point(76, 37);
+            this.g4r8.Name = "g4r8";
+            this.g4r8.Size = new System.Drawing.Size(29, 16);
+            this.g4r8.TabIndex = 0;
+            this.g4r8.Text = "8";
+            this.g4r8.UseVisualStyleBackColor = true;
+            // 
+            // g4r3
+            // 
+            this.g4r3.AutoSize = true;
+            this.g4r3.Location = new System.Drawing.Point(76, 15);
+            this.g4r3.Name = "g4r3";
+            this.g4r3.Size = new System.Drawing.Size(29, 16);
+            this.g4r3.TabIndex = 0;
+            this.g4r3.Text = "3";
+            this.g4r3.UseVisualStyleBackColor = true;
+            // 
+            // g4r7
+            // 
+            this.g4r7.AutoSize = true;
+            this.g4r7.Location = new System.Drawing.Point(41, 37);
+            this.g4r7.Name = "g4r7";
+            this.g4r7.Size = new System.Drawing.Size(29, 16);
+            this.g4r7.TabIndex = 1;
+            this.g4r7.Text = "7";
+            this.g4r7.UseVisualStyleBackColor = true;
+            // 
+            // g4r2
+            // 
+            this.g4r2.AutoSize = true;
+            this.g4r2.Location = new System.Drawing.Point(41, 15);
+            this.g4r2.Name = "g4r2";
+            this.g4r2.Size = new System.Drawing.Size(29, 16);
+            this.g4r2.TabIndex = 1;
+            this.g4r2.Text = "2";
+            this.g4r2.UseVisualStyleBackColor = true;
+            // 
+            // g4r6
+            // 
+            this.g4r6.AutoSize = true;
+            this.g4r6.Location = new System.Drawing.Point(6, 37);
+            this.g4r6.Name = "g4r6";
+            this.g4r6.Size = new System.Drawing.Size(29, 16);
+            this.g4r6.TabIndex = 0;
+            this.g4r6.Text = "6";
+            this.g4r6.UseVisualStyleBackColor = true;
+            // 
+            // g4r1
+            // 
+            this.g4r1.AutoSize = true;
+            this.g4r1.Checked = true;
+            this.g4r1.Location = new System.Drawing.Point(6, 15);
+            this.g4r1.Name = "g4r1";
+            this.g4r1.Size = new System.Drawing.Size(29, 16);
+            this.g4r1.TabIndex = 0;
+            this.g4r1.TabStop = true;
+            this.g4r1.Text = "1";
+            this.g4r1.UseVisualStyleBackColor = true;
             // 
             // btnStart
             // 
@@ -648,6 +653,12 @@ namespace VisionAssist.Forms
             this.checkBox4.Text = "사용";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
+            // bgwUseGroups
+            // 
+            this.bgwUseGroups.WorkerReportsProgress = true;
+            this.bgwUseGroups.WorkerSupportsCancellation = true;
+            this.bgwUseGroups.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwUseGroups_DoWork);
+            // 
             // frmTop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -658,70 +669,70 @@ namespace VisionAssist.Forms
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.grbEvade);
-            this.Controls.Add(this.grbSkill1);
-            this.Controls.Add(this.gtbHeal);
-            this.Controls.Add(this.grbMP);
+            this.Controls.Add(this.gbox4);
+            this.Controls.Add(this.gbox3);
+            this.Controls.Add(this.gbox1);
+            this.Controls.Add(this.gbox2);
             this.Name = "frmTop";
             this.Size = new System.Drawing.Size(1260, 85);
-            this.grbMP.ResumeLayout(false);
-            this.grbMP.PerformLayout();
-            this.gtbHeal.ResumeLayout(false);
-            this.gtbHeal.PerformLayout();
-            this.grbSkill1.ResumeLayout(false);
-            this.grbSkill1.PerformLayout();
-            this.grbEvade.ResumeLayout(false);
-            this.grbEvade.PerformLayout();
+            this.gbox2.ResumeLayout(false);
+            this.gbox2.PerformLayout();
+            this.gbox1.ResumeLayout(false);
+            this.gbox1.PerformLayout();
+            this.gbox3.ResumeLayout(false);
+            this.gbox3.PerformLayout();
+            this.gbox4.ResumeLayout(false);
+            this.gbox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox grbMP;
-        private System.Windows.Forms.RadioButton radioButton10;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton9;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton8;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton7;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.GroupBox gtbHeal;
-        private System.Windows.Forms.RadioButton radioButton11;
-        private System.Windows.Forms.RadioButton radioButton12;
-        private System.Windows.Forms.RadioButton radioButton13;
-        private System.Windows.Forms.RadioButton radioButton14;
-        private System.Windows.Forms.RadioButton radioButton15;
-        private System.Windows.Forms.RadioButton radioButton16;
-        private System.Windows.Forms.RadioButton radioButton17;
-        private System.Windows.Forms.RadioButton radioButton18;
-        private System.Windows.Forms.RadioButton radioButton19;
-        private System.Windows.Forms.RadioButton radioButton20;
-        private System.Windows.Forms.GroupBox grbSkill1;
-        private System.Windows.Forms.RadioButton radioButton31;
-        private System.Windows.Forms.RadioButton radioButton32;
-        private System.Windows.Forms.RadioButton radioButton33;
-        private System.Windows.Forms.RadioButton radioButton34;
-        private System.Windows.Forms.RadioButton radioButton35;
-        private System.Windows.Forms.RadioButton radioButton36;
-        private System.Windows.Forms.RadioButton radioButton37;
-        private System.Windows.Forms.RadioButton radioButton38;
-        private System.Windows.Forms.RadioButton radioButton39;
-        private System.Windows.Forms.RadioButton radioButton40;
-        private System.Windows.Forms.GroupBox grbEvade;
-        private System.Windows.Forms.RadioButton radioButton41;
-        private System.Windows.Forms.RadioButton radioButton42;
-        private System.Windows.Forms.RadioButton radioButton43;
-        private System.Windows.Forms.RadioButton radioButton44;
-        private System.Windows.Forms.RadioButton radioButton45;
-        private System.Windows.Forms.RadioButton radioButton46;
-        private System.Windows.Forms.RadioButton radioButton47;
-        private System.Windows.Forms.RadioButton radioButton48;
-        private System.Windows.Forms.RadioButton radioButton49;
-        private System.Windows.Forms.RadioButton radioButton50;
+        private System.Windows.Forms.GroupBox gbox2;
+        private System.Windows.Forms.RadioButton g2r10;
+        private System.Windows.Forms.RadioButton g2r5;
+        private System.Windows.Forms.RadioButton g2r9;
+        private System.Windows.Forms.RadioButton g2r4;
+        private System.Windows.Forms.RadioButton g2r8;
+        private System.Windows.Forms.RadioButton g2r3;
+        private System.Windows.Forms.RadioButton g2r7;
+        private System.Windows.Forms.RadioButton g2r2;
+        private System.Windows.Forms.RadioButton g2r6;
+        private System.Windows.Forms.RadioButton g2r1;
+        private System.Windows.Forms.GroupBox gbox1;
+        private System.Windows.Forms.RadioButton g1r10;
+        private System.Windows.Forms.RadioButton g1r5;
+        private System.Windows.Forms.RadioButton g1r9;
+        private System.Windows.Forms.RadioButton g1r4;
+        private System.Windows.Forms.RadioButton g1r8;
+        private System.Windows.Forms.RadioButton g1r3;
+        private System.Windows.Forms.RadioButton g1r7;
+        private System.Windows.Forms.RadioButton g1r2;
+        private System.Windows.Forms.RadioButton g1r6;
+        private System.Windows.Forms.RadioButton g1r1;
+        private System.Windows.Forms.GroupBox gbox3;
+        private System.Windows.Forms.RadioButton g3r10;
+        private System.Windows.Forms.RadioButton g3r5;
+        private System.Windows.Forms.RadioButton g3r9;
+        private System.Windows.Forms.RadioButton g3r4;
+        private System.Windows.Forms.RadioButton g3r8;
+        private System.Windows.Forms.RadioButton g3r3;
+        private System.Windows.Forms.RadioButton g3r7;
+        private System.Windows.Forms.RadioButton g3r2;
+        private System.Windows.Forms.RadioButton g3r6;
+        private System.Windows.Forms.RadioButton g3r1;
+        private System.Windows.Forms.GroupBox gbox4;
+        private System.Windows.Forms.RadioButton g4r10;
+        private System.Windows.Forms.RadioButton g4r5;
+        private System.Windows.Forms.RadioButton g4r9;
+        private System.Windows.Forms.RadioButton g4r4;
+        private System.Windows.Forms.RadioButton g4r8;
+        private System.Windows.Forms.RadioButton g4r3;
+        private System.Windows.Forms.RadioButton g4r7;
+        private System.Windows.Forms.RadioButton g4r2;
+        private System.Windows.Forms.RadioButton g4r6;
+        private System.Windows.Forms.RadioButton g4r1;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.ComponentModel.BackgroundWorker bgwRunFlag;
@@ -729,5 +740,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.ComponentModel.BackgroundWorker bgwUseGroups;
     }
 }

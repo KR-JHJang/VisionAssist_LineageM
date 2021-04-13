@@ -247,6 +247,14 @@ namespace VisionAssist.Forms
             //gImageProcess.ConvertRGB2GRAY(matAttack);
 
             RefreshPicBox(matAttack.Clone(), picboxUserAttack);
+
+            if (GLOBAL.IsRun())
+            {
+                if (EvadeAttack())
+                {
+
+                }
+            }
             //if (EvadeAttack())
             //{
             //    ExcuteEvade();

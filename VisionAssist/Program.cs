@@ -4,11 +4,25 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisionAssist.API;
 using VisionAssist.Forms;
 using VisionAssist.Vision;
 
 namespace VisionAssist
 {
+    public struct Tskillbox
+    {
+        public CheckBox checkBox;
+        public GroupBox groupBox;
+        public List<RadioButton> RadioButtons;
+
+        public Tskillbox(CheckBox chk, GroupBox grb, List<RadioButton> List)
+        {
+            this.checkBox = chk;
+            this.groupBox = grb;
+            this.RadioButtons = List;
+        }
+    }
     public static class GLOBAL
     {
         [DllImport("user32.dll", SetLastError = true)]
@@ -126,6 +140,66 @@ namespace VisionAssist
         public static bool GetPatternMode = false;
 
         private static bool _bisRun = false;
+
+        public static List<Tskillbox> _tskillboxes;
+
+        public static List<int> _mousePositions;
+
+        private static decimal[][] _axisStrings;
+
+        static GLOBAL()
+        {
+            ReadSetupFile("./Setup.ini");
+
+            _mousePositions = new List<int>(10);
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[0][0], (int)_axisStrings[0][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[1][0], (int)_axisStrings[1][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[2][0], (int)_axisStrings[2][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[3][0], (int)_axisStrings[3][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[4][0], (int)_axisStrings[4][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[5][0], (int)_axisStrings[5][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[6][0], (int)_axisStrings[6][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[7][0], (int)_axisStrings[7][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[8][0], (int)_axisStrings[8][1]));
+            _mousePositions.Add(GetLongParameter((int)_axisStrings[9][0], (int)_axisStrings[9][1]));
+
+            //INIControl.Read()
+        }
+
+        public static int GetLongParameter(int low, int high)
+        {
+            return ((high << 16) | (low & 0xffff));
+        }
+
+        private static void ReadSetupFile(string Path)
+        {
+            _axisStrings = new decimal[10][];
+            for(int idx = 0; idx < 10; idx++)
+            {
+                _axisStrings[idx] = new decimal[2];
+            }
+
+            _axisStrings[0][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "1X", Path));
+            _axisStrings[0][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "1Y", Path));
+            _axisStrings[1][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "2X", Path));
+            _axisStrings[1][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "2Y", Path));
+            _axisStrings[2][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "3X", Path));
+            _axisStrings[2][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "3Y", Path));
+            _axisStrings[3][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "4X", Path));
+            _axisStrings[3][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "4Y", Path));
+            _axisStrings[4][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "5X", Path));
+            _axisStrings[4][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "5Y", Path));
+            _axisStrings[5][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "6X", Path));
+            _axisStrings[5][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "6Y", Path));
+            _axisStrings[6][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "7X", Path));
+            _axisStrings[6][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "7Y", Path));
+            _axisStrings[7][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "8X", Path));
+            _axisStrings[7][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "8Y", Path));
+            _axisStrings[8][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "9X", Path));
+            _axisStrings[8][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "9Y", Path));
+            _axisStrings[9][0] = decimal.Parse(INIControl.Read("MousePositionParameter", "10X", Path));
+            _axisStrings[9][1] = decimal.Parse(INIControl.Read("MousePositionParameter", "10Y", Path));
+        }
 
         public static void Run()
         {

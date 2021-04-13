@@ -311,6 +311,8 @@ namespace VisionAssist.Vision
 
                 int longParameter = GetLongParameter((int)stAxis.NowRealPosition.X, (int)stAxis.NowRealPosition.Y);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
+
+                System.Console.WriteLine("Click Pos X : {0}, Y : {1}", stAxis.NowRealPosition.X, stAxis.NowRealPosition.Y);
             }
         }
 

@@ -47,6 +47,8 @@ namespace VisionAssist
             {
                 processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
             }
+
+           // GLOBAL.ReadSetupFile("./Setup.ini");
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
