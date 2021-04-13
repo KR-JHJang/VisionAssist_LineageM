@@ -35,36 +35,29 @@ namespace VisionAssist.Forms
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.lblMatchingRatioExcute = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.picEvadeTest = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.lblMatchingRatioEvade = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.chkUserAttackEvade = new System.Windows.Forms.CheckBox();
-            this.picboxUserAttack = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblMatchingRatioMP = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chkRefillMP = new System.Windows.Forms.CheckBox();
-            this.picboxMP = new System.Windows.Forms.PictureBox();
             this.trBarMP = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblMatchingRatioHP = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.chkAvoidHP = new System.Windows.Forms.CheckBox();
             this.chkRefillHP = new System.Windows.Forms.CheckBox();
-            this.picboxHP = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.picboxColorBlue = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.picboxColorRed = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnGetPattern = new System.Windows.Forms.Button();
-            this.picGetImage = new System.Windows.Forms.PictureBox();
             this.tbxSearchMessage = new System.Windows.Forms.TextBox();
             this.ttHP = new System.Windows.Forms.ToolTip(this.components);
             this.ttMP = new System.Windows.Forms.ToolTip(this.components);
@@ -73,25 +66,35 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
+            this.tbxHPUpper = new System.Windows.Forms.TextBox();
+            this.tbxHPLower = new System.Windows.Forms.TextBox();
+            this.chkHPTest = new System.Windows.Forms.CheckBox();
+            this.picEvadeTest = new System.Windows.Forms.PictureBox();
+            this.picboxUserAttack = new System.Windows.Forms.PictureBox();
+            this.picboxMP = new System.Windows.Forms.PictureBox();
+            this.picboxHP = new System.Windows.Forms.PictureBox();
+            this.picboxColorBlue = new System.Windows.Forms.PictureBox();
+            this.picboxColorRed = new System.Windows.Forms.PictureBox();
+            this.picGetImage = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).BeginInit();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -129,7 +132,7 @@ namespace VisionAssist.Forms
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.picEvadeTest);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(3, 380);
+            this.groupBox7.Location = new System.Drawing.Point(3, 427);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(216, 92);
             this.groupBox7.TabIndex = 16;
@@ -156,15 +159,6 @@ namespace VisionAssist.Forms
             this.label5.TabIndex = 5;
             this.label5.Text = "M.R";
             // 
-            // picEvadeTest
-            // 
-            this.picEvadeTest.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picEvadeTest.Location = new System.Drawing.Point(3, 17);
-            this.picEvadeTest.Name = "picEvadeTest";
-            this.picEvadeTest.Size = new System.Drawing.Size(210, 47);
-            this.picEvadeTest.TabIndex = 2;
-            this.picEvadeTest.TabStop = false;
-            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.lblMatchingRatioEvade);
@@ -172,7 +166,7 @@ namespace VisionAssist.Forms
             this.groupBox5.Controls.Add(this.chkUserAttackEvade);
             this.groupBox5.Controls.Add(this.picboxUserAttack);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 311);
+            this.groupBox5.Location = new System.Drawing.Point(3, 358);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(216, 69);
             this.groupBox5.TabIndex = 14;
@@ -214,14 +208,6 @@ namespace VisionAssist.Forms
             this.chkUserAttackEvade.Text = "공격받을 시 회피하기";
             this.chkUserAttackEvade.UseVisualStyleBackColor = true;
             // 
-            // picboxUserAttack
-            // 
-            this.picboxUserAttack.Location = new System.Drawing.Point(168, 16);
-            this.picboxUserAttack.Name = "picboxUserAttack";
-            this.picboxUserAttack.Size = new System.Drawing.Size(42, 47);
-            this.picboxUserAttack.TabIndex = 1;
-            this.picboxUserAttack.TabStop = false;
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.lblMatchingRatioMP);
@@ -230,7 +216,7 @@ namespace VisionAssist.Forms
             this.groupBox4.Controls.Add(this.picboxMP);
             this.groupBox4.Controls.Add(this.trBarMP);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(3, 190);
+            this.groupBox4.Location = new System.Drawing.Point(3, 237);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(216, 121);
             this.groupBox4.TabIndex = 2;
@@ -273,15 +259,6 @@ namespace VisionAssist.Forms
             this.chkRefillMP.UseVisualStyleBackColor = true;
             this.chkRefillMP.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // picboxMP
-            // 
-            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxMP.Location = new System.Drawing.Point(3, 17);
-            this.picboxMP.Name = "picboxMP";
-            this.picboxMP.Size = new System.Drawing.Size(210, 30);
-            this.picboxMP.TabIndex = 2;
-            this.picboxMP.TabStop = false;
-            // 
             // trBarMP
             // 
             this.trBarMP.BackColor = System.Drawing.Color.DarkBlue;
@@ -297,6 +274,9 @@ namespace VisionAssist.Forms
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkHPTest);
+            this.groupBox3.Controls.Add(this.tbxHPLower);
+            this.groupBox3.Controls.Add(this.tbxHPUpper);
             this.groupBox3.Controls.Add(this.lblMatchingRatioHP);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.chkAvoidHP);
@@ -307,7 +287,7 @@ namespace VisionAssist.Forms
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(216, 187);
+            this.groupBox3.Size = new System.Drawing.Size(216, 234);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "HP";
@@ -357,15 +337,6 @@ namespace VisionAssist.Forms
             this.chkRefillHP.TabIndex = 6;
             this.chkRefillHP.Text = "체력 채우기";
             this.chkRefillHP.UseVisualStyleBackColor = true;
-            // 
-            // picboxHP
-            // 
-            this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxHP.Location = new System.Drawing.Point(3, 17);
-            this.picboxHP.Name = "picboxHP";
-            this.picboxHP.Size = new System.Drawing.Size(210, 30);
-            this.picboxHP.TabIndex = 1;
-            this.picboxHP.TabStop = false;
             // 
             // trackBar1
             // 
@@ -435,15 +406,6 @@ namespace VisionAssist.Forms
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "MP";
             // 
-            // picboxColorBlue
-            // 
-            this.picboxColorBlue.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxColorBlue.Location = new System.Drawing.Point(3, 17);
-            this.picboxColorBlue.Name = "picboxColorBlue";
-            this.picboxColorBlue.Size = new System.Drawing.Size(210, 30);
-            this.picboxColorBlue.TabIndex = 2;
-            this.picboxColorBlue.TabStop = false;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.picboxColorRed);
@@ -454,15 +416,6 @@ namespace VisionAssist.Forms
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "HP";
-            // 
-            // picboxColorRed
-            // 
-            this.picboxColorRed.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxColorRed.Location = new System.Drawing.Point(3, 17);
-            this.picboxColorRed.Name = "picboxColorRed";
-            this.picboxColorRed.Size = new System.Drawing.Size(210, 30);
-            this.picboxColorRed.TabIndex = 2;
-            this.picboxColorRed.TabStop = false;
             // 
             // groupBox1
             // 
@@ -485,14 +438,6 @@ namespace VisionAssist.Forms
             this.btnGetPattern.Text = "Get Pattern";
             this.btnGetPattern.UseVisualStyleBackColor = true;
             this.btnGetPattern.Click += new System.EventHandler(this.btnGetPattern_Click);
-            // 
-            // picGetImage
-            // 
-            this.picGetImage.Location = new System.Drawing.Point(7, 21);
-            this.picGetImage.Name = "picGetImage";
-            this.picGetImage.Size = new System.Drawing.Size(130, 130);
-            this.picGetImage.TabIndex = 0;
-            this.picGetImage.TabStop = false;
             // 
             // tbxSearchMessage
             // 
@@ -546,6 +491,93 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
+            // tbxHPUpper
+            // 
+            this.tbxHPUpper.Location = new System.Drawing.Point(85, 188);
+            this.tbxHPUpper.Name = "tbxHPUpper";
+            this.tbxHPUpper.Size = new System.Drawing.Size(61, 21);
+            this.tbxHPUpper.TabIndex = 7;
+            this.tbxHPUpper.Text = "0";
+            // 
+            // tbxHPLower
+            // 
+            this.tbxHPLower.Location = new System.Drawing.Point(148, 188);
+            this.tbxHPLower.Name = "tbxHPLower";
+            this.tbxHPLower.Size = new System.Drawing.Size(61, 21);
+            this.tbxHPLower.TabIndex = 7;
+            this.tbxHPLower.Text = "0";
+            // 
+            // chkHPTest
+            // 
+            this.chkHPTest.AutoSize = true;
+            this.chkHPTest.Location = new System.Drawing.Point(6, 190);
+            this.chkHPTest.Name = "chkHPTest";
+            this.chkHPTest.Size = new System.Drawing.Size(49, 16);
+            this.chkHPTest.TabIndex = 8;
+            this.chkHPTest.Text = "Test";
+            this.chkHPTest.UseVisualStyleBackColor = true;
+            // 
+            // picEvadeTest
+            // 
+            this.picEvadeTest.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picEvadeTest.Location = new System.Drawing.Point(3, 17);
+            this.picEvadeTest.Name = "picEvadeTest";
+            this.picEvadeTest.Size = new System.Drawing.Size(210, 47);
+            this.picEvadeTest.TabIndex = 2;
+            this.picEvadeTest.TabStop = false;
+            // 
+            // picboxUserAttack
+            // 
+            this.picboxUserAttack.Location = new System.Drawing.Point(168, 16);
+            this.picboxUserAttack.Name = "picboxUserAttack";
+            this.picboxUserAttack.Size = new System.Drawing.Size(42, 47);
+            this.picboxUserAttack.TabIndex = 1;
+            this.picboxUserAttack.TabStop = false;
+            // 
+            // picboxMP
+            // 
+            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxMP.Location = new System.Drawing.Point(3, 17);
+            this.picboxMP.Name = "picboxMP";
+            this.picboxMP.Size = new System.Drawing.Size(210, 30);
+            this.picboxMP.TabIndex = 2;
+            this.picboxMP.TabStop = false;
+            // 
+            // picboxHP
+            // 
+            this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxHP.Location = new System.Drawing.Point(3, 17);
+            this.picboxHP.Name = "picboxHP";
+            this.picboxHP.Size = new System.Drawing.Size(210, 30);
+            this.picboxHP.TabIndex = 1;
+            this.picboxHP.TabStop = false;
+            // 
+            // picboxColorBlue
+            // 
+            this.picboxColorBlue.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxColorBlue.Location = new System.Drawing.Point(3, 17);
+            this.picboxColorBlue.Name = "picboxColorBlue";
+            this.picboxColorBlue.Size = new System.Drawing.Size(210, 30);
+            this.picboxColorBlue.TabIndex = 2;
+            this.picboxColorBlue.TabStop = false;
+            // 
+            // picboxColorRed
+            // 
+            this.picboxColorRed.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxColorRed.Location = new System.Drawing.Point(3, 17);
+            this.picboxColorRed.Name = "picboxColorRed";
+            this.picboxColorRed.Size = new System.Drawing.Size(210, 30);
+            this.picboxColorRed.TabIndex = 2;
+            this.picboxColorRed.TabStop = false;
+            // 
+            // picGetImage
+            // 
+            this.picGetImage.Location = new System.Drawing.Point(7, 21);
+            this.picGetImage.Name = "picGetImage";
+            this.picGetImage.Size = new System.Drawing.Size(130, 130);
+            this.picGetImage.TabIndex = 0;
+            this.picGetImage.TabStop = false;
+            // 
             // frmControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -558,25 +590,25 @@ namespace VisionAssist.Forms
             this.tabPage1.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picEvadeTest)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -628,5 +660,8 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picEvadeTest;
         private System.Windows.Forms.Label lblMatchingRatioExcute;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkHPTest;
+        private System.Windows.Forms.TextBox tbxHPLower;
+        private System.Windows.Forms.TextBox tbxHPUpper;
     }
 }

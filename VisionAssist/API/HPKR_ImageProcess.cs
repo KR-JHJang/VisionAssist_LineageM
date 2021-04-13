@@ -256,7 +256,7 @@ namespace HPKR.API
             mv = Cv2.Split(dest);
             Cv2.InRange(mv[BGR], a, b, mask);
 
-            Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
+            //Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
 
             ColorBlackMasking(src);
             switch(BGR)
@@ -300,6 +300,8 @@ namespace HPKR.API
             ColorBlackMasking(src);
             ColorNormalize(src, new Vec3b(255,0,0));
             //Cv2.CvtColor(src, src, ColorConversionCodes.HSV2BGR);
+
+            //dest.Release();
 
             return src;
         }

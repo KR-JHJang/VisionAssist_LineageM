@@ -16,6 +16,7 @@ using System.Numerics;
 using HPKR.API;
 using VisionAssist.API;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 
 namespace VisionAssist.Vision
 {
@@ -57,6 +58,9 @@ namespace VisionAssist.Vision
 
         private Mat mat;
         private Mat FinalImage;
+        private Mat FinalCopy;
+
+        private bool isImageRun;
 
         private HPKR_ImageProcess gImageProcess = null;
         public frmVIsion()
@@ -73,6 +77,7 @@ namespace VisionAssist.Vision
             Application.Idle -= Application_Idle;
 
             bgwShowVIsion.RunWorkerAsync();
+            bgwImageWork.RunWorkerAsync();
 
             GLOBAL.VisionWidth = picVision.Width;
             GLOBAL.VisionHeight = picVision.Height;
@@ -264,46 +269,19 @@ namespace VisionAssist.Vision
                     gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                 }
 
-                Parallel.Invoke(
-                    () => 
-                    {                 
-                        // HP
-                        GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                    },
-                    () =>
-                    {
-                        // MP
-                        GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                    },
-                    () =>
-                    {
-                        // Attack
-                        GLOBAL.hfrmControl.SetAttackImagePos(FinalImage.SubMat(new Rect(837, 399, 42, 47)));
-                    },
-                    () =>
-                    {
-                        // Search Area
-                        GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalImage.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
-                    },
-                    () =>
-                    {
-                        // Search Item Area
-                        GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalImage.SubMat(new Rect(702, 489, 287, 74)),
-                            new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
-                    },
-                    () =>
-                    {
-                        picVision.Image?.Dispose();
-                        picVision.Image = FinalImage.ToBitmap();
-                    }
-                );
+                picVision.Image?.Dispose();
+                picVision.Image = FinalImage.ToBitmap();
 
                 mat.Release();
-                FinalImage.Release();
+                
                 stBitmap.Dispose();
                 g.Dispose();
                 gdata.Dispose();
 
+                //while (isImageRun) ;
+
+                FinalCopy = FinalImage.Clone();
+                FinalImage.Release();
             }
         }
 
@@ -440,6 +418,53 @@ namespace VisionAssist.Vision
                     e.Graphics.DrawRectangle(pen, rct);
                     //e.Dispose();
                 }
+            }
+        }
+
+        private void bgwImageWork_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                if (FinalCopy == null)
+                    continue;
+
+                if (!(FinalCopy.IsDisposed))
+                {
+                    isImageRun = true;
+
+                    Parallel.Invoke(
+                        () =>
+                        {
+                            // HP
+                            GLOBAL.hfrmControl.SetHPImagePos(FinalCopy.SubMat(new Rect(64, 18, 150, 8)));
+                        },
+                        () =>
+                        {
+                            // MP
+                            GLOBAL.hfrmControl.SetMPImagePos(FinalCopy.SubMat(new Rect(64, 34, 150, 3)));
+                        },
+                        () =>
+                        {
+                            // Attack
+                            GLOBAL.hfrmControl.SetAttackImagePos(FinalCopy.SubMat(new Rect(837, 399, 42, 47)));
+                        },
+                        () =>
+                        {
+                            // Search Area
+                            //GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalCopy.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
+                        },
+                        () =>
+                        {
+                            // Search Item Area
+                            //GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalCopy.SubMat(new Rect(702, 489, 287, 74)),
+                            //    new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
+                        }
+                    );
+
+                }
+
+                FinalCopy.Release();
+                isImageRun = false;
             }
         }
     }

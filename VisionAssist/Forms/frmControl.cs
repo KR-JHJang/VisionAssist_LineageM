@@ -76,7 +76,7 @@ namespace VisionAssist.Forms
         private void RunThread()
         {
             //bgwSearchSkillPos.RunWorkerAsync();
-            bgwEvadeAttack.RunWorkerAsync();
+            //bgwEvadeAttack.RunWorkerAsync();
             //bgwMP.RunWorkerAsync();
             //bgwHP.RunWorkerAsync();
 
@@ -168,13 +168,23 @@ namespace VisionAssist.Forms
 
             Cv2.Resize(matHP, matHP, size, 0, 0, InterpolationFlags.Cubic);
 
-            gImageProcess.ConvertColorNormalize(matHP, 140, 255, 2);
+            if (chkHPTest.Checked)
+            {
+                gImageProcess.ConvertColorNormalize(matHP,
+                    double.Parse(tbxHPUpper.Text),
+                    double.Parse(tbxHPLower.Text), 2);
+            }
+            else
+            {
+                gImageProcess.ConvertColorNormalize(matHP, 140, 255, 2);
+            }
 
             RefreshHP();
-            //SetImageToArray(matArrHP, matHP);
 
-            HP_Work();
-
+            if (GLOBAL.IsRun())
+            {
+                HP_Work();
+            }
         }
       
         public void SetMPImagePos(Mat src)
@@ -194,9 +204,12 @@ namespace VisionAssist.Forms
 
             RefreshMP();
 
-            if (MP_Work())
+            if (GLOBAL.IsRun())
             {
-                SearchSkillPos();
+                if (MP_Work())
+                {
+                    //SearchSkillPos();
+                }
             }
         }
 

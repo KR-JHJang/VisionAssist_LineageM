@@ -247,5 +247,10 @@ namespace VisionAssist
         {
 
         }
+
+        private void pnlBottom_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

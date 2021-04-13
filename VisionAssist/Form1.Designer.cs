@@ -71,9 +71,9 @@ namespace VisionAssist
             // 
             this.pnlRight.BackColor = System.Drawing.Color.DimGray;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1030, 116);
+            this.pnlRight.Location = new System.Drawing.Point(1030, 85);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(230, 655);
+            this.pnlRight.Size = new System.Drawing.Size(230, 654);
             this.pnlRight.TabIndex = 1;
             // 
             // pnlTop
@@ -83,7 +83,7 @@ namespace VisionAssist
             this.pnlTop.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1260, 116);
+            this.pnlTop.Size = new System.Drawing.Size(1260, 85);
             this.pnlTop.TabIndex = 4;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
             this.pnlTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseMove);
@@ -128,10 +128,11 @@ namespace VisionAssist
             this.pnlBottom.Controls.Add(this.tbxMouseY);
             this.pnlBottom.Controls.Add(this.tbxMouseX);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 707);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 675);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(1030, 64);
             this.pnlBottom.TabIndex = 6;
+            this.pnlBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlBottom_Paint);
             // 
             // chkDrawText
             // 
@@ -364,7 +365,8 @@ namespace VisionAssist
             // 
             // pnlVision
             // 
-            this.pnlVision.Location = new System.Drawing.Point(30, 116);
+            this.pnlVision.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.pnlVision.Location = new System.Drawing.Point(30, 85);
             this.pnlVision.Name = "pnlVision";
             this.pnlVision.Size = new System.Drawing.Size(1000, 590);
             this.pnlVision.TabIndex = 7;
@@ -390,16 +392,16 @@ namespace VisionAssist
             // 
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 116);
+            this.panel1.Location = new System.Drawing.Point(0, 85);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(30, 591);
+            this.panel1.Size = new System.Drawing.Size(30, 590);
             this.panel1.TabIndex = 0;
             // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(1260, 771);
+            this.ClientSize = new System.Drawing.Size(1260, 739);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlVision);
             this.Controls.Add(this.pnlBottom);

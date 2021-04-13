@@ -124,6 +124,23 @@ namespace VisionAssist
         public static IntPtr TargetHandle;
 
         public static bool GetPatternMode = false;
+
+        private static bool _bisRun = false;
+
+        public static void Run()
+        {
+            _bisRun = true;
+        }
+
+        public static void Stop()
+        {
+            _bisRun = false;
+        }
+
+        public static bool IsRun()
+        {
+            return _bisRun; 
+        }
     }
 
     static class Program
