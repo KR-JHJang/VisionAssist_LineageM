@@ -183,7 +183,10 @@ namespace VisionAssist.Forms
 
             if (GLOBAL.IsRun())
             {
-                HP_Work();
+                if (HP_Work())
+                {
+                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                }
             }
         }
       
@@ -660,7 +663,7 @@ namespace VisionAssist.Forms
             }           
         }
 
-        private void HP_Work()
+        private bool HP_Work()
         {
             if (matHP != null && matMaxHPImage != null)
             {
@@ -672,7 +675,7 @@ namespace VisionAssist.Forms
                     ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
 
                     if (ratio <= 0)
-                        return;
+                        return false;
                         
                     ratio = Math.Round(ratio, 2);
                 }
@@ -696,7 +699,7 @@ namespace VisionAssist.Forms
 
                 if (chkRefillMP.Checked)
                 {
-                    if (ratio < Per)
+                    if (ratio <= Per)
                     {
                         //System.Console.WriteLine(ratio + " Search On");
                         bRefillHP = true;
@@ -705,8 +708,10 @@ namespace VisionAssist.Forms
                         bRefillHP = false;
                 }
                 else
-                    bRefillMP = false;
+                    bRefillHP = false;
             }
+
+            return bRefillHP;
         }
 
         private void bgwHP_DoWork(object sender, DoWorkEventArgs e)
