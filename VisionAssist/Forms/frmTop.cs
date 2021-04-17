@@ -155,6 +155,9 @@ namespace VisionAssist.Forms
         {
             while (true)
             {
+                if (GLOBAL._tskillboxes == null)
+                    continue;
+
                 foreach (var variable in GLOBAL._tskillboxes)
                 {
                     this.Invoke(new Action(() =>

@@ -29,6 +29,22 @@ namespace HPKR.API
         }
     }
 
+    public struct VecLoc3d
+    {
+        public double minval;
+        public double maxval;
+        public OpenCvSharp.Point minloc;
+        public OpenCvSharp.Point maxloc;
+
+        public VecLoc3d(double minval, double maxval, OpenCvSharp.Point minloc, OpenCvSharp.Point maxloc)
+        {
+            this.minval = minval;
+            this.maxval = maxval;
+            this.minloc = minloc;
+            this.maxloc = maxloc;
+        }
+    }
+
     public static class HPKR_StaticVariables
     {
         [DllImport("user32.dll", SetLastError = true)]
@@ -92,7 +108,7 @@ namespace HPKR.API
             return new VecLoc4d(minval, maxval, minloc, maxloc, src);
         }
 
-        public VecLoc4d TemplateMatchingGetAllData(Mat area, Mat target)
+        public VecLoc3d TemplateMatchingGetAllData(ref Mat area, ref Mat target)
         {
             Mat result = new Mat();
             Mat GrayMat = new Mat();
@@ -116,10 +132,42 @@ namespace HPKR.API
             // 소수점 두번째 반올림
             maxval = Math.Round(maxval, 2);
 
-            area.Release();
-            target.Release();
+            GrayMat.Release();
+            GrayArea.Release();
+            result.Release();
 
-            return new VecLoc4d(minval, maxval, minloc, maxloc, GrayArea.Clone());
+            return new VecLoc3d(minval, maxval, minloc, maxloc);
+        }
+
+        public double TemplateMatchingGetRatio(ref Mat area, ref Mat target)
+        {
+            Mat result = new Mat();
+            Mat GrayMat = new Mat();
+            Mat GrayArea = new Mat();
+
+            Cv2.CvtColor(target, GrayMat, ColorConversionCodes.BGR2GRAY);
+            Cv2.CvtColor(area, GrayArea, ColorConversionCodes.BGR2GRAY);
+
+            Cv2.MatchTemplate(GrayMat, GrayArea, result, TemplateMatchModes.CCoeffNormed);
+
+            // 이미지의 최대/ 최소 위치 취득
+            OpenCvSharp.Point minloc, maxloc;
+            // 이미지 매칭율 최대 / 최소 데이터 취득
+
+            Cv2.MinMaxLoc(result, out var minval, out var maxval, out minloc, out maxloc);
+
+            // 서치된 부분을 빨간 테두리로
+            //Rect rect = new Rect(maxloc.X, maxloc.Y, target.Width, target.Height);
+            //Cv2.Rectangle(GrayArea, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
+
+            // 소수점 두번째 반올림
+            maxval = Math.Round(maxval, 2);
+
+            GrayMat.Release();
+            GrayArea.Release();
+            result.Release();
+
+            return maxval;
         }
 
         public double SimpleColorMatching(Mat src, Mat target, int BGR)
@@ -174,29 +222,36 @@ namespace HPKR.API
         public double SimpleColorMatching(Mat src, Mat target)
         {
             double ret = 0;
+            double final = 0;
 
-            Mat t1 = ConvertRgb2Hsv(src);
-            Mat t2 = ConvertRgb2Hsv(target);
-
-            for (int col = 0; col < src.Cols; col++)
+            try
             {
-                for (int rows = 0; rows < src.Rows; rows++)
-                {
-                    Vec3b a1 = t1.At<Vec3b>(rows, col);
-                    Vec3b a2 = t2.At<Vec3b>(rows, col);
+                Mat t1 = ConvertRgb2Hsv(src);
+                Mat t2 = ConvertRgb2Hsv(target);
 
-                    if (a1.Item0 == a2.Item0)
+                for (int col = 0; col < src.Cols; col++)
+                {
+                    for (int rows = 0; rows < src.Rows; rows++)
                     {
-                        ret++;
+                        Vec3b a1 = t1.At<Vec3b>(rows, col);
+                        Vec3b a2 = t2.At<Vec3b>(rows, col);
+
+                        if (a1.Item0 == a2.Item0)
+                        {
+                            ret++;
+                        }
                     }
                 }
+
+                double sum = (double)src.Cols * (double)src.Rows;
+                final = ((ret / sum) * 100);
+
             }
-
-            double sum = (double)src.Cols * (double)src.Rows;
-            double final = ((ret / sum) * 100);
-
-            t1.Release();
-            t2.Release();
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             return final;
         }
@@ -245,7 +300,7 @@ namespace HPKR.API
             Mat dest = ConvertRgb2Hsv(src);
 
             Mat[] mv = new Mat[3];
-            Mat Final = new Mat();
+            //Mat Final = new Mat();
             Mat mask = new Mat();
 
             Scalar a = new Scalar((double)hlower, (double)0, (double)0);
@@ -256,7 +311,7 @@ namespace HPKR.API
             mv = Cv2.Split(dest);
             Cv2.InRange(mv[BGR], a, b, mask);
 
-            //Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
+            Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
 
             ColorBlackMasking(src);
             switch(BGR)
@@ -278,7 +333,7 @@ namespace HPKR.API
             return src;
         }
 
-        public Mat ConvertColorNormalize(Mat src, 
+        public Mat ConvertColorNormalize(ref Mat src, 
             Scalar hlower, Scalar hupper)
         {
             Mat dest = ConvertRgb2Hsv(src);

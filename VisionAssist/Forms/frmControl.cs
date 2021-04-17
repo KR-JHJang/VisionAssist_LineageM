@@ -53,6 +53,11 @@ namespace VisionAssist.Forms
 
         private bool isMPWorking = false;
 
+        private OpenCvSharp.Size MPsize;
+        private OpenCvSharp.Size HPsize;
+        private OpenCvSharp.Size Attacksize;
+
+
         public frmControl()
         {
             InitializeComponent();
@@ -71,6 +76,10 @@ namespace VisionAssist.Forms
             InitPicturebox();
 
             RunThread();
+
+            HPsize = new OpenCvSharp.Size(picboxHP.Size.Width, picboxHP.Size.Height);
+            MPsize = new OpenCvSharp.Size(picboxMP.Size.Width, picboxMP.Size.Height);
+            Attacksize = new OpenCvSharp.Size(picboxUserAttack.Size.Width, picboxUserAttack.Size.Height);
         }
 
         private void RunThread()
@@ -159,14 +168,13 @@ namespace VisionAssist.Forms
 
         public void SetHPImagePos(Mat src)
         {
+            if (HPsize == OpenCvSharp.Size.Zero)
+                return;
+
             matHP?.Release();
             matHP = src.Clone();
-
-            OpenCvSharp.Size size = new OpenCvSharp.Size(
-            picboxHP.Size.Width,
-            picboxHP.Size.Height);
-
-            Cv2.Resize(matHP, matHP, size, 0, 0, InterpolationFlags.Cubic);
+            
+            Cv2.Resize(matHP, matHP, HPsize, 0, 0, InterpolationFlags.Cubic);
 
             if (chkHPTest.Checked)
             {
@@ -176,44 +184,86 @@ namespace VisionAssist.Forms
             }
             else
             {
-                gImageProcess.ConvertColorNormalize(matHP, 140, 255, 2);
+                gImageProcess.ConvertColorNormalize(matHP, 142, 255, 2);
             }
 
-            RefreshHP();
+            RefreshPicBox(ref matHP, ref picboxHP);
+
+            //RefreshHP();
 
             if (GLOBAL.IsRun())
             {
-                if (HP_Work())
+                if (GLOBAL._tskillboxes[0].IsUsed())
                 {
-                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                    if (HP_Work())
+                    {
+                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                    }
                 }
             }
         }
       
         public void SetMPImagePos(Mat src)
         {
+            if (MPsize == OpenCvSharp.Size.Zero)
+                return;
+
             matMP?.Release();
-            matMP = src.Clone();
+            matMP = src;
             
-            OpenCvSharp.Size size = new OpenCvSharp.Size(
-            picboxMP.Size.Width,
-            picboxMP.Size.Height);
+            Cv2.Resize(matMP, matMP, MPsize, 0, 0, InterpolationFlags.Cubic);
 
-            Cv2.Resize(matMP, matMP, size, 0, 0, InterpolationFlags.Cubic);
-
-            gImageProcess.ConvertColorNormalize(matMP,
+            gImageProcess.ConvertColorNormalize(ref matMP,
                 102,
                 108);
 
-            RefreshMP();
+            RefreshPicBox(ref matMP, ref picboxMP);
+
+            //RefreshMP();
 
             if (GLOBAL.IsRun())
             {
-                if (MP_Work())
+                if (GLOBAL._tskillboxes[1].checkBox.Checked)
                 {
-                    //SearchSkillPos();
+                    if (MP_Work())
+                    {
+                        //SearchSkillPos();
+                    }
                 }
             }
+        }
+
+        public bool SetAttackImagePos(Mat src)
+        {
+            if (Attacksize == OpenCvSharp.Size.Zero)
+                return false;
+
+            matAttack?.Release();
+            matAttack = src;
+            
+            Cv2.Resize(matAttack, matAttack, Attacksize, 0, 0, InterpolationFlags.Cubic);
+
+            //gImageProcess.ConvertRGB2GRAY(matAttack);
+
+            RefreshPicBox(ref matAttack, ref picboxUserAttack);
+            
+            if (GLOBAL.IsRun())
+            {
+                if (GLOBAL._tskillboxes[3].IsUsed())
+                {
+                    //System.Console.WriteLine("GLOBAL._tskillpos[3] : {0}", GLOBAL._tskillpos[3]);
+
+                    if (EvadeAttack())
+                    {
+                        //System.Console.WriteLine("Evade Activate : {0}", GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void SetSearchSkillAreaImage(Mat src, Rect Area)
@@ -236,36 +286,7 @@ namespace VisionAssist.Forms
             matSearchItemAreaStartY = Area.Y;
         }
 
-        public void SetAttackImagePos(Mat src)
-        {
-            matAttack?.Release();
-            matAttack = src.Clone();
 
-            OpenCvSharp.Size size = new OpenCvSharp.Size(
-            picboxUserAttack.Size.Width,
-            picboxUserAttack.Size.Height);
-
-            Cv2.Resize(matAttack, matAttack, size, 0, 0, InterpolationFlags.Cubic);
-
-            //gImageProcess.ConvertRGB2GRAY(matAttack);
-
-            RefreshPicBox(matAttack.Clone(), picboxUserAttack);
-
-            if (GLOBAL.IsRun())
-            {
-                if (EvadeAttack())
-                {
-                    if(GLOBAL._tskillboxes[3].IsUsed())
-                    {
-                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-                    }
-                }
-            }
-            //if (EvadeAttack())
-            //{
-            //    ExcuteEvade();
-            //}
-        }
 
         public void SetMessage(string msg)
         {
@@ -310,41 +331,61 @@ namespace VisionAssist.Forms
         {
             if (!matHP.IsDisposed)
             {
-                if (picboxHP.Image != null)
+                picboxHP.Image?.Dispose();
+                picboxHP.Invoke(new Action(() =>
                 {
-                    picboxHP.Image.Dispose();
-                }
+                    picboxHP.Image = matHP.ToBitmap();
+                }));
 
-                picboxHP.Image = matHP.ToBitmap();
             }
         }
 
         private void RefreshMP()
         {
-            if (!matMP.IsDisposed)
+            try
             {
-                if (picboxMP.Image != null)
+                if (!matMP.IsDisposed)
                 {
-                    picboxMP.Image.Dispose();
+                    if (picboxMP.Image != null)
+                    {
+                        picboxMP.Image.Dispose();
+                    }
+
+                    picboxMP.Invoke(new Action(() =>
+                    {
+                        picboxMP.Image = matMP.ToBitmap();
+                    }));
+
+
                 }
 
-                picboxMP.Image = matMP.ToBitmap();
             }
-            else
-                return;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        private void RefreshPicBox(Mat src, PictureBox target)
+        private void RefreshPicBox(ref Mat src, ref PictureBox target)
         {
-            if (!src.IsDisposed)
-            {
-                if (target.Image != null)
-                {
-                    target.Image.Dispose();
-                }
+            if(target.Image != null)
+                target.Image?.Dispose();
 
-                target.Image = src.ToBitmap();
-                src.Release();
+            try
+            {
+                if (!src.IsDisposed)
+                {
+                    var mat = src;
+                    var box = target;
+
+                    box.Image = mat.ToBitmap();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -380,16 +421,17 @@ namespace VisionAssist.Forms
         {
             //if (matAttack != null && matPKImage != null)
             //{
-                VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
+                //VecLoc3d result = gImageProcess.TemplateMatchingGetAllData(ref matPKImage, ref matAttack);
+                double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref matAttack);
 
                 lblMatchingRatioEvade.Invoke(new Action(() =>
                 {
-                    lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
+                    lblMatchingRatioEvade.Text = result.ToString() + " %";
                 }));
 
                 if (chkUserAttackEvade.Checked)
                 {
-                    if (result.maxval >= 0.66)
+                    if (result >= 0.66)
                     {
                         bEvadeAttack = true;
                     }
@@ -398,8 +440,6 @@ namespace VisionAssist.Forms
                 }
                 else
                     bEvadeAttack = false;
-
-                result.retMat.Release();
             //}
             //else
             //{
@@ -411,45 +451,45 @@ namespace VisionAssist.Forms
 
         private void bgwEvadeAttack_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
-            {
-                if (matAttack == null || matPKImage == null)
-                    continue;
+        //    while(true)
+        //    {
+        //        if (matAttack == null || matPKImage == null)
+        //            continue;
 
-                if (matPKImage.IsDisposed || matAttack.IsDisposed)
-                    continue;
+        //        if (matPKImage.IsDisposed || matAttack.IsDisposed)
+        //            continue;
 
-                if (matAttack != null && matPKImage != null)
-                {
-                    VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
+        //        if (matAttack != null && matPKImage != null)
+        //        {
+        //            VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
 
-                    lblMatchingRatioEvade.Invoke(new Action(()=>
-                    {
-                        lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
-                    }));
+        //            lblMatchingRatioEvade.Invoke(new Action(()=>
+        //            {
+        //                lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
+        //            }));
 
-                    if(chkUserAttackEvade.Checked)
-                    {
-                        if (result.maxval >= 0.66)
-                        {
-                            bEvadeAttack = true;
-                        }
-                        else
-                            bEvadeAttack = false;
-                    }
-                    else
-                        bEvadeAttack = false;
+        //            if(chkUserAttackEvade.Checked)
+        //            {
+        //                if (result.maxval >= 0.66)
+        //                {
+        //                    bEvadeAttack = true;
+        //                }
+        //                else
+        //                    bEvadeAttack = false;
+        //            }
+        //            else
+        //                bEvadeAttack = false;
 
-                    if (bEvadeAttack)
-                    {
-                        ExcuteEvade();
-                    }
+        //            if (bEvadeAttack)
+        //            {
+        //                ExcuteEvade();
+        //            }
 
-                    result.retMat.Release();
-                }
+        //            result.retMat.Release();
+        //        }
                 
-                Thread.Sleep(100);
-            }
+        //        Thread.Sleep(100);
+        //    }
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -462,7 +502,6 @@ namespace VisionAssist.Forms
 
         }
 
-        
 
         private void lblMatchingRatioMP_Click(object sender, EventArgs e)
         {
@@ -598,58 +637,59 @@ namespace VisionAssist.Forms
         private void SimpleExcuteEvade(int Param)
         {
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
+            Thread.Sleep(20);
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
         }
 
-        private void ExcuteEvade()
-        {
-            VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(
-                gLMImageList.GetMat((int)eLMImageList.SearchItemArea).Clone(),
-                gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Clone());
+        //private void ExcuteEvade()
+        //{
+        //    VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(
+        //        gLMImageList.GetMat((int)eLMImageList.SearchItemArea).Clone(),
+        //        gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Clone());
 
-            Random r = new Random();
+        //    Random r = new Random();
 
-            var threshold = 0.44;
-            System.Console.WriteLine("Excute : " + result.maxval);
+        //    var threshold = 0.44;
+        //    System.Console.WriteLine("Excute : " + result.maxval);
 
-            if (result.maxval >= threshold)
-            {
-                int X = (int)(result.maxloc.X + matSearchItemAreaStartX) + 
-                    (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Width / 2);
-                int Y = (int)(result.maxloc.Y + matSearchItemAreaStartY) + 
-                    (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Height / 2);
+        //    if (result.maxval >= threshold)
+        //    {
+        //        int X = (int)(result.maxloc.X + matSearchItemAreaStartX) + 
+        //            (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Width / 2);
+        //        int Y = (int)(result.maxloc.Y + matSearchItemAreaStartY) + 
+        //            (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Height / 2);
 
-                X = (int)GLOBAL.hfrmVision.VisionMoveScalingWidth(r.Next(X - 5, X + 5));
-                Y = (int)GLOBAL.hfrmVision.VisionMoveScalingHeight(r.Next(Y - 5, Y + 5));
+        //        X = (int)GLOBAL.hfrmVision.VisionMoveScalingWidth(r.Next(X - 5, X + 5));
+        //        Y = (int)GLOBAL.hfrmVision.VisionMoveScalingHeight(r.Next(Y - 5, Y + 5));
 
-                int longParameter = GLOBAL.hfrmVision.GetLongParameter(X, Y);
+        //        int longParameter = GLOBAL.hfrmVision.GetLongParameter(X, Y);
 
-                //Thread.Sleep((r.Next(2000, 3000)));
+        //        //Thread.Sleep((r.Next(2000, 3000)));
 
-                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
-                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, longParameter);
+        //        GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
+        //        GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, longParameter);
 
-                // 서치된 부분을 빨간 테두리로
-                Rect rect = new Rect(result.maxloc.X, result.maxloc.Y, result.retMat.Width, result.retMat.Height);
-                Cv2.Rectangle(result.retMat, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
+        //        // 서치된 부분을 빨간 테두리로
+        //        Rect rect = new Rect(result.maxloc.X, result.maxloc.Y, result.retMat.Width, result.retMat.Height);
+        //        Cv2.Rectangle(result.retMat, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
 
-                lblMatchingRatioExcute.Invoke(new Action(() =>
-                {
-                    lblMatchingRatioExcute.Text = result.maxval.ToString();
-                }));
+        //        lblMatchingRatioExcute.Invoke(new Action(() =>
+        //        {
+        //            lblMatchingRatioExcute.Text = result.maxval.ToString();
+        //        }));
 
-                if (picEvadeTest.Image != null)
-                    picEvadeTest.Image.Dispose();
+        //        if (picEvadeTest.Image != null)
+        //            picEvadeTest.Image.Dispose();
 
-                Cv2.Resize(result.retMat, result.retMat, new Size(picEvadeTest.Width, picEvadeTest.Height), 0,0,InterpolationFlags.Cubic);
+        //        Cv2.Resize(result.retMat, result.retMat, new Size(picEvadeTest.Width, picEvadeTest.Height), 0,0,InterpolationFlags.Cubic);
 
-                picEvadeTest.Image = result.retMat.ToBitmap();
+        //        picEvadeTest.Image = result.retMat.ToBitmap();
 
-                //표시
-                //Cv2.ImShow("template1_show", result.retMat);
-                //Cv2.WaitKey(0);
-            }
-        }
+        //        //표시
+        //        //Cv2.ImShow("template1_show", result.retMat);
+        //        //Cv2.WaitKey(0);
+        //    }
+        //}
 
         private void bgwExcuteEvade_DoWork(object sender, DoWorkEventArgs e)
         {

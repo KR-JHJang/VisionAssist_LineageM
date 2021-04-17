@@ -41,15 +41,6 @@ namespace VisionAssist
             bgwSearchWindow.RunWorkerAsync();
             bgwMousePosition.RunWorkerAsync();
             bgwSizeChecker.RunWorkerAsync();
-
-            Process currentProcess = Process.GetCurrentProcess();
-
-            foreach (ProcessThread processThread in currentProcess.Threads)
-            {
-                processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
-            }
-
-           
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
@@ -117,7 +108,7 @@ namespace VisionAssist
 
                 //bFindWindow = gfrmVision.SearchWindow();
 
-                gfrmControl.SetMessage("Find Player!");
+                //gfrmControl.SetMessage("Find Player!");
                 gfrmVision.ImageCapture("LDPlayer");
 
                 //Monitor.Exit(GLOBAL.monitorLock);

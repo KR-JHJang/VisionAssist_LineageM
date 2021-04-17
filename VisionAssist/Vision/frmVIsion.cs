@@ -37,8 +37,7 @@ namespace VisionAssist.Vision
 
         public static void Dispose()
         {
-            if(gBitmap != null)
-                gBitmap.Dispose();
+            gBitmap?.Dispose();
         }
 
         public static void SetBitmap(Bitmap src)
@@ -63,6 +62,9 @@ namespace VisionAssist.Vision
         private bool isImageRun;
 
         private HPKR_ImageProcess gImageProcess = null;
+
+        private static OpenCvSharp.Size Picsize;
+
         public frmVIsion()
         {
             InitializeComponent();
@@ -76,8 +78,12 @@ namespace VisionAssist.Vision
             //Idle이벤트를 없앤다.
             Application.Idle -= Application_Idle;
 
-            bgwShowVIsion.RunWorkerAsync();
-            bgwImageWork.RunWorkerAsync();
+            Picsize =  new OpenCvSharp.Size(
+                picVision.Size.Width,
+                picVision.Size.Height);
+
+            //bgwShowVIsion.RunWorkerAsync();
+            //bgwImageWork.RunWorkerAsync();
 
             GLOBAL.VisionWidth = picVision.Width;
             GLOBAL.VisionHeight = picVision.Height;
@@ -224,6 +230,13 @@ namespace VisionAssist.Vision
             {
                 IntPtr main = GLOBAL.FindWindow(null, target);
                 IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
+
+                if (main == IntPtr.Zero)
+                    return;
+
+                if (main == IntPtr.Zero)
+                    return;
+
                 GLOBAL.TargetHandle = sub;
 
                 //녹스앱플레이어를 쓴다면 //IntPtr c = FindWindowEx(b, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow"); 
@@ -242,14 +255,14 @@ namespace VisionAssist.Vision
                 g.ReleaseHdc(hdc);
                 ret = GLOBAL.DeleteDC(hdc);
 
-                OpenCvSharp.Size size = new OpenCvSharp.Size(
-                            picVision.Size.Width,
-                            picVision.Size.Height);
+                //OpenCvSharp.Size size = new OpenCvSharp.Size(
+                //            picVision.Size.Width,
+                //            picVision.Size.Height);
 
                 mat = BitmapConverter.ToMat(stBitmap.gBitmap);
                 FinalImage = new Mat();
 
-                Cv2.Resize(mat, FinalImage, size, 0, 0, InterpolationFlags.Cubic);
+                Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Cubic);
                 Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
 
                 if (bDrawText)
@@ -268,19 +281,27 @@ namespace VisionAssist.Vision
                     ///// Font Scale
                     gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                 }
+                
+                if (!(GLOBAL.hfrmControl.SetAttackImagePos(FinalImage.SubMat(new Rect(837, 399, 42, 47)))))
+                {
+                    // HP
+                    GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+                    // MP
+                    GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+                }
 
-                picVision.Image?.Dispose();
+                if (picVision.Image != null)
+                    picVision.Image?.Dispose();
+                
                 picVision.Image = FinalImage.ToBitmap();
 
+                while (isImageRun) ;
+                
                 mat.Release();
                 
                 stBitmap.Dispose();
                 g.Dispose();
                 gdata.Dispose();
-
-                //while (isImageRun) ;
-
-                FinalCopy = FinalImage.Clone();
                 FinalImage.Release();
             }
         }
@@ -312,7 +333,7 @@ namespace VisionAssist.Vision
                 int longParameter = GetLongParameter((int)stAxis.NowRealPosition.X, (int)stAxis.NowRealPosition.Y);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
 
-                //System.Console.WriteLine("Click Pos X : {0}, Y : {1}", stAxis.NowRealPosition.X, stAxis.NowRealPosition.Y);
+                System.Console.WriteLine("Click Pos X : {0}, Y : {1}", stAxis.NowRealPosition.X, stAxis.NowRealPosition.Y);
             }
         }
 
@@ -434,35 +455,20 @@ namespace VisionAssist.Vision
                 {
                     isImageRun = true;
 
-                    Parallel.Invoke(
-                        () =>
-                        {
-                            // HP
-                            GLOBAL.hfrmControl.SetHPImagePos(FinalCopy.SubMat(new Rect(64, 18, 150, 8)));
-                        },
-                        () =>
-                        {
-                            // MP
-                            GLOBAL.hfrmControl.SetMPImagePos(FinalCopy.SubMat(new Rect(64, 34, 150, 3)));
-                        },
-                        () =>
-                        {
-                            // Attack
-                            GLOBAL.hfrmControl.SetAttackImagePos(FinalCopy.SubMat(new Rect(837, 399, 42, 47)));
-                        },
-                        () =>
-                        {
-                            // Search Area
-                            //GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalCopy.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
-                        },
-                        () =>
-                        {
-                            // Search Item Area
-                            //GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalCopy.SubMat(new Rect(702, 489, 287, 74)),
-                            //    new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
-                        }
-                    );
-
+                    // Attack
+                    //if (!(GLOBAL.hfrmControl.SetAttackImagePos(FinalCopy.SubMat(new Rect(837, 399, 42, 47)))))
+                    //{
+                    //    // HP
+                    //    GLOBAL.hfrmControl.SetHPImagePos(FinalCopy.SubMat(new Rect(64, 18, 150, 8)));
+                    //    // MP
+                    //    GLOBAL.hfrmControl.SetMPImagePos(FinalCopy.SubMat(new Rect(64, 34, 150, 3)));
+                    //}
+                    
+                    // Search Area
+                    //GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalCopy.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
+                    // Search Item Area
+                    //GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalCopy.SubMat(new Rect(702, 489, 287, 74)),
+                    //    new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
                 }
 
                 FinalCopy.Release();
