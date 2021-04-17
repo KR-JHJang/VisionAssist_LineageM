@@ -193,9 +193,9 @@ namespace VisionAssist.Forms
 
             if (GLOBAL.IsRun())
             {
-                if (GLOBAL._tskillboxes[0].IsUsed())
+                if (HP_Work())
                 {
-                    if (HP_Work())
+                    if (GLOBAL._tskillboxes[0].IsUsed())
                     {
                         SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
                     }
@@ -223,10 +223,11 @@ namespace VisionAssist.Forms
 
             if (GLOBAL.IsRun())
             {
-                if (GLOBAL._tskillboxes[1].checkBox.Checked)
+                if (MP_Work())
                 {
-                    if (MP_Work())
+                    if (GLOBAL._tskillboxes[1].checkBox.Checked)
                     {
+
                         //SearchSkillPos();
                     }
                 }
@@ -249,17 +250,18 @@ namespace VisionAssist.Forms
             
             if (GLOBAL.IsRun())
             {
-                if (GLOBAL._tskillboxes[3].IsUsed())
+                if (EvadeAttack())
                 {
+                    if (GLOBAL._tskillboxes[3].IsUsed())
+                    {
                     //System.Console.WriteLine("GLOBAL._tskillpos[3] : {0}", GLOBAL._tskillpos[3]);
 
-                    if (EvadeAttack())
-                    {
+
                         //System.Console.WriteLine("Evade Activate : {0}", GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        
+                        return true;
                     }
-
-                    return true;
                 }
             }
 
@@ -431,7 +433,7 @@ namespace VisionAssist.Forms
 
                 if (chkUserAttackEvade.Checked)
                 {
-                    if (result >= 0.66)
+                    if (result >= 0.63)
                     {
                         bEvadeAttack = true;
                     }
