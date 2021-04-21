@@ -155,6 +155,11 @@ namespace VisionAssist
 
         private static decimal[][] _axisStrings;
 
+        public static string GetTime()
+        {
+            return DateTime.Now.ToString("HHmmss");
+        }
+
         static GLOBAL()
         {
             ReadSetupFile(Directory.GetCurrentDirectory() + "\\Param.ini");

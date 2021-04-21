@@ -57,7 +57,7 @@ namespace VisionAssist.Forms
             this.chkAvoidHP = new System.Windows.Forms.CheckBox();
             this.chkRefillHP = new System.Windows.Forms.CheckBox();
             this.picboxHP = new System.Windows.Forms.PictureBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trBarHPEvade = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -88,7 +88,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -311,7 +311,7 @@ namespace VisionAssist.Forms
             this.groupBox3.Controls.Add(this.chkAvoidHP);
             this.groupBox3.Controls.Add(this.chkRefillHP);
             this.groupBox3.Controls.Add(this.picboxHP);
-            this.groupBox3.Controls.Add(this.trackBar1);
+            this.groupBox3.Controls.Add(this.trBarHPEvade);
             this.groupBox3.Controls.Add(this.trBarHP);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
@@ -403,17 +403,17 @@ namespace VisionAssist.Forms
             this.picboxHP.TabIndex = 1;
             this.picboxHP.TabStop = false;
             // 
-            // trackBar1
+            // trBarHPEvade
             // 
-            this.trackBar1.BackColor = System.Drawing.Color.DarkRed;
-            this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(3, 136);
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(210, 45);
-            this.trackBar1.TabIndex = 0;
-            this.trackBar1.Value = 3;
-            this.trackBar1.Scroll += new System.EventHandler(this.trBarHP_Scroll);
+            this.trBarHPEvade.BackColor = System.Drawing.Color.DarkRed;
+            this.trBarHPEvade.LargeChange = 1;
+            this.trBarHPEvade.Location = new System.Drawing.Point(3, 136);
+            this.trBarHPEvade.Minimum = 1;
+            this.trBarHPEvade.Name = "trBarHPEvade";
+            this.trBarHPEvade.Size = new System.Drawing.Size(210, 45);
+            this.trBarHPEvade.TabIndex = 0;
+            this.trBarHPEvade.Value = 3;
+            this.trBarHPEvade.Scroll += new System.EventHandler(this.trBarHP_Scroll);
             // 
             // trBarHP
             // 
@@ -605,7 +605,7 @@ namespace VisionAssist.Forms
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
@@ -658,7 +658,7 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkRefillHP;
         private System.Windows.Forms.CheckBox chkAvoidHP;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trBarHPEvade;
         private System.ComponentModel.BackgroundWorker bgwHP;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.PictureBox picEvadeTest;

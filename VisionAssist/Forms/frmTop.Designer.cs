@@ -82,6 +82,7 @@ namespace VisionAssist.Forms
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.bgwUseGroups = new System.ComponentModel.BackgroundWorker();
             this.bgwCheckRadioButtonSelect = new System.ComponentModel.BackgroundWorker();
+            this.button1 = new System.Windows.Forms.Button();
             this.gbox2.SuspendLayout();
             this.gbox1.SuspendLayout();
             this.gbox3.SuspendLayout();
@@ -666,10 +667,22 @@ namespace VisionAssist.Forms
             this.bgwCheckRadioButtonSelect.WorkerSupportsCancellation = true;
             this.bgwCheckRadioButtonSelect.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCheckRadioButtonSelect_DoWork);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Yellow;
+            this.button1.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(769, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(166, 76);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Login KAKAO TALK";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // frmTop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -749,5 +762,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.CheckBox checkBox4;
         private System.ComponentModel.BackgroundWorker bgwUseGroups;
         private System.ComponentModel.BackgroundWorker bgwCheckRadioButtonSelect;
+        private System.Windows.Forms.Button button1;
     }
 }

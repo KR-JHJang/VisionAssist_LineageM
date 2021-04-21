@@ -193,12 +193,22 @@ namespace VisionAssist.Forms
 
             if (GLOBAL.IsRun())
             {
-                if (HP_Work())
+                int ret = HP_Work();
+
+                switch (ret)
                 {
-                    if (GLOBAL._tskillboxes[0].IsUsed())
-                    {
-                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
-                    }
+                    case 1:
+                        if (GLOBAL._tskillboxes[0].IsUsed())
+                        {
+                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                        }
+                        break;
+                    case 2:
+                        if (GLOBAL._tskillboxes[3].IsUsed())
+                        {
+                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        }
+                        break;
                 }
             }
         }
@@ -254,10 +264,7 @@ namespace VisionAssist.Forms
                 {
                     if (GLOBAL._tskillboxes[3].IsUsed())
                     {
-                    //System.Console.WriteLine("GLOBAL._tskillpos[3] : {0}", GLOBAL._tskillpos[3]);
-
-
-                        //System.Console.WriteLine("Evade Activate : {0}", GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         
                         return true;
@@ -705,8 +712,10 @@ namespace VisionAssist.Forms
             }           
         }
 
-        private bool HP_Work()
+        private int HP_Work()
         {
+            int Action = 0;
+
             if (matHP != null && matMaxHPImage != null)
             {
                 double ratio = 0;
@@ -717,7 +726,7 @@ namespace VisionAssist.Forms
                     ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
 
                     if (ratio <= 0)
-                        return false;
+                        return 0;
                         
                     ratio = Math.Round(ratio, 2);
                 }
@@ -739,21 +748,34 @@ namespace VisionAssist.Forms
                     Per = double.Parse(trBarHP.Value.ToString()) * 10;
                 }));
 
-                if (chkRefillMP.Checked)
+                if (chkRefillHP.Checked)
                 {
                     if (ratio <= Per)
                     {
+                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
                         //System.Console.WriteLine(ratio + " Search On");
-                        bRefillHP = true;
+                        Action = 1;
                     }
-                    else
-                        bRefillHP = false;
                 }
-                else
-                    bRefillHP = false;
+
+                double dEvade = 0;
+
+                trBarHP.Invoke(new Action(() =>
+                {
+                    dEvade = double.Parse(trBarHPEvade.Value.ToString()) * 10;
+                }));
+
+                if (chkAvoidHP.Checked)
+                {
+                    if (ratio <= dEvade)
+                    {
+                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+                        Action = 2;
+                    }
+                }
             }
 
-            return bRefillHP;
+            return Action;
         }
 
         private void bgwHP_DoWork(object sender, DoWorkEventArgs e)
@@ -787,7 +809,7 @@ namespace VisionAssist.Forms
                     }
 
 
-                    lblMatchingRatioMP.Invoke(new Action(() =>
+                    lblMatchingRatioHP.Invoke(new Action(() =>
                     {
                         lblMatchingRatioHP.Text = ratio.ToString() + " %";
                     }));
@@ -799,7 +821,7 @@ namespace VisionAssist.Forms
                         Per = double.Parse(trBarHP.Value.ToString()) * 10;
                     }));
 
-                    if (chkRefillMP.Checked)
+                    if (chkRefillHP.Checked)
                     {
                         if (ratio < Per)
                         {
@@ -810,7 +832,7 @@ namespace VisionAssist.Forms
                             bRefillHP = false;
                     }
                     else
-                        bRefillMP = false;
+                        bRefillHP = false;
                 }
 
                 Thread.Sleep(100);
