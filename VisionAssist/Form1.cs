@@ -125,7 +125,7 @@ namespace VisionAssist
                 //    continue;
                 //}
 
-                System.Threading.Thread.Sleep(5);
+                //System.Threading.Thread.Sleep(5);
             }
         }
 

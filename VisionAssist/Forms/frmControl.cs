@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Security.Policy;
 using VisionAssist.API;
 using System.Diagnostics;
+using Tesseract;
+using Rect = OpenCvSharp.Rect;
 using Size = OpenCvSharp.Size;
 
 namespace VisionAssist.Forms
@@ -56,6 +58,9 @@ namespace VisionAssist.Forms
         private OpenCvSharp.Size MPsize;
         private OpenCvSharp.Size HPsize;
         private OpenCvSharp.Size Attacksize;
+
+        TesseractEngine TengineHP;
+        TesseractEngine TengineMP;
 
 
         public frmControl()
@@ -164,7 +169,225 @@ namespace VisionAssist.Forms
             }
         }
 
+        public void GetMPTextImage(ref Mat src)
+        {
+            if (gImageProcess == null)
+                return;
 
+            Cv2.Resize(src, src, new Size(
+                src.Width * 3, 
+                src.Height * 3));
+            gImageProcess.ConvertRgb2Gray(src);
+            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Tozero);
+
+            //if (picboxMP.Image != null)
+            //    picboxMP.Image.Dispose();
+
+            //picboxMP.Image = src.ToBitmap();
+
+            Pix pix = PixConverter.ToPix(src.ToBitmap());
+            TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
+            // tesseractengine 생성
+            string whitelist = "0123456789/";
+            TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
+
+            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+            var result = TengineMP.Process(pix);
+            string MP = result.GetText().Trim();
+            MP = MP.Replace(" ", "").Trim();
+
+            if (MP.IndexOf('/') == -1)
+                return;
+
+            string[] mpStrings = MP.Split('/');
+
+            this.Invoke(new Action(() =>
+            {
+                LedMP.Text = mpStrings[0];
+                LedMaxMP.Text = mpStrings[1];
+            }));
+
+            TengineMP.Dispose();
+            TengineMP = null;
+
+            SimpleMPWork(mpStrings);
+
+
+
+        }
+
+        public void GetHPTextImage(ref Mat src)
+        {
+            if (gImageProcess == null)
+                return;
+
+            Cv2.Resize(src, src, new Size(src.Width*2, src.Height*2));
+            gImageProcess.ConvertRgb2Gray(src);
+            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Tozero);
+
+            //if (picboxHPText.Image != null)
+            //    picboxHPText.Image.Dispose();
+
+            //picboxHPText.Image = src.ToBitmap();
+
+            Pix pix = PixConverter.ToPix(src.ToBitmap());
+            TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
+            // tesseractengine 생성
+            string whitelist = "0123456789/";
+            TengineHP.SetVariable("tessedit_char_whitelist", whitelist);
+
+            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+            var result = TengineHP.Process(pix);
+            string HP = result.GetText().Trim();
+            HP = HP.Replace(" ", "").Trim();
+
+            if (HP.IndexOf('/') == -1)
+                return;
+
+            string[] hpStrings = HP.Split('/');
+
+            this.Invoke(new Action(() =>
+            {
+                LedHP.Text = hpStrings[0];
+                LedMaxHP.Text = hpStrings[1];
+            }));
+
+            //if (!(TengineMP.IsDisposed))
+            TengineHP.Dispose();
+            TengineHP = null;
+
+            SimpleHPWork(hpStrings);
+
+
+
+        }
+
+        public void SimpleMPWork(string[] data)
+        {
+            if (GLOBAL.IsRun())
+            {
+                bool Action = false;
+
+                decimal mp = decimal.Parse(data[0]);
+                decimal max = decimal.Parse(data[1]);
+
+                decimal ratio = (mp / max) * 100;
+
+                decimal barmp = Decimal.Zero;
+
+                ratio = Math.Round(ratio, 2);
+
+                lblMatchingRatioMP.Invoke(new Action(() =>
+                {
+                    lblMatchingRatioMP.Text = ratio.ToString() + " %";
+                }));
+
+                decimal Per = 0;
+
+                trBarMP.Invoke(new Action(() =>
+                {
+                    Per = decimal.Parse(trBarMP.Value.ToString()) * 10;
+                }));
+
+                if (chkRefillMP.Checked)
+                {
+                    if (ratio < Per)
+                    {
+                        //System.Console.WriteLine(ratio + " Search On");
+                        Action = true;
+                    }
+                }
+
+                if (Action)
+                {
+                    if (GLOBAL._tskillboxes[1].IsUsed())
+                    {
+                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[1]]);
+                    }
+                }
+            }
+        }
+
+        private int EvadeCounter;
+        public void SimpleHPWork(string[] data)
+        {
+            if (GLOBAL.IsRun())
+            {
+                decimal hp = decimal.Parse(data[0]);
+                decimal max = decimal.Parse(data[1]);
+
+                decimal ratio = (hp / max) * 100;
+
+                decimal barhp = Decimal.Zero;
+
+                int Action = int.MinValue;
+
+                ratio = Math.Round(ratio, 2);
+
+                lblMatchingRatioHP.Invoke(new Action(() =>
+                {
+                    lblMatchingRatioHP.Text = ratio.ToString() + " %";
+                }));
+
+                trBarHP.Invoke(new Action(() =>
+                {
+                    barhp = decimal.Parse(trBarHP.Value.ToString()) * 10;
+                }));
+
+                if (chkRefillHP.Checked)
+                {
+                    if (ratio <= barhp)
+                    {
+                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+                        //System.Console.WriteLine(ratio + " Search On");
+                        Action = 1;
+                    }
+                }
+
+                decimal dEvade = 0;
+
+                trBarHP.Invoke(new Action(() =>
+                {
+                    dEvade = decimal.Parse(trBarHPEvade.Value.ToString()) * 10;
+                }));
+
+                if (chkAvoidHP.Checked)
+                {
+                    EvadeCounter++;
+
+                    if (ratio <= dEvade)
+                    {
+                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+ 
+                        if (EvadeCounter >= 3)
+                        {
+                            Action = 2;
+                            EvadeCounter = 0;
+                        }
+                    }
+                    else
+                    {
+                        EvadeCounter = 0;
+                    }
+                }
+
+                switch (Action)
+                {
+                    case 1:
+                        if (GLOBAL._tskillboxes[0].IsUsed())
+                        {
+                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                        }
+                        break;
+                    case 2:
+                        if (GLOBAL._tskillboxes[3].IsUsed())
+                        {
+                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        }
+                        break;
+                }
+            }
+        }
 
         public void SetHPImagePos(Mat src)
         {
@@ -244,7 +467,7 @@ namespace VisionAssist.Forms
             }
         }
 
-        public bool SetAttackImagePos(Mat src)
+        public bool SetAttackImagePos(ref Mat src)
         {
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
@@ -316,15 +539,7 @@ namespace VisionAssist.Forms
 
         }
 
-        private void trBarHP_Scroll(object sender, EventArgs e)
-        {
-            ttHP.SetToolTip(trBarHP, (trBarHP.Value * 10) + "%".ToString());
-        }
 
-        private void trBarMP_Scroll(object sender, EventArgs e)
-        {
-            ttMP.SetToolTip(trBarMP, (trBarMP.Value * 10) + "%".ToString());
-        }
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
@@ -966,6 +1181,21 @@ namespace VisionAssist.Forms
         private void lblMatchingRatioEvade_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void trBarHPEvade_Scroll(object sender, EventArgs e)
+        {
+            ttHP.SetToolTip(trBarHPEvade, (trBarHPEvade.Value * 10) + "%".ToString());
+        }
+
+        private void trBarHP_Scroll(object sender, EventArgs e)
+        {
+            ttHP.SetToolTip(trBarHP, (trBarHP.Value * 10) + "%".ToString());
+        }
+
+        private void trBarMP_Scroll(object sender, EventArgs e)
+        {
+            ttMP.SetToolTip(trBarMP, (trBarMP.Value * 10) + "%".ToString());
         }
     }
 }

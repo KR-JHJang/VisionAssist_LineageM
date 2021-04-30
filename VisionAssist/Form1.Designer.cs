@@ -407,6 +407,7 @@ namespace VisionAssist
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlTop);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "frmMain";
             this.ShowIcon = false;

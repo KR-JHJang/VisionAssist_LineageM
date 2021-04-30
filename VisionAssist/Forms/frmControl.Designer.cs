@@ -43,25 +43,30 @@ namespace VisionAssist.Forms
             this.chkUserAttackEvade = new System.Windows.Forms.CheckBox();
             this.picboxUserAttack = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.LedMP = new Sunny.UI.UILedDisplay();
+            this.LedMaxMP = new Sunny.UI.UILedDisplay();
             this.lblMatchingRatioMP = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chkRefillMP = new System.Windows.Forms.CheckBox();
-            this.picboxMP = new System.Windows.Forms.PictureBox();
             this.trBarMP = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.chkHPTest = new System.Windows.Forms.CheckBox();
-            this.tbxHPLower = new System.Windows.Forms.TextBox();
-            this.tbxHPUpper = new System.Windows.Forms.TextBox();
+            this.LedHP = new Sunny.UI.UILedDisplay();
+            this.LedMaxHP = new Sunny.UI.UILedDisplay();
             this.lblMatchingRatioHP = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.chkAvoidHP = new System.Windows.Forms.CheckBox();
             this.chkRefillHP = new System.Windows.Forms.CheckBox();
-            this.picboxHP = new System.Windows.Forms.PictureBox();
             this.trBarHPEvade = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.picboxHP = new System.Windows.Forms.PictureBox();
+            this.picboxMP = new System.Windows.Forms.PictureBox();
+            this.picboxHPText = new System.Windows.Forms.PictureBox();
+            this.chkHPTest = new System.Windows.Forms.CheckBox();
+            this.tbxHPLower = new System.Windows.Forms.TextBox();
+            this.tbxHPUpper = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.picboxColorBlue = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -84,13 +89,14 @@ namespace VisionAssist.Forms
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -133,7 +139,7 @@ namespace VisionAssist.Forms
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.picEvadeTest);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(3, 474);
+            this.groupBox7.Location = new System.Drawing.Point(3, 382);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(216, 92);
             this.groupBox7.TabIndex = 16;
@@ -176,7 +182,7 @@ namespace VisionAssist.Forms
             this.groupBox5.Controls.Add(this.chkUserAttackEvade);
             this.groupBox5.Controls.Add(this.picboxUserAttack);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 405);
+            this.groupBox5.Location = new System.Drawing.Point(3, 313);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(216, 69);
             this.groupBox5.TabIndex = 14;
@@ -229,19 +235,42 @@ namespace VisionAssist.Forms
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.LedMP);
+            this.groupBox4.Controls.Add(this.LedMaxMP);
             this.groupBox4.Controls.Add(this.lblMatchingRatioMP);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.chkRefillMP);
-            this.groupBox4.Controls.Add(this.picboxMP);
             this.groupBox4.Controls.Add(this.trBarMP);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(3, 284);
+            this.groupBox4.Location = new System.Drawing.Point(3, 192);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(216, 121);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "MP";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // LedMP
+            // 
+            this.LedMP.BackColor = System.Drawing.Color.Black;
+            this.LedMP.CharCount = 5;
+            this.LedMP.ForeColor = System.Drawing.Color.Cyan;
+            this.LedMP.Location = new System.Drawing.Point(6, 13);
+            this.LedMP.Name = "LedMP";
+            this.LedMP.Size = new System.Drawing.Size(100, 34);
+            this.LedMP.TabIndex = 11;
+            this.LedMP.Text = "00000";
+            // 
+            // LedMaxMP
+            // 
+            this.LedMaxMP.BackColor = System.Drawing.Color.Black;
+            this.LedMaxMP.CharCount = 5;
+            this.LedMaxMP.ForeColor = System.Drawing.Color.Cyan;
+            this.LedMaxMP.Location = new System.Drawing.Point(109, 13);
+            this.LedMaxMP.Name = "LedMaxMP";
+            this.LedMaxMP.Size = new System.Drawing.Size(100, 34);
+            this.LedMaxMP.TabIndex = 12;
+            this.LedMaxMP.Text = "00000";
             // 
             // lblMatchingRatioMP
             // 
@@ -278,16 +307,6 @@ namespace VisionAssist.Forms
             this.chkRefillMP.UseVisualStyleBackColor = true;
             this.chkRefillMP.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // picboxMP
-            // 
-            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxMP.Image = ((System.Drawing.Image)(resources.GetObject("picboxMP.Image")));
-            this.picboxMP.Location = new System.Drawing.Point(3, 17);
-            this.picboxMP.Name = "picboxMP";
-            this.picboxMP.Size = new System.Drawing.Size(210, 30);
-            this.picboxMP.TabIndex = 2;
-            this.picboxMP.TabStop = false;
-            // 
             // trBarMP
             // 
             this.trBarMP.BackColor = System.Drawing.Color.DarkBlue;
@@ -303,55 +322,49 @@ namespace VisionAssist.Forms
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.chkHPTest);
-            this.groupBox3.Controls.Add(this.tbxHPLower);
-            this.groupBox3.Controls.Add(this.tbxHPUpper);
+            this.groupBox3.Controls.Add(this.LedHP);
+            this.groupBox3.Controls.Add(this.LedMaxHP);
             this.groupBox3.Controls.Add(this.lblMatchingRatioHP);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.chkAvoidHP);
             this.groupBox3.Controls.Add(this.chkRefillHP);
-            this.groupBox3.Controls.Add(this.picboxHP);
             this.groupBox3.Controls.Add(this.trBarHPEvade);
             this.groupBox3.Controls.Add(this.trBarHP);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(216, 281);
+            this.groupBox3.Size = new System.Drawing.Size(216, 189);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "HP";
             // 
-            // chkHPTest
+            // LedHP
             // 
-            this.chkHPTest.AutoSize = true;
-            this.chkHPTest.Location = new System.Drawing.Point(6, 259);
-            this.chkHPTest.Name = "chkHPTest";
-            this.chkHPTest.Size = new System.Drawing.Size(49, 16);
-            this.chkHPTest.TabIndex = 8;
-            this.chkHPTest.Text = "Test";
-            this.chkHPTest.UseVisualStyleBackColor = true;
+            this.LedHP.BackColor = System.Drawing.Color.Black;
+            this.LedHP.CharCount = 5;
+            this.LedHP.ForeColor = System.Drawing.Color.Yellow;
+            this.LedHP.Location = new System.Drawing.Point(6, 13);
+            this.LedHP.Name = "LedHP";
+            this.LedHP.Size = new System.Drawing.Size(100, 34);
+            this.LedHP.TabIndex = 10;
+            this.LedHP.Text = "00000";
             // 
-            // tbxHPLower
+            // LedMaxHP
             // 
-            this.tbxHPLower.Location = new System.Drawing.Point(148, 257);
-            this.tbxHPLower.Name = "tbxHPLower";
-            this.tbxHPLower.Size = new System.Drawing.Size(61, 21);
-            this.tbxHPLower.TabIndex = 7;
-            this.tbxHPLower.Text = "0";
-            // 
-            // tbxHPUpper
-            // 
-            this.tbxHPUpper.Location = new System.Drawing.Point(85, 257);
-            this.tbxHPUpper.Name = "tbxHPUpper";
-            this.tbxHPUpper.Size = new System.Drawing.Size(61, 21);
-            this.tbxHPUpper.TabIndex = 7;
-            this.tbxHPUpper.Text = "0";
+            this.LedMaxHP.BackColor = System.Drawing.Color.Black;
+            this.LedMaxHP.CharCount = 5;
+            this.LedMaxHP.ForeColor = System.Drawing.Color.Yellow;
+            this.LedMaxHP.Location = new System.Drawing.Point(109, 13);
+            this.LedMaxHP.Name = "LedMaxHP";
+            this.LedMaxHP.Size = new System.Drawing.Size(100, 34);
+            this.LedMaxHP.TabIndex = 10;
+            this.LedMaxHP.Text = "00000";
             // 
             // lblMatchingRatioHP
             // 
             this.lblMatchingRatioHP.AutoSize = true;
             this.lblMatchingRatioHP.ForeColor = System.Drawing.Color.Lime;
-            this.lblMatchingRatioHP.Location = new System.Drawing.Point(168, 121);
+            this.lblMatchingRatioHP.Location = new System.Drawing.Point(168, 54);
             this.lblMatchingRatioHP.Name = "lblMatchingRatioHP";
             this.lblMatchingRatioHP.Size = new System.Drawing.Size(41, 12);
             this.lblMatchingRatioHP.TabIndex = 4;
@@ -361,7 +374,7 @@ namespace VisionAssist.Forms
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Yellow;
-            this.label4.Location = new System.Drawing.Point(134, 121);
+            this.label4.Location = new System.Drawing.Point(134, 54);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 12);
             this.label4.TabIndex = 5;
@@ -373,7 +386,7 @@ namespace VisionAssist.Forms
             this.chkAvoidHP.Checked = true;
             this.chkAvoidHP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAvoidHP.ForeColor = System.Drawing.Color.Snow;
-            this.chkAvoidHP.Location = new System.Drawing.Point(8, 189);
+            this.chkAvoidHP.Location = new System.Drawing.Point(8, 122);
             this.chkAvoidHP.Name = "chkAvoidHP";
             this.chkAvoidHP.Size = new System.Drawing.Size(156, 16);
             this.chkAvoidHP.TabIndex = 6;
@@ -386,40 +399,30 @@ namespace VisionAssist.Forms
             this.chkRefillHP.Checked = true;
             this.chkRefillHP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRefillHP.ForeColor = System.Drawing.Color.Snow;
-            this.chkRefillHP.Location = new System.Drawing.Point(8, 120);
+            this.chkRefillHP.Location = new System.Drawing.Point(8, 53);
             this.chkRefillHP.Name = "chkRefillHP";
             this.chkRefillHP.Size = new System.Drawing.Size(88, 16);
             this.chkRefillHP.TabIndex = 6;
             this.chkRefillHP.Text = "체력 채우기";
             this.chkRefillHP.UseVisualStyleBackColor = true;
             // 
-            // picboxHP
-            // 
-            this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxHP.Image = ((System.Drawing.Image)(resources.GetObject("picboxHP.Image")));
-            this.picboxHP.Location = new System.Drawing.Point(3, 17);
-            this.picboxHP.Name = "picboxHP";
-            this.picboxHP.Size = new System.Drawing.Size(210, 30);
-            this.picboxHP.TabIndex = 1;
-            this.picboxHP.TabStop = false;
-            // 
             // trBarHPEvade
             // 
             this.trBarHPEvade.BackColor = System.Drawing.Color.DarkRed;
             this.trBarHPEvade.LargeChange = 1;
-            this.trBarHPEvade.Location = new System.Drawing.Point(3, 205);
+            this.trBarHPEvade.Location = new System.Drawing.Point(3, 138);
             this.trBarHPEvade.Minimum = 1;
             this.trBarHPEvade.Name = "trBarHPEvade";
             this.trBarHPEvade.Size = new System.Drawing.Size(210, 45);
             this.trBarHPEvade.TabIndex = 0;
             this.trBarHPEvade.Value = 3;
-            this.trBarHPEvade.Scroll += new System.EventHandler(this.trBarHP_Scroll);
+            this.trBarHPEvade.Scroll += new System.EventHandler(this.trBarHPEvade_Scroll);
             // 
             // trBarHP
             // 
             this.trBarHP.BackColor = System.Drawing.Color.DarkRed;
             this.trBarHP.LargeChange = 1;
-            this.trBarHP.Location = new System.Drawing.Point(3, 136);
+            this.trBarHP.Location = new System.Drawing.Point(3, 69);
             this.trBarHP.Minimum = 1;
             this.trBarHP.Name = "trBarHP";
             this.trBarHP.Size = new System.Drawing.Size(210, 45);
@@ -449,6 +452,12 @@ namespace VisionAssist.Forms
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.picboxHP);
+            this.tabPage4.Controls.Add(this.picboxMP);
+            this.tabPage4.Controls.Add(this.picboxHPText);
+            this.tabPage4.Controls.Add(this.chkHPTest);
+            this.tabPage4.Controls.Add(this.tbxHPLower);
+            this.tabPage4.Controls.Add(this.tbxHPUpper);
             this.tabPage4.Controls.Add(this.groupBox6);
             this.tabPage4.Controls.Add(this.groupBox2);
             this.tabPage4.Controls.Add(this.groupBox1);
@@ -459,6 +468,68 @@ namespace VisionAssist.Forms
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Admin";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // picboxHP
+            // 
+            this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxHP.Image = ((System.Drawing.Image)(resources.GetObject("picboxHP.Image")));
+            this.picboxHP.Location = new System.Drawing.Point(3, 341);
+            this.picboxHP.Name = "picboxHP";
+            this.picboxHP.Size = new System.Drawing.Size(216, 100);
+            this.picboxHP.TabIndex = 15;
+            this.picboxHP.TabStop = false;
+            this.picboxHP.Visible = false;
+            // 
+            // picboxMP
+            // 
+            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxMP.Image = ((System.Drawing.Image)(resources.GetObject("picboxMP.Image")));
+            this.picboxMP.Location = new System.Drawing.Point(3, 267);
+            this.picboxMP.Name = "picboxMP";
+            this.picboxMP.Size = new System.Drawing.Size(216, 74);
+            this.picboxMP.TabIndex = 14;
+            this.picboxMP.TabStop = false;
+            this.picboxMP.Visible = false;
+            // 
+            // picboxHPText
+            // 
+            this.picboxHPText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.picboxHPText.Image = ((System.Drawing.Image)(resources.GetObject("picboxHPText.Image")));
+            this.picboxHPText.Location = new System.Drawing.Point(3, 560);
+            this.picboxHPText.Name = "picboxHPText";
+            this.picboxHPText.Size = new System.Drawing.Size(216, 43);
+            this.picboxHPText.TabIndex = 13;
+            this.picboxHPText.TabStop = false;
+            this.picboxHPText.Visible = false;
+            // 
+            // chkHPTest
+            // 
+            this.chkHPTest.AutoSize = true;
+            this.chkHPTest.Location = new System.Drawing.Point(10, 535);
+            this.chkHPTest.Name = "chkHPTest";
+            this.chkHPTest.Size = new System.Drawing.Size(49, 16);
+            this.chkHPTest.TabIndex = 12;
+            this.chkHPTest.Text = "Test";
+            this.chkHPTest.UseVisualStyleBackColor = true;
+            this.chkHPTest.Visible = false;
+            // 
+            // tbxHPLower
+            // 
+            this.tbxHPLower.Location = new System.Drawing.Point(152, 533);
+            this.tbxHPLower.Name = "tbxHPLower";
+            this.tbxHPLower.Size = new System.Drawing.Size(61, 21);
+            this.tbxHPLower.TabIndex = 10;
+            this.tbxHPLower.Text = "0";
+            this.tbxHPLower.Visible = false;
+            // 
+            // tbxHPUpper
+            // 
+            this.tbxHPUpper.Location = new System.Drawing.Point(89, 533);
+            this.tbxHPUpper.Name = "tbxHPUpper";
+            this.tbxHPUpper.Size = new System.Drawing.Size(61, 21);
+            this.tbxHPUpper.TabIndex = 11;
+            this.tbxHPUpper.Text = "0";
+            this.tbxHPUpper.Visible = false;
             // 
             // groupBox6
             // 
@@ -600,14 +671,16 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).EndInit();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorBlue)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -636,8 +709,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TrackBar trBarMP;
         private System.Windows.Forms.ToolTip ttMP;
-        private System.Windows.Forms.PictureBox picboxHP;
-        private System.Windows.Forms.PictureBox picboxMP;
         private System.ComponentModel.BackgroundWorker bgwExcuteEvade;
         private System.ComponentModel.BackgroundWorker bgwSearchSkillPos;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -664,8 +735,15 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picEvadeTest;
         private System.Windows.Forms.Label lblMatchingRatioExcute;
         private System.Windows.Forms.Label label5;
+        private Sunny.UI.UILedDisplay LedMaxHP;
+        private Sunny.UI.UILedDisplay LedHP;
+        private Sunny.UI.UILedDisplay LedMP;
+        private Sunny.UI.UILedDisplay LedMaxMP;
+        private System.Windows.Forms.PictureBox picboxHPText;
         private System.Windows.Forms.CheckBox chkHPTest;
         private System.Windows.Forms.TextBox tbxHPLower;
         private System.Windows.Forms.TextBox tbxHPUpper;
+        private System.Windows.Forms.PictureBox picboxHP;
+        private System.Windows.Forms.PictureBox picboxMP;
     }
 }

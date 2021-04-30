@@ -65,6 +65,10 @@ namespace VisionAssist.Vision
 
         private static OpenCvSharp.Size Picsize;
 
+        private Mat mControlVision;
+
+        private object lockObject = new object();
+
         public frmVIsion()
         {
             InitializeComponent();
@@ -78,12 +82,15 @@ namespace VisionAssist.Vision
             //Idle이벤트를 없앤다.
             Application.Idle -= Application_Idle;
 
+            mControlVision = new Mat();
+            mControlVision.Dispose();
+
             Picsize =  new OpenCvSharp.Size(
                 picVision.Size.Width,
                 picVision.Size.Height);
 
             //bgwShowVIsion.RunWorkerAsync();
-            //bgwImageWork.RunWorkerAsync();
+            bgwImageWork.RunWorkerAsync();
 
             GLOBAL.VisionWidth = picVision.Width;
             GLOBAL.VisionHeight = picVision.Height;
@@ -281,27 +288,30 @@ namespace VisionAssist.Vision
                     ///// Font Scale
                     gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                 }
-                
-                if (!(GLOBAL.hfrmControl.SetAttackImagePos(FinalImage.SubMat(new Rect(837, 399, 42, 47)))))
-                {
-                    // HP
-                    GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                    // MP
-                    GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                }
 
                 if (picVision.Image != null)
+                {
                     picVision.Image?.Dispose();
-                
-                picVision.Image = FinalImage.ToBitmap();
+                }
 
-                while (isImageRun) ;
-                
+                this.Invoke(new Action(() =>
+                {
+                    picVision.Image = FinalImage.ToBitmap();
+                }));
+
+
+                //if(mControlVision.IsDisposed)
+                if (isImageRun == false)
+                    mControlVision = FinalImage.Clone();
+
+                //while (isImageRun) ;
+
                 mat.Release();
                 
                 stBitmap.Dispose();
                 g.Dispose();
                 gdata.Dispose();
+
                 FinalImage.Release();
             }
         }
@@ -446,33 +456,43 @@ namespace VisionAssist.Vision
 
         private void bgwImageWork_DoWork(object sender, DoWorkEventArgs e)
         {
+            //Mat Attack = new Mat();
+            //Mat mHP = new Mat();
+            //Mat mMP = new Mat();
+
             while (true)
             {
-                if (FinalCopy == null)
-                    continue;
-
-                if (!(FinalCopy.IsDisposed))
+                if (mControlVision != null)
                 {
                     isImageRun = true;
 
-                    // Attack
-                    //if (!(GLOBAL.hfrmControl.SetAttackImagePos(FinalCopy.SubMat(new Rect(837, 399, 42, 47)))))
-                    //{
-                    //    // HP
-                    //    GLOBAL.hfrmControl.SetHPImagePos(FinalCopy.SubMat(new Rect(64, 18, 150, 8)));
-                    //    // MP
-                    //    GLOBAL.hfrmControl.SetMPImagePos(FinalCopy.SubMat(new Rect(64, 34, 150, 3)));
-                    //}
-                    
-                    // Search Area
-                    //GLOBAL.hfrmControl.SetSearchSkillAreaImage(FinalCopy.SubMat(new Rect(351, 488, 295, 74)), new Rect(351, 488, 295, 74));
-                    // Search Item Area
-                    //GLOBAL.hfrmControl.SetSearchItemAreaImage(FinalCopy.SubMat(new Rect(702, 489, 287, 74)),
-                    //    new Rect(702, 489, 287, 74), (int)eLMImageList.SearchItemArea);
-                }
+                    if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
+                    {
+                        isImageRun = false;
+                        continue;
+                    }
 
-                FinalCopy.Release();
-                isImageRun = false;
+                    Mat Attack = mControlVision.SubMat(new Rect(837, 399, 42, 47));
+                    Mat mHP = mControlVision.SubMat(new Rect(96, 11, 76, 13));
+                    Mat mMP = mControlVision.SubMat(new Rect(107, 29, 51, 11));
+
+                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref Attack)))
+                    {
+                        // HP
+                        //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+                        // HP Text
+                        GLOBAL.hfrmControl.GetHPTextImage(ref mHP);
+                        // MP
+                        //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+                        // MP Text
+                        GLOBAL.hfrmControl.GetMPTextImage(ref mMP);
+                    }
+
+                    //if(!(mControlVision.IsDisposed))
+                        mControlVision.Release();
+
+                    isImageRun = false;
+                }
             }
         }
     }
