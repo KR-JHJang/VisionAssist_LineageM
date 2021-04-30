@@ -133,7 +133,7 @@ namespace VisionAssist.Forms
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.picEvadeTest);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(3, 427);
+            this.groupBox7.Location = new System.Drawing.Point(3, 474);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(216, 92);
             this.groupBox7.TabIndex = 16;
@@ -176,7 +176,7 @@ namespace VisionAssist.Forms
             this.groupBox5.Controls.Add(this.chkUserAttackEvade);
             this.groupBox5.Controls.Add(this.picboxUserAttack);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 358);
+            this.groupBox5.Location = new System.Drawing.Point(3, 405);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(216, 69);
             this.groupBox5.TabIndex = 14;
@@ -235,7 +235,7 @@ namespace VisionAssist.Forms
             this.groupBox4.Controls.Add(this.picboxMP);
             this.groupBox4.Controls.Add(this.trBarMP);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(3, 237);
+            this.groupBox4.Location = new System.Drawing.Point(3, 284);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(216, 121);
             this.groupBox4.TabIndex = 2;
@@ -316,7 +316,7 @@ namespace VisionAssist.Forms
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(216, 234);
+            this.groupBox3.Size = new System.Drawing.Size(216, 281);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "HP";
@@ -324,7 +324,7 @@ namespace VisionAssist.Forms
             // chkHPTest
             // 
             this.chkHPTest.AutoSize = true;
-            this.chkHPTest.Location = new System.Drawing.Point(6, 190);
+            this.chkHPTest.Location = new System.Drawing.Point(6, 259);
             this.chkHPTest.Name = "chkHPTest";
             this.chkHPTest.Size = new System.Drawing.Size(49, 16);
             this.chkHPTest.TabIndex = 8;
@@ -333,7 +333,7 @@ namespace VisionAssist.Forms
             // 
             // tbxHPLower
             // 
-            this.tbxHPLower.Location = new System.Drawing.Point(148, 188);
+            this.tbxHPLower.Location = new System.Drawing.Point(148, 257);
             this.tbxHPLower.Name = "tbxHPLower";
             this.tbxHPLower.Size = new System.Drawing.Size(61, 21);
             this.tbxHPLower.TabIndex = 7;
@@ -341,7 +341,7 @@ namespace VisionAssist.Forms
             // 
             // tbxHPUpper
             // 
-            this.tbxHPUpper.Location = new System.Drawing.Point(85, 188);
+            this.tbxHPUpper.Location = new System.Drawing.Point(85, 257);
             this.tbxHPUpper.Name = "tbxHPUpper";
             this.tbxHPUpper.Size = new System.Drawing.Size(61, 21);
             this.tbxHPUpper.TabIndex = 7;
@@ -351,7 +351,7 @@ namespace VisionAssist.Forms
             // 
             this.lblMatchingRatioHP.AutoSize = true;
             this.lblMatchingRatioHP.ForeColor = System.Drawing.Color.Lime;
-            this.lblMatchingRatioHP.Location = new System.Drawing.Point(168, 52);
+            this.lblMatchingRatioHP.Location = new System.Drawing.Point(168, 121);
             this.lblMatchingRatioHP.Name = "lblMatchingRatioHP";
             this.lblMatchingRatioHP.Size = new System.Drawing.Size(41, 12);
             this.lblMatchingRatioHP.TabIndex = 4;
@@ -361,7 +361,7 @@ namespace VisionAssist.Forms
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Yellow;
-            this.label4.Location = new System.Drawing.Point(134, 52);
+            this.label4.Location = new System.Drawing.Point(134, 121);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 12);
             this.label4.TabIndex = 5;
@@ -373,7 +373,7 @@ namespace VisionAssist.Forms
             this.chkAvoidHP.Checked = true;
             this.chkAvoidHP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAvoidHP.ForeColor = System.Drawing.Color.Snow;
-            this.chkAvoidHP.Location = new System.Drawing.Point(8, 120);
+            this.chkAvoidHP.Location = new System.Drawing.Point(8, 189);
             this.chkAvoidHP.Name = "chkAvoidHP";
             this.chkAvoidHP.Size = new System.Drawing.Size(156, 16);
             this.chkAvoidHP.TabIndex = 6;
@@ -386,7 +386,7 @@ namespace VisionAssist.Forms
             this.chkRefillHP.Checked = true;
             this.chkRefillHP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRefillHP.ForeColor = System.Drawing.Color.Snow;
-            this.chkRefillHP.Location = new System.Drawing.Point(8, 51);
+            this.chkRefillHP.Location = new System.Drawing.Point(8, 120);
             this.chkRefillHP.Name = "chkRefillHP";
             this.chkRefillHP.Size = new System.Drawing.Size(88, 16);
             this.chkRefillHP.TabIndex = 6;
@@ -407,7 +407,7 @@ namespace VisionAssist.Forms
             // 
             this.trBarHPEvade.BackColor = System.Drawing.Color.DarkRed;
             this.trBarHPEvade.LargeChange = 1;
-            this.trBarHPEvade.Location = new System.Drawing.Point(3, 136);
+            this.trBarHPEvade.Location = new System.Drawing.Point(3, 205);
             this.trBarHPEvade.Minimum = 1;
             this.trBarHPEvade.Name = "trBarHPEvade";
             this.trBarHPEvade.Size = new System.Drawing.Size(210, 45);
@@ -419,7 +419,7 @@ namespace VisionAssist.Forms
             // 
             this.trBarHP.BackColor = System.Drawing.Color.DarkRed;
             this.trBarHP.LargeChange = 1;
-            this.trBarHP.Location = new System.Drawing.Point(3, 67);
+            this.trBarHP.Location = new System.Drawing.Point(3, 136);
             this.trBarHP.Minimum = 1;
             this.trBarHP.Name = "trBarHP";
             this.trBarHP.Size = new System.Drawing.Size(210, 45);

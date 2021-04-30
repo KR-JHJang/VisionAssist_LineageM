@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RestSharp;
+using VisionAssist.API;
 
 namespace VisionAssist.Forms
 {
@@ -202,6 +204,40 @@ namespace VisionAssist.Forms
 
                 Thread.Sleep(100);
             }
+        }
+
+        private void btnLoginKakaoTalk_Click(object sender, EventArgs e)
+        {
+            if (btnLoginKakaoTalk.Text == "Login KAKAO TALK")
+            {
+                frmKakaoTalk form = new frmKakaoTalk();
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    btnLoginKakaoTalk.Text = "로그아웃";
+                }
+            }
+            else
+            {
+                var client = new RestClient(KakaoHandle.HOST_API_URL);
+
+                var request = new RestRequest("/v1/user/unlink", Method.POST);
+                request.AddHeader("Authorization", "bearer " + KakaoHandle.ACCESS_TOKEN);
+
+                if (client.Execute(request).IsSuccessful)
+                {
+                    btnLoginKakaoTalk.Text = "Login KAKAO TALK";
+                }
+            }
+        }
+
+        private void btnSendMsg_Click(object sender, EventArgs e)
+        {
+            KakaoHandle.sendTemplateMessageToMyself();
+        }
+
+        private void btnSendMsg2_Click(object sender, EventArgs e)
+        {
+            KakaoHandle.sendMessageToMyself("Test");
         }
     }
 }
