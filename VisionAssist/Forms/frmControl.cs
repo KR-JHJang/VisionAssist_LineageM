@@ -80,8 +80,8 @@ namespace VisionAssist.Forms
             LoadResource();
             InitPicturebox();
 
-            RunThread();
             ReadData();
+            RunThread();
 
             HPsize = new OpenCvSharp.Size(picboxHP.Size.Width, picboxHP.Size.Height);
             MPsize = new OpenCvSharp.Size(picboxMP.Size.Width, picboxMP.Size.Height);

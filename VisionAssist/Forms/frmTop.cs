@@ -216,23 +216,31 @@ namespace VisionAssist.Forms
                             switch (idx)
                             {
                                 case 0:
-                                    INIControl.IniWrite("ControlParameter", "Box1SelectPosition", i.ToString(), GLOBAL.Path);
+                                    if(int.Parse(INIControl.IniRead("ControlParameter", "Box1SelectPosition", GLOBAL.Path)) != i)
+                                    {
+                                        INIControl.IniWrite("ControlParameter", "Box1SelectPosition", i.ToString(), GLOBAL.Path);
+                                    }
                                     break;
                                 case 1:
-                                    INIControl.IniWrite("ControlParameter", "Box2SelectPosition", i.ToString(), GLOBAL.Path);
+                                    if (int.Parse(INIControl.IniRead("ControlParameter", "Box2SelectPosition", GLOBAL.Path)) != i)
+                                    {
+                                        INIControl.IniWrite("ControlParameter", "Box2SelectPosition", i.ToString(), GLOBAL.Path);
+                                    }
                                     break;
                                 case 2:
-                                    INIControl.IniWrite("ControlParameter", "Box3SelectPosition", i.ToString(), GLOBAL.Path);
+                                    if (int.Parse(INIControl.IniRead("ControlParameter", "Box3SelectPosition", GLOBAL.Path)) != i)
+                                    {
+                                        INIControl.IniWrite("ControlParameter", "Box3SelectPosition", i.ToString(), GLOBAL.Path);
+                                    }
                                     break;
                                 case 3:
-                                    INIControl.IniWrite("ControlParameter", "Box4SelectPosition", i.ToString(), GLOBAL.Path);
+                                    if (int.Parse(INIControl.IniRead("ControlParameter", "Box4SelectPosition", GLOBAL.Path)) != i)
+                                    {
+                                        INIControl.IniWrite("ControlParameter", "Box4SelectPosition", i.ToString(), GLOBAL.Path);
+                                    }
                                     break;
                             }
-
-
-
-                            //System.Console.WriteLine(" GLOBAL._tskillboxes[{0}].SetSelectNum({1})", idx, i);
-                            //System.Console.WriteLine(" GLOBAL._tskillpos[idx] = : {1}", idx, GLOBAL._tskillpos[idx]);
+                            
                             break;
                         }
                     }
