@@ -22,6 +22,8 @@ namespace VisionAssist
         private frmControl gfrmControl;
         private frmTop gfrmTop;
 
+        private bool isWindowMoving;
+
         private bool bFindWindow = false;
         public frmMain()
         {
@@ -34,6 +36,8 @@ namespace VisionAssist
         {
             //Idle이벤트를 없앤다.
             Application.Idle -= Application_Idle;
+
+            isWindowMoving = false;
 
             SyncForm(this);
             LoadForm();
@@ -50,11 +54,15 @@ namespace VisionAssist
 
         private void pnlTop_MouseMove(object sender, MouseEventArgs e)
         {
+            isWindowMoving = true;
+
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
             {
                 Location = new Point(this.Left - (MousePoint.X - e.X),
                     this.Top - (MousePoint.Y - e.Y));
             }
+
+            isWindowMoving = false;
         }
 
         public void LoadForm()                          
@@ -109,7 +117,8 @@ namespace VisionAssist
                 //bFindWindow = gfrmVision.SearchWindow();
 
                 //gfrmControl.SetMessage("Find Player!");
-                gfrmVision.ImageCapture("LDPlayer");
+                if(isWindowMoving == false)
+                    gfrmVision.ImageCapture("LDPlayer");
 
                 //Monitor.Exit(GLOBAL.monitorLock);
 
@@ -125,7 +134,7 @@ namespace VisionAssist
                 //    continue;
                 //}
 
-                //System.Threading.Thread.Sleep(5);
+                System.Threading.Thread.Sleep(5);
             }
         }
 

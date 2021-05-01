@@ -223,6 +223,7 @@ namespace VisionAssist.Forms
             this.chkUserAttackEvade.TabIndex = 2;
             this.chkUserAttackEvade.Text = "공격받을 시 회피하기";
             this.chkUserAttackEvade.UseVisualStyleBackColor = true;
+            this.chkUserAttackEvade.CheckedChanged += new System.EventHandler(this.chkUserAttackEvade_CheckedChanged);
             // 
             // picboxUserAttack
             // 
@@ -305,7 +306,7 @@ namespace VisionAssist.Forms
             this.chkRefillMP.TabIndex = 3;
             this.chkRefillMP.Text = "마나 채우기";
             this.chkRefillMP.UseVisualStyleBackColor = true;
-            this.chkRefillMP.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.chkRefillMP.CheckedChanged += new System.EventHandler(this.chkRefillMP_CheckedChanged);
             // 
             // trBarMP
             // 
@@ -392,6 +393,7 @@ namespace VisionAssist.Forms
             this.chkAvoidHP.TabIndex = 6;
             this.chkAvoidHP.Text = "일정 체력 이하 회피하기";
             this.chkAvoidHP.UseVisualStyleBackColor = true;
+            this.chkAvoidHP.CheckedChanged += new System.EventHandler(this.chkAvoidHP_CheckedChanged);
             // 
             // chkRefillHP
             // 
@@ -405,6 +407,7 @@ namespace VisionAssist.Forms
             this.chkRefillHP.TabIndex = 6;
             this.chkRefillHP.Text = "체력 채우기";
             this.chkRefillHP.UseVisualStyleBackColor = true;
+            this.chkRefillHP.CheckedChanged += new System.EventHandler(this.chkRefillHP_CheckedChanged);
             // 
             // trBarHPEvade
             // 
@@ -478,7 +481,6 @@ namespace VisionAssist.Forms
             this.picboxHP.Size = new System.Drawing.Size(216, 100);
             this.picboxHP.TabIndex = 15;
             this.picboxHP.TabStop = false;
-            this.picboxHP.Visible = false;
             // 
             // picboxMP
             // 
@@ -489,7 +491,6 @@ namespace VisionAssist.Forms
             this.picboxMP.Size = new System.Drawing.Size(216, 74);
             this.picboxMP.TabIndex = 14;
             this.picboxMP.TabStop = false;
-            this.picboxMP.Visible = false;
             // 
             // picboxHPText
             // 
@@ -500,7 +501,6 @@ namespace VisionAssist.Forms
             this.picboxHPText.Size = new System.Drawing.Size(216, 43);
             this.picboxHPText.TabIndex = 13;
             this.picboxHPText.TabStop = false;
-            this.picboxHPText.Visible = false;
             // 
             // chkHPTest
             // 

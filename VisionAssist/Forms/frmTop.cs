@@ -35,7 +35,25 @@ namespace VisionAssist.Forms
             Application.Idle -= Application_Idle;
 
             SetBoxes();
+            ReadData();
             RunThread();
+        }
+
+        private void ReadData()
+        {
+            checkBox1.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseCheckBox1", GLOBAL.Path)));
+            checkBox2.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseCheckBox2", GLOBAL.Path)));
+            checkBox3.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseCheckBox3", GLOBAL.Path)));
+            checkBox4.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseCheckBox4", GLOBAL.Path)));
+
+            int rdo1 = int.Parse(INIControl.IniRead("ControlParameter", "Box1SelectPosition", GLOBAL.Path));
+            radioButtons1[rdo1].Checked = true;
+            int rdo2 = int.Parse(INIControl.IniRead("ControlParameter", "Box2SelectPosition", GLOBAL.Path));
+            radioButtons2[rdo2].Checked = true;
+            int rdo3 = int.Parse(INIControl.IniRead("ControlParameter", "Box3SelectPosition", GLOBAL.Path));
+            radioButtons3[rdo3].Checked = true;
+            int rdo4 = int.Parse(INIControl.IniRead("ControlParameter", "Box4SelectPosition", GLOBAL.Path));
+            radioButtons4[rdo4].Checked = true;
         }
 
         private void SetBoxes()
@@ -195,6 +213,24 @@ namespace VisionAssist.Forms
                         {
                             GLOBAL._tskillpos[idx] = i;
 
+                            switch (idx)
+                            {
+                                case 0:
+                                    INIControl.IniWrite("ControlParameter", "Box1SelectPosition", i.ToString(), GLOBAL.Path);
+                                    break;
+                                case 1:
+                                    INIControl.IniWrite("ControlParameter", "Box2SelectPosition", i.ToString(), GLOBAL.Path);
+                                    break;
+                                case 2:
+                                    INIControl.IniWrite("ControlParameter", "Box3SelectPosition", i.ToString(), GLOBAL.Path);
+                                    break;
+                                case 3:
+                                    INIControl.IniWrite("ControlParameter", "Box4SelectPosition", i.ToString(), GLOBAL.Path);
+                                    break;
+                            }
+
+
+
                             //System.Console.WriteLine(" GLOBAL._tskillboxes[{0}].SetSelectNum({1})", idx, i);
                             //System.Console.WriteLine(" GLOBAL._tskillpos[idx] = : {1}", idx, GLOBAL._tskillpos[idx]);
                             break;
@@ -238,6 +274,26 @@ namespace VisionAssist.Forms
         private void btnSendMsg2_Click(object sender, EventArgs e)
         {
             KakaoHandle.sendMessageToMyself("Test");
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseCheckBox1", Convert.ToInt32(checkBox1.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseCheckBox2", Convert.ToInt32(checkBox2.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseCheckBox3", Convert.ToInt32(checkBox3.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseCheckBox4", Convert.ToInt32(checkBox4.Checked).ToString(), GLOBAL.Path);
         }
     }
 }

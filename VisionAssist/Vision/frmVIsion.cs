@@ -67,7 +67,7 @@ namespace VisionAssist.Vision
 
         private Mat mControlVision;
 
-        private object lockObject = new object();
+        private static object _imageLock = new object();
 
         public frmVIsion()
         {
@@ -235,84 +235,94 @@ namespace VisionAssist.Vision
 
             if(!GLOBAL.GetPatternMode)
             {
-                IntPtr main = GLOBAL.FindWindow(null, target);
-                IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
+                lock (_imageLock)
+                {
+                    IntPtr main = GLOBAL.FindWindow(null, target);
+                    IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
 
-                if (main == IntPtr.Zero)
-                    return;
+                    if (main == IntPtr.Zero)
+                        return;
 
-                if (main == IntPtr.Zero)
-                    return;
+                    if (main == IntPtr.Zero)
+                        return;
 
-                GLOBAL.TargetHandle = sub;
 
-                //녹스앱플레이어를 쓴다면 //IntPtr c = FindWindowEx(b, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow"); 
-                Graphics gdata = Graphics.FromHwnd(sub);
+                    GLOBAL.TargetHandle = sub;
 
-                Rectangle rect = Rectangle.Round(gdata.VisibleClipBounds);
-                rect = DPIConverter(rect, sub);
+                    //녹스앱플레이어를 쓴다면 //IntPtr c = FindWindowEx(b, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow"); 
+                    Graphics gdata = Graphics.FromHwnd(sub);
+
+                    Rectangle rect = Rectangle.Round(gdata.VisibleClipBounds);
+                    rect = DPIConverter(rect, sub);
+
+                    stBitmap.SetBitmap(new Bitmap(rect.Width, rect.Height,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb));
+
+                    Graphics g = Graphics.FromImage(stBitmap.gBitmap);
+
+                    IntPtr hdc = g.GetHdc();
+                    bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
+                    g.ReleaseHdc(hdc);
+                    ret = GLOBAL.DeleteDC(hdc);
+
+                    //OpenCvSharp.Size size = new OpenCvSharp.Size(
+                    //            picVision.Size.Width,
+                    //            picVision.Size.Height);
+
+                    mat = BitmapConverter.ToMat(stBitmap.gBitmap);
+                    FinalImage = new Mat();
+
+                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Cubic);
+                    Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
+
+                    if (bDrawText)
+                    {
+                        /// Text Location
+                        OpenCvSharp.Point myPoint;
+                        myPoint.X = FinalImage.Width - 400;
+                        myPoint.Y = FinalImage.Height - 10;
+
+                        /// Font Face
+                        int myFontFace = 2;
+
+                        Vector2 Pos = GetMousePosition();
+                        string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
+
+                        ///// Font Scale
+                        gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
+                    }
+
+                    //if (picVision.Image != null)
+                    //{
+                    //    picVision.Image?.Dispose();
+                    //}
+
+                    this.Invoke(new Action(() =>
+                    {
+                        picVision.Image = FinalImage.ToBitmap();
+                        picVision.Update();
+                    }));
+                    
+
+
+                    //if(mControlVision.IsDisposed)
+                    if (isImageRun == false)
+                        mControlVision = FinalImage.Clone();
+
+                    mat.Release();
+
+                    stBitmap.Dispose();
+                    g.Dispose();
+                    gdata.Dispose();
+
+                    FinalImage.Release();
+                }
+
                 
-                stBitmap.SetBitmap(new Bitmap(rect.Width, rect.Height,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb));
-
-                Graphics g = Graphics.FromImage(stBitmap.gBitmap);
-
-                IntPtr hdc = g.GetHdc();
-                bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
-                g.ReleaseHdc(hdc);
-                ret = GLOBAL.DeleteDC(hdc);
-
-                //OpenCvSharp.Size size = new OpenCvSharp.Size(
-                //            picVision.Size.Width,
-                //            picVision.Size.Height);
-
-                mat = BitmapConverter.ToMat(stBitmap.gBitmap);
-                FinalImage = new Mat();
-
-                Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Cubic);
-                Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
-
-                if (bDrawText)
-                {
-                    /// Text Location
-                    OpenCvSharp.Point myPoint;
-                    myPoint.X = FinalImage.Width - 400;
-                    myPoint.Y = FinalImage.Height - 10;
-
-                    /// Font Face
-                    int myFontFace = 2;
-
-                    Vector2 Pos = GetMousePosition();
-                    string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
-
-                    ///// Font Scale
-                    gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
-                }
-
-                if (picVision.Image != null)
-                {
-                    picVision.Image?.Dispose();
-                }
-
-                this.Invoke(new Action(() =>
-                {
-                    picVision.Image = FinalImage.ToBitmap();
-                }));
-
-
-                //if(mControlVision.IsDisposed)
-                if (isImageRun == false)
-                    mControlVision = FinalImage.Clone();
 
                 //while (isImageRun) ;
 
-                mat.Release();
-                
-                stBitmap.Dispose();
-                g.Dispose();
-                gdata.Dispose();
 
-                FinalImage.Release();
             }
         }
 
@@ -474,7 +484,7 @@ namespace VisionAssist.Vision
 
                     Mat Attack = mControlVision.SubMat(new Rect(837, 399, 42, 47));
                     Mat mHP = mControlVision.SubMat(new Rect(96, 11, 76, 13));
-                    Mat mMP = mControlVision.SubMat(new Rect(107, 29, 51, 11));
+                    Mat mMP = mControlVision.SubMat(new Rect(107, 29, 54, 11));
 
                     if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref Attack)))
                     {
@@ -489,7 +499,7 @@ namespace VisionAssist.Vision
                     }
 
                     //if(!(mControlVision.IsDisposed))
-                        mControlVision.Release();
+                    mControlVision.Release();
 
                     isImageRun = false;
                 }

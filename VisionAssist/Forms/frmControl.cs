@@ -81,10 +81,23 @@ namespace VisionAssist.Forms
             InitPicturebox();
 
             RunThread();
+            ReadData();
 
             HPsize = new OpenCvSharp.Size(picboxHP.Size.Width, picboxHP.Size.Height);
             MPsize = new OpenCvSharp.Size(picboxMP.Size.Width, picboxMP.Size.Height);
             Attacksize = new OpenCvSharp.Size(picboxUserAttack.Size.Width, picboxUserAttack.Size.Height);
+        }
+
+        private void ReadData()
+        {
+            chkRefillHP.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseReFillHP", GLOBAL.Path)));
+            chkAvoidHP.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseEvadeHP", GLOBAL.Path)));
+            chkRefillMP.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseReFillMP", GLOBAL.Path)));
+            chkUserAttackEvade.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseEvadeAttack", GLOBAL.Path)));
+
+            trBarHP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerReFillHP", GLOBAL.Path)); ;
+            trBarHPEvade.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerEvadeHP", GLOBAL.Path)); ;
+            trBarMP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerRefillMP", GLOBAL.Path)); ;
         }
 
         private void RunThread()
@@ -175,15 +188,15 @@ namespace VisionAssist.Forms
                 return;
 
             Cv2.Resize(src, src, new Size(
-                src.Width * 3, 
-                src.Height * 3));
+                src.Width * 4, 
+                src.Height * 4));
             gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Tozero);
+            Cv2.Threshold(src, src, 190, 255, ThresholdTypes.Binary);
 
-            //if (picboxMP.Image != null)
-            //    picboxMP.Image.Dispose();
+            if (picboxMP.Image != null)
+                picboxMP.Image.Dispose();
 
-            //picboxMP.Image = src.ToBitmap();
+            picboxMP.Image = src.ToBitmap();
 
             Pix pix = PixConverter.ToPix(src.ToBitmap());
             TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
@@ -196,10 +209,28 @@ namespace VisionAssist.Forms
             string MP = result.GetText().Trim();
             MP = MP.Replace(" ", "").Trim();
 
-            if (MP.IndexOf('/') == -1)
+            //if (MP.IndexOf('/') == -1)
+            if (WordNum(MP, "/") != 1)
                 return;
 
+            if (WordNum(MP, "\n") != 0)
+                return;
+
+
             string[] mpStrings = MP.Split('/');
+
+            if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
+                return;
+
+            bool isnum = false;
+            int chk = 0;
+            foreach (var VARIABLE in mpStrings)
+            {
+                isnum = int.TryParse(VARIABLE, out chk);
+            }
+
+            if (isnum == false)
+                return;
 
             this.Invoke(new Action(() =>
             {
@@ -210,7 +241,8 @@ namespace VisionAssist.Forms
             TengineMP.Dispose();
             TengineMP = null;
 
-            SimpleMPWork(mpStrings);
+            if(mpStrings.Length == 2)
+                SimpleMPWork(mpStrings);
 
 
 
@@ -223,12 +255,12 @@ namespace VisionAssist.Forms
 
             Cv2.Resize(src, src, new Size(src.Width*2, src.Height*2));
             gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Tozero);
+            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Binary);
 
-            //if (picboxHPText.Image != null)
-            //    picboxHPText.Image.Dispose();
+            if (picboxHPText.Image != null)
+                picboxHPText.Image.Dispose();
 
-            //picboxHPText.Image = src.ToBitmap();
+            picboxHPText.Image = src.ToBitmap();
 
             Pix pix = PixConverter.ToPix(src.ToBitmap());
             TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
@@ -241,10 +273,31 @@ namespace VisionAssist.Forms
             string HP = result.GetText().Trim();
             HP = HP.Replace(" ", "").Trim();
 
-            if (HP.IndexOf('/') == -1)
+            //if (HP.IndexOf('/') == -1)
+            if(WordNum(HP, "/") != 1)
+                return;
+
+            if (WordNum(HP, "\n") != 0)
                 return;
 
             string[] hpStrings = HP.Split('/');
+
+
+            if (hpStrings[0] == "" || hpStrings[1] == "" || hpStrings[1] == "0")
+                return;
+
+            if (hpStrings.Length != 2)
+                return;
+
+            bool isnum = false;
+            int chk = 0;
+            foreach (var VARIABLE in hpStrings)
+            {
+                isnum = int.TryParse(VARIABLE, out chk);
+            }
+
+            if (isnum == false)
+                return;
 
             this.Invoke(new Action(() =>
             {
@@ -257,8 +310,15 @@ namespace VisionAssist.Forms
             TengineHP = null;
 
             SimpleHPWork(hpStrings);
+        }
 
+        public int WordNum(String String, String Word)
+        {
+            int Num;
+            Num = String.Length - String.Replace(Word, "").Length;
+            Num = Num / Word.Length;
 
+            return Num;
 
         }
 
@@ -717,11 +777,6 @@ namespace VisionAssist.Forms
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -1186,16 +1241,40 @@ namespace VisionAssist.Forms
         private void trBarHPEvade_Scroll(object sender, EventArgs e)
         {
             ttHP.SetToolTip(trBarHPEvade, (trBarHPEvade.Value * 10) + "%".ToString());
+            INIControl.IniWrite("ControlParameter", "PerEvadeHP", trBarHPEvade.Value.ToString(), GLOBAL.Path);
         }
 
         private void trBarHP_Scroll(object sender, EventArgs e)
         {
             ttHP.SetToolTip(trBarHP, (trBarHP.Value * 10) + "%".ToString());
+            INIControl.IniWrite("ControlParameter", "PerReFillHP", trBarHP.Value.ToString(), GLOBAL.Path);
+
         }
 
         private void trBarMP_Scroll(object sender, EventArgs e)
         {
             ttMP.SetToolTip(trBarMP, (trBarMP.Value * 10) + "%".ToString());
+            INIControl.IniWrite("ControlParameter", "PerRefillMP", trBarMP.Value.ToString(), GLOBAL.Path);
+        }
+
+        private void chkUserAttackEvade_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseEvadeAttack", Convert.ToInt32(chkUserAttackEvade.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void chkAvoidHP_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseEvadeHP", Convert.ToInt32(chkAvoidHP.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void chkRefillMP_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseReFillMP", Convert.ToInt32(chkRefillMP.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void chkRefillHP_CheckedChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("ControlParameter", "UseReFillHP", Convert.ToInt32(chkRefillHP.Checked).ToString(), GLOBAL.Path);
         }
     }
 }

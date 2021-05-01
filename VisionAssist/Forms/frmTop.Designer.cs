@@ -204,12 +204,10 @@ namespace VisionAssist.Forms
             // g2r1
             // 
             this.g2r1.AutoSize = true;
-            this.g2r1.Checked = true;
             this.g2r1.Location = new System.Drawing.Point(6, 15);
             this.g2r1.Name = "g2r1";
             this.g2r1.Size = new System.Drawing.Size(29, 16);
             this.g2r1.TabIndex = 0;
-            this.g2r1.TabStop = true;
             this.g2r1.Text = "1";
             this.g2r1.UseVisualStyleBackColor = true;
             // 
@@ -326,12 +324,10 @@ namespace VisionAssist.Forms
             // g1r1
             // 
             this.g1r1.AutoSize = true;
-            this.g1r1.Checked = true;
             this.g1r1.Location = new System.Drawing.Point(6, 15);
             this.g1r1.Name = "g1r1";
             this.g1r1.Size = new System.Drawing.Size(29, 16);
             this.g1r1.TabIndex = 0;
-            this.g1r1.TabStop = true;
             this.g1r1.Text = "1";
             this.g1r1.UseVisualStyleBackColor = true;
             // 
@@ -448,12 +444,10 @@ namespace VisionAssist.Forms
             // g3r1
             // 
             this.g3r1.AutoSize = true;
-            this.g3r1.Checked = true;
             this.g3r1.Location = new System.Drawing.Point(6, 15);
             this.g3r1.Name = "g3r1";
             this.g3r1.Size = new System.Drawing.Size(29, 16);
             this.g3r1.TabIndex = 0;
-            this.g3r1.TabStop = true;
             this.g3r1.Text = "1";
             this.g3r1.UseVisualStyleBackColor = true;
             // 
@@ -570,12 +564,10 @@ namespace VisionAssist.Forms
             // g4r1
             // 
             this.g4r1.AutoSize = true;
-            this.g4r1.Checked = true;
             this.g4r1.Location = new System.Drawing.Point(6, 15);
             this.g4r1.Name = "g4r1";
             this.g4r1.Size = new System.Drawing.Size(29, 16);
             this.g4r1.TabIndex = 0;
-            this.g4r1.TabStop = true;
             this.g4r1.Text = "1";
             this.g4r1.UseVisualStyleBackColor = true;
             // 
@@ -623,6 +615,7 @@ namespace VisionAssist.Forms
             this.checkBox1.Tag = "1";
             this.checkBox1.Text = "사용";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -634,6 +627,7 @@ namespace VisionAssist.Forms
             this.checkBox2.Tag = "2";
             this.checkBox2.Text = "사용";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBox3
             // 
@@ -645,6 +639,7 @@ namespace VisionAssist.Forms
             this.checkBox3.Tag = "3";
             this.checkBox3.Text = "사용";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox4
             // 
@@ -656,6 +651,7 @@ namespace VisionAssist.Forms
             this.checkBox4.Tag = "4";
             this.checkBox4.Text = "사용";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // bgwUseGroups
             // 
