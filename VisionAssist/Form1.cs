@@ -118,7 +118,12 @@ namespace VisionAssist
 
                 //gfrmControl.SetMessage("Find Player!");
                 if(isWindowMoving == false)
-                    gfrmVision.ImageCapture("LDPlayer");
+                {
+                    //gfrmVision.ImageCapture("LDPlayer");
+                    gfrmVision.ImageCapture("BlueStacks");
+
+                }
+
 
                 //Monitor.Exit(GLOBAL.monitorLock);
 

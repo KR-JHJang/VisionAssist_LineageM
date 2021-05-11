@@ -99,10 +99,10 @@ namespace VisionAssist.Vision
 
             Process currentProcess = Process.GetCurrentProcess();
 
-            foreach (ProcessThread processThread in currentProcess.Threads)
-            {
-                processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
-            }
+           // foreach (ProcessThread processThread in currentProcess.Threads)
+           // {
+           //     processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
+           // }
         }
 
         public void SetMousePosition(int X, int Y)
@@ -238,7 +238,12 @@ namespace VisionAssist.Vision
                 lock (_imageLock)
                 {
                     IntPtr main = GLOBAL.FindWindow(null, target);
-                    IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
+
+                    // LD Player
+                    //IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
+
+                    // 블루스택
+                    IntPtr sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
 
                     if (main == IntPtr.Zero)
                         return;

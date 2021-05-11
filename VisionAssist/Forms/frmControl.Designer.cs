@@ -58,8 +58,6 @@ namespace VisionAssist.Forms
             this.chkRefillHP = new System.Windows.Forms.CheckBox();
             this.trBarHPEvade = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.picboxHP = new System.Windows.Forms.PictureBox();
             this.picboxMP = new System.Windows.Forms.PictureBox();
@@ -108,8 +106,6 @@ namespace VisionAssist.Forms
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tabPage1);
-            this.tabMain.Controls.Add(this.tabPage2);
-            this.tabMain.Controls.Add(this.tabPage3);
             this.tabMain.Controls.Add(this.tabPage4);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tabMain.Location = new System.Drawing.Point(0, 22);
@@ -433,26 +429,6 @@ namespace VisionAssist.Forms
             this.trBarHP.Value = 5;
             this.trBarHP.Scroll += new System.EventHandler(this.trBarHP_Scroll);
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(222, 606);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Setting";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(222, 606);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.picboxHP);
@@ -696,9 +672,7 @@ namespace VisionAssist.Forms
 
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox tbxSearchMessage;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox picGetImage;
