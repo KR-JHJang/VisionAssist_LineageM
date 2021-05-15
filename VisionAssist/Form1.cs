@@ -279,6 +279,7 @@ namespace VisionAssist
 
         private void cbxAppPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex;
             INIControl.IniWrite("Player", "SelectApp", cbxAppPlayer.SelectedIndex.ToString(), GLOBAL.Path);
         }
     }
