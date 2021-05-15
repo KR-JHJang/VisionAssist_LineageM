@@ -238,17 +238,24 @@ namespace VisionAssist.Vision
                 lock (_imageLock)
                 {
                     IntPtr main = GLOBAL.FindWindow(null, target);
+                    IntPtr sub = IntPtr.Zero;
 
-                    // LD Player
-                    //IntPtr sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-
-                    // 블루스택
-                    IntPtr sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
+                    switch (GLOBAL.SelectAppPlayer)
+                    {
+                        case 0:
+                            // LD Player
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
+                            break;
+                        case 1:
+                            // 블루스택
+                            sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
+                            break;
+                    }
 
                     if (main == IntPtr.Zero)
                         return;
 
-                    if (main == IntPtr.Zero)
+                    if (sub == IntPtr.Zero)
                         return;
 
 
@@ -509,6 +516,11 @@ namespace VisionAssist.Vision
                     isImageRun = false;
                 }
             }
+        }
+
+        private void picVision_MouseEnter(object sender, EventArgs e)
+        {
+
         }
     }
 }

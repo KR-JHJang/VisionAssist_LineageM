@@ -142,6 +142,8 @@ namespace VisionAssist
         public static int VisionWidth;
         public static int VisionHeight;
 
+        public static int SelectAppPlayer = int.MinValue;
+
         public static IntPtr TargetHandle;
 
         public static bool GetPatternMode = false;

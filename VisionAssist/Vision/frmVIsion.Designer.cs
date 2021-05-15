@@ -53,6 +53,7 @@ namespace VisionAssist.Vision
             this.picVision.TabStop = false;
             this.picVision.Paint += new System.Windows.Forms.PaintEventHandler(this.picVision_Paint);
             this.picVision.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseDown);
+            this.picVision.MouseEnter += new System.EventHandler(this.picVision_MouseEnter);
             this.picVision.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseMove);
             this.picVision.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseUp);
             // 

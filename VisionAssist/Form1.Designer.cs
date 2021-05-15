@@ -64,6 +64,8 @@ namespace VisionAssist
             this.bgwMousePosition = new System.ComponentModel.BackgroundWorker();
             this.bgwSizeChecker = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbxAppPlayer = new Sunny.UI.UIComboBox();
             this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,8 +105,10 @@ namespace VisionAssist
             // pnlBottom
             // 
             this.pnlBottom.BackColor = System.Drawing.Color.DimGray;
+            this.pnlBottom.Controls.Add(this.cbxAppPlayer);
             this.pnlBottom.Controls.Add(this.chkDrawText);
             this.pnlBottom.Controls.Add(this.label2);
+            this.pnlBottom.Controls.Add(this.label10);
             this.pnlBottom.Controls.Add(this.label6);
             this.pnlBottom.Controls.Add(this.label4);
             this.pnlBottom.Controls.Add(this.label9);
@@ -138,12 +142,13 @@ namespace VisionAssist
             // 
             this.chkDrawText.AutoSize = true;
             this.chkDrawText.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkDrawText.Location = new System.Drawing.Point(876, 7);
+            this.chkDrawText.Location = new System.Drawing.Point(676, 34);
             this.chkDrawText.Name = "chkDrawText";
             this.chkDrawText.Size = new System.Drawing.Size(92, 21);
             this.chkDrawText.TabIndex = 2;
             this.chkDrawText.Text = "Draw Text";
             this.chkDrawText.UseVisualStyleBackColor = true;
+            this.chkDrawText.Visible = false;
             this.chkDrawText.CheckedChanged += new System.EventHandler(this.chkDrawText_CheckedChanged);
             // 
             // label2
@@ -397,6 +402,36 @@ namespace VisionAssist
             this.panel1.Size = new System.Drawing.Size(30, 590);
             this.panel1.TabIndex = 0;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(892, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(120, 20);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Select APP Player";
+            // 
+            // cbxAppPlayer
+            // 
+            this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
+            this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.cbxAppPlayer.Items.AddRange(new object[] {
+            "LDPlayer",
+            "BlueStacks"});
+            this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
+            this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
+            this.cbxAppPlayer.Name = "cbxAppPlayer";
+            this.cbxAppPlayer.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.cbxAppPlayer.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.cbxAppPlayer.Size = new System.Drawing.Size(127, 29);
+            this.cbxAppPlayer.Style = Sunny.UI.UIStyle.Red;
+            this.cbxAppPlayer.TabIndex = 3;
+            this.cbxAppPlayer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cbxAppPlayer.SelectedIndexChanged += new System.EventHandler(this.cbxAppPlayer_SelectedIndexChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -453,6 +488,8 @@ namespace VisionAssist
         private System.Windows.Forms.TextBox tbxMouseStartPosX;
         private System.Windows.Forms.TextBox tbxMouseEndPosX;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label10;
+        private Sunny.UI.UIComboBox cbxAppPlayer;
     }
 }
 

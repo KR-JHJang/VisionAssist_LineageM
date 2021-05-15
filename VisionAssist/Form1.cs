@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisionAssist.API;
 using VisionAssist.Forms;
 using VisionAssist.Vision;
 
@@ -28,7 +29,7 @@ namespace VisionAssist
         public frmMain()
         {
             InitializeComponent();
-
+                        
             Application.Idle += Application_Idle;
         }
 
@@ -45,6 +46,13 @@ namespace VisionAssist
             bgwSearchWindow.RunWorkerAsync();
             bgwMousePosition.RunWorkerAsync();
             bgwSizeChecker.RunWorkerAsync();
+
+            ReadData();
+        }
+
+        private void ReadData()
+        {
+            GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex = int.Parse(INIControl.IniRead("Player", "SelectApp", GLOBAL.Path));            
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
@@ -112,6 +120,8 @@ namespace VisionAssist
         {
             while(true)
             {
+                if(GLOBAL.SelectAppPlayer == int.MinValue)
+                    continue;
                 //Monitor.Enter(GLOBAL.monitorLock);
 
                 //bFindWindow = gfrmVision.SearchWindow();
@@ -119,9 +129,15 @@ namespace VisionAssist
                 //gfrmControl.SetMessage("Find Player!");
                 if(isWindowMoving == false)
                 {
-                    //gfrmVision.ImageCapture("LDPlayer");
-                    gfrmVision.ImageCapture("BlueStacks");
-
+                    switch(GLOBAL.SelectAppPlayer)
+                    {
+                        case 0:
+                            gfrmVision.ImageCapture("LDPlayer");
+                            break;
+                        case 1:
+                            gfrmVision.ImageCapture("BlueStacks");
+                            break;
+                    }
                 }
 
 
@@ -259,6 +275,11 @@ namespace VisionAssist
         private void pnlBottom_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void cbxAppPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            INIControl.IniWrite("Player", "SelectApp", cbxAppPlayer.SelectedIndex.ToString(), GLOBAL.Path);
         }
     }
 }
