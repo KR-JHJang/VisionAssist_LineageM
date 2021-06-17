@@ -137,6 +137,9 @@ namespace VisionAssist
                         case 1:
                             gfrmVision.ImageCapture("BlueStacks");
                             break;
+                        case 2:
+                            gfrmVision.ImageCapture(cbxAppPlayer.Text);
+                            break;
                     }
                 }
 
@@ -155,7 +158,7 @@ namespace VisionAssist
                 //    continue;
                 //}
 
-                System.Threading.Thread.Sleep(5);
+                System.Threading.Thread.Sleep(33);
             }
         }
 

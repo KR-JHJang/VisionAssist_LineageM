@@ -35,8 +35,10 @@ namespace VisionAssist
             this.pnlTop = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pnlBottom = new System.Windows.Forms.Panel();
+            this.cbxAppPlayer = new Sunny.UI.UIComboBox();
             this.chkDrawText = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -64,8 +66,6 @@ namespace VisionAssist
             this.bgwMousePosition = new System.ComponentModel.BackgroundWorker();
             this.bgwSizeChecker = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cbxAppPlayer = new Sunny.UI.UIComboBox();
             this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,6 +138,26 @@ namespace VisionAssist
             this.pnlBottom.TabIndex = 6;
             this.pnlBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlBottom_Paint);
             // 
+            // cbxAppPlayer
+            // 
+            this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
+            this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.cbxAppPlayer.Items.AddRange(new object[] {
+            "LDPlayer",
+            "BlueStacks",
+            "LineageM"});
+            this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
+            this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
+            this.cbxAppPlayer.Name = "cbxAppPlayer";
+            this.cbxAppPlayer.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.cbxAppPlayer.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.cbxAppPlayer.Size = new System.Drawing.Size(127, 29);
+            this.cbxAppPlayer.Style = Sunny.UI.UIStyle.Red;
+            this.cbxAppPlayer.TabIndex = 3;
+            this.cbxAppPlayer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cbxAppPlayer.SelectedIndexChanged += new System.EventHandler(this.cbxAppPlayer_SelectedIndexChanged);
+            // 
             // chkDrawText
             // 
             this.chkDrawText.AutoSize = true;
@@ -160,6 +180,17 @@ namespace VisionAssist
             this.label2.Size = new System.Drawing.Size(50, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Mouse Y";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(892, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(120, 20);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Select APP Player";
             // 
             // label6
             // 
@@ -401,36 +432,6 @@ namespace VisionAssist
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(30, 590);
             this.panel1.TabIndex = 0;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(892, 8);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(120, 20);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Select APP Player";
-            // 
-            // cbxAppPlayer
-            // 
-            this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
-            this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
-            this.cbxAppPlayer.Items.AddRange(new object[] {
-            "LDPlayer",
-            "BlueStacks"});
-            this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
-            this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
-            this.cbxAppPlayer.Name = "cbxAppPlayer";
-            this.cbxAppPlayer.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
-            this.cbxAppPlayer.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.cbxAppPlayer.Size = new System.Drawing.Size(127, 29);
-            this.cbxAppPlayer.Style = Sunny.UI.UIStyle.Red;
-            this.cbxAppPlayer.TabIndex = 3;
-            this.cbxAppPlayer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cbxAppPlayer.SelectedIndexChanged += new System.EventHandler(this.cbxAppPlayer_SelectedIndexChanged);
             // 
             // frmMain
             // 

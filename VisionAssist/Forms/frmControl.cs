@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Security.Policy;
 using VisionAssist.API;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 using Tesseract;
 using Rect = OpenCvSharp.Rect;
 using Size = OpenCvSharp.Size;
@@ -188,10 +189,10 @@ namespace VisionAssist.Forms
                 return;
 
             Cv2.Resize(src, src, new Size(
-                src.Width * 4, 
-                src.Height * 4));
+                src.Width * 2,
+                src.Height * 2), 0,0, InterpolationFlags.Lanczos4);
             gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 190, 255, ThresholdTypes.Binary);
+            Cv2.Threshold(src, src, 200, 255, ThresholdTypes.Tozero);
 
             if (picboxMP.Image != null)
                 picboxMP.Image.Dispose();
@@ -253,9 +254,11 @@ namespace VisionAssist.Forms
             if (gImageProcess == null)
                 return;
 
-            Cv2.Resize(src, src, new Size(src.Width*2, src.Height*2));
+            Cv2.Resize(src, src, new Size(src.Width*2, src.Height*2)
+                , 0, 0, InterpolationFlags.Lanczos4);
+
             gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 185, 255, ThresholdTypes.Binary);
+            Cv2.Threshold(src, src, 180, 255, ThresholdTypes.Binary);
 
             if (picboxHPText.Image != null)
                 picboxHPText.Image.Dispose();
@@ -331,6 +334,9 @@ namespace VisionAssist.Forms
                 decimal mp = decimal.Parse(data[0]);
                 decimal max = decimal.Parse(data[1]);
 
+                if (max == 0)
+                    return;
+
                 decimal ratio = (mp / max) * 100;
 
                 decimal barmp = Decimal.Zero;
@@ -375,6 +381,9 @@ namespace VisionAssist.Forms
             {
                 decimal hp = decimal.Parse(data[0]);
                 decimal max = decimal.Parse(data[1]);
+
+                if (max == 0)
+                    return;
 
                 decimal ratio = (hp / max) * 100;
 

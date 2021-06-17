@@ -250,6 +250,10 @@ namespace VisionAssist.Vision
                             // 블루스택
                             sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
                             break;
+                        case 2:
+                            // 블루스택
+                            sub = GLOBAL.FindWindowEx(main, 0, "plrNativeInputWindowClass", "plrNativeInputWindow");
+                            break;
                     }
 
                     if (main == IntPtr.Zero)
@@ -304,19 +308,15 @@ namespace VisionAssist.Vision
                         gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                     }
 
-                    //if (picVision.Image != null)
-                    //{
-                    //    picVision.Image?.Dispose();
-                    //}
+                    var oldimage = picVision.Image;
 
                     this.Invoke(new Action(() =>
                     {
                         picVision.Image = FinalImage.ToBitmap();
-                        picVision.Update();
                     }));
+
+                    ((IDisposable)oldimage).Dispose();
                     
-
-
                     //if(mControlVision.IsDisposed)
                     if (isImageRun == false)
                         mControlVision = FinalImage.Clone();
@@ -514,6 +514,8 @@ namespace VisionAssist.Vision
                     mControlVision.Release();
 
                     isImageRun = false;
+
+                    System.Threading.Thread.Sleep(33);
                 }
             }
         }
