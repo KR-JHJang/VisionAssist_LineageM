@@ -724,7 +724,7 @@ namespace VisionAssist.Forms
 
                 if (chkUserAttackEvade.Checked)
                 {
-                    if (result >= 0.63)
+                    if (result >= 0.6)
                     {
                         bEvadeAttack = true;
                     }

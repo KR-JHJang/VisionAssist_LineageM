@@ -314,9 +314,10 @@ namespace VisionAssist.Vision
                     {
                         picVision.Image = FinalImage.ToBitmap();
                     }));
-
-                    ((IDisposable)oldimage).Dispose();
                     
+                    ((IDisposable)oldimage).Dispose();
+
+
                     //if(mControlVision.IsDisposed)
                     if (isImageRun == false)
                         mControlVision = FinalImage.Clone();
