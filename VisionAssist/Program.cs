@@ -146,6 +146,7 @@ namespace VisionAssist
 
         public static IntPtr TargetHandle;
 
+        public static bool SetMousePositionMode = false;
         public static bool GetPatternMode = false;
 
         private static bool _bisRun = false;

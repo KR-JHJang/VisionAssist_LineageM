@@ -37,6 +37,7 @@ namespace VisionAssist.Vision
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bgwShowVIsion = new System.ComponentModel.BackgroundWorker();
             this.bgwImageWork = new System.ComponentModel.BackgroundWorker();
+            this.tsSetMousePosition = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picVision)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -61,9 +62,10 @@ namespace VisionAssist.Vision
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stripTitle,
+            this.tsSetMousePosition,
             this.getImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(210, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(210, 104);
             // 
             // stripTitle
             // 
@@ -97,6 +99,13 @@ namespace VisionAssist.Vision
             this.bgwImageWork.WorkerSupportsCancellation = true;
             this.bgwImageWork.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwImageWork_DoWork);
             // 
+            // tsSetMousePosition
+            // 
+            this.tsSetMousePosition.Name = "tsSetMousePosition";
+            this.tsSetMousePosition.Size = new System.Drawing.Size(209, 26);
+            this.tsSetMousePosition.Text = "Set Mouse Position";
+            this.tsSetMousePosition.Click += new System.EventHandler(this.tsSetMousePosition_Click);
+            // 
             // frmVIsion
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -117,5 +126,6 @@ namespace VisionAssist.Vision
         private System.Windows.Forms.ToolStripMenuItem getImageToolStripMenuItem;
         public System.Windows.Forms.PictureBox picVision;
         private System.ComponentModel.BackgroundWorker bgwImageWork;
+        private System.Windows.Forms.ToolStripMenuItem tsSetMousePosition;
     }
 }

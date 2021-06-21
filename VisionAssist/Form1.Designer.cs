@@ -466,8 +466,6 @@ namespace VisionAssist
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbxRealMouseY;
-        private System.Windows.Forms.TextBox tbxRealMouseX;
         private System.Windows.Forms.TextBox tbxMouseY;
         private System.Windows.Forms.TextBox tbxMouseX;
         private System.Windows.Forms.CheckBox chkDrawText;
@@ -491,6 +489,8 @@ namespace VisionAssist
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label10;
         private Sunny.UI.UIComboBox cbxAppPlayer;
+        public System.Windows.Forms.TextBox tbxRealMouseY;
+        public System.Windows.Forms.TextBox tbxRealMouseX;
     }
 }
 

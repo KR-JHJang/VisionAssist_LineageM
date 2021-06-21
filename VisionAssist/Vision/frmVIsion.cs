@@ -17,6 +17,7 @@ using HPKR.API;
 using VisionAssist.API;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
+using VisionAssist.Forms;
 
 namespace VisionAssist.Vision
 {
@@ -60,6 +61,8 @@ namespace VisionAssist.Vision
         private Mat FinalCopy;
 
         private bool isImageRun;
+
+        private frmUserPosition gfrm;
 
         private HPKR_ImageProcess gImageProcess = null;
 
@@ -330,12 +333,6 @@ namespace VisionAssist.Vision
 
                     FinalImage.Release();
                 }
-
-                
-
-                //while (isImageRun) ;
-
-
             }
         }
 
@@ -352,6 +349,11 @@ namespace VisionAssist.Vision
         {
             if (GLOBAL.OriginWidth == 0 || GLOBAL.VisionWidth == 0)
                 return;
+
+            if(GLOBAL.SetMousePositionMode)
+            {
+                gfrm.SetPosition();
+            }
 
             // 패턴 가져오기위해 이미지 그리기 멈춤
             if (GLOBAL.GetPatternMode)
@@ -524,6 +526,12 @@ namespace VisionAssist.Vision
         private void picVision_MouseEnter(object sender, EventArgs e)
         {
 
+        }
+
+        private void tsSetMousePosition_Click(object sender, EventArgs e)
+        {
+            gfrm = new frmUserPosition(GLOBAL.hfrmMain);
+            gfrm.Show();
         }
     }
 }
