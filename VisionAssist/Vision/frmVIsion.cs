@@ -291,7 +291,7 @@ namespace VisionAssist.Vision
                     mat = BitmapConverter.ToMat(stBitmap.gBitmap);
                     FinalImage = new Mat();
 
-                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Cubic);
+                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
                     Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
 
                     if (bDrawText)
@@ -332,6 +332,8 @@ namespace VisionAssist.Vision
                     gdata.Dispose();
 
                     FinalImage.Release();
+                    FinalImage.Dispose();
+                    GC.SuppressFinalize(this);
                 }
             }
         }
@@ -349,11 +351,6 @@ namespace VisionAssist.Vision
         {
             if (GLOBAL.OriginWidth == 0 || GLOBAL.VisionWidth == 0)
                 return;
-
-            if(GLOBAL.SetMousePositionMode)
-            {
-                gfrm.SetPosition();
-            }
 
             // 패턴 가져오기위해 이미지 그리기 멈춤
             if (GLOBAL.GetPatternMode)
@@ -404,6 +401,11 @@ namespace VisionAssist.Vision
 
         private void picVision_MouseUp(object sender, MouseEventArgs e)
         {
+            if (GLOBAL.SetMousePositionMode)
+            {
+                gfrm.SetPosition();
+            }
+
             if (GLOBAL.GetPatternMode)
             {
                 GLOBAL.GetPatternMode = false;
@@ -515,6 +517,8 @@ namespace VisionAssist.Vision
 
                     //if(!(mControlVision.IsDisposed))
                     mControlVision.Release();
+                    mControlVision.Dispose();
+                    GC.SuppressFinalize(this);
 
                     isImageRun = false;
 

@@ -101,6 +101,10 @@ namespace VisionAssist.Forms
                             break;
                     }
 
+                    MessageBox.Show("Message", "Set Complete");
+
+                    GLOBAL.ReadSetupFile(Path);
+
                     break;
                 }
             }
