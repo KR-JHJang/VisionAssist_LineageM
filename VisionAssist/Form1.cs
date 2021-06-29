@@ -122,11 +122,7 @@ namespace VisionAssist
             {
                 if(GLOBAL.SelectAppPlayer == int.MinValue)
                     continue;
-                //Monitor.Enter(GLOBAL.monitorLock);
 
-                //bFindWindow = gfrmVision.SearchWindow();
-
-                //gfrmControl.SetMessage("Find Player!");
                 if(isWindowMoving == false)
                 {
                     switch(GLOBAL.SelectAppPlayer)
@@ -142,23 +138,6 @@ namespace VisionAssist
                             break;
                     }
                 }
-
-
-                //Monitor.Exit(GLOBAL.monitorLock);
-
-                //if (bFindWindow)
-                //{
-                //    gfrmControl.SetMessage("Find Player!");
-                //    gfrmVision.ImageCapture("LDPlayer");
-                //}
-                //else
-                //{
-                //    gfrmControl.SetMessage("Wait Player...");
-                //    System.Threading.Thread.Sleep(50);
-                //    continue;
-                //}
-
-                System.Threading.Thread.Sleep(33);
             }
         }
 

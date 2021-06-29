@@ -27,9 +27,9 @@ namespace VisionAssist.Forms
         private LMImageList gLMImageList;
         private Mat TempMat;
 
-        private Mat matHP;
-        private Mat matMP;
-        private Mat matAttack;
+        //private Mat matHP;
+        //private Mat matMP;
+        //private Mat matAttack;
 
         private Mat[] matArrHP;
         private Mat[] matArrMP;
@@ -188,18 +188,26 @@ namespace VisionAssist.Forms
             if (gImageProcess == null)
                 return;
 
-            Cv2.Resize(src, src, new Size(
-                src.Width * 2,
-                src.Height * 2), 0,0, InterpolationFlags.Lanczos4);
-            gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 200, 255, ThresholdTypes.Tozero);
+            Mat MatMP = src.SubMat(new Rect(107, 28, 54, 13));
+            WeakReference wMat = new WeakReference(MatMP);
 
-            if (picboxMP.Image != null)
-                picboxMP.Image.Dispose();
+            Cv2.Resize(MatMP, MatMP, new Size(
+                MatMP.Width * 4,
+                MatMP.Height * 4), 0,0, InterpolationFlags.Lanczos4);
 
-            picboxMP.Image = src.ToBitmap();
+            gImageProcess.ConvertRgb2Gray(MatMP);
+            Cv2.Threshold(MatMP, MatMP, 200, 255, ThresholdTypes.Tozero);
 
-            Pix pix = PixConverter.ToPix(src.ToBitmap());
+            var old = picboxMP.Image;
+
+            //if (picboxMP.Image != null)
+            //    picboxMP.Image.Dispose();
+
+            picboxMP.Image = MatMP.ToBitmap();
+
+            old.Dispose();
+
+            Pix pix = PixConverter.ToPix(MatMP.ToBitmap());
             TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
             // tesseractengine 생성
             string whitelist = "0123456789/";
@@ -233,7 +241,7 @@ namespace VisionAssist.Forms
             if (isnum == false)
                 return;
 
-            this.Invoke(new Action(() =>
+            this.BeginInvoke(new Action(() =>
             {
                 LedMP.Text = mpStrings[0];
                 LedMaxMP.Text = mpStrings[1];
@@ -242,11 +250,8 @@ namespace VisionAssist.Forms
             TengineMP.Dispose();
             TengineMP = null;
 
-            if(mpStrings.Length == 2)
+            if (mpStrings.Length == 2)
                 SimpleMPWork(mpStrings);
-
-
-
         }
 
         public void GetHPTextImage(ref Mat src)
@@ -254,18 +259,23 @@ namespace VisionAssist.Forms
             if (gImageProcess == null)
                 return;
 
-            Cv2.Resize(src, src, new Size(src.Width*2, src.Height*2)
+            Mat MatHP = src.SubMat(new Rect(96, 11, 76, 15));
+            WeakReference wMat = new WeakReference(MatHP);
+
+            Cv2.Resize(MatHP, MatHP, new Size(MatHP.Width*4, MatHP.Height*4)
                 , 0, 0, InterpolationFlags.Lanczos4);
 
-            gImageProcess.ConvertRgb2Gray(src);
-            Cv2.Threshold(src, src, 180, 255, ThresholdTypes.Binary);
+            gImageProcess.ConvertRgb2Gray(MatHP);
+            Cv2.Threshold(MatHP, MatHP, 180, 255, ThresholdTypes.Binary);
 
-            if (picboxHPText.Image != null)
-                picboxHPText.Image.Dispose();
+            var old = picboxHPText.Image;
 
-            picboxHPText.Image = src.ToBitmap();
+            //if (picboxHPText.Image != null)
+            //    picboxHPText.Image.Dispose();
 
-            Pix pix = PixConverter.ToPix(src.ToBitmap());
+            picboxHPText.Image = MatHP.ToBitmap();
+
+            Pix pix = PixConverter.ToPix(MatHP.ToBitmap());
             TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
             // tesseractengine 생성
             string whitelist = "0123456789/";
@@ -302,7 +312,7 @@ namespace VisionAssist.Forms
             if (isnum == false)
                 return;
 
-            this.Invoke(new Action(() =>
+            this.BeginInvoke(new Action(() =>
             {
                 LedHP.Text = hpStrings[0];
                 LedMaxHP.Text = hpStrings[1];
@@ -313,6 +323,8 @@ namespace VisionAssist.Forms
             TengineHP = null;
 
             SimpleHPWork(hpStrings);
+
+            old.Dispose();
         }
 
         public int WordNum(String String, String Word)
@@ -343,34 +355,30 @@ namespace VisionAssist.Forms
 
                 ratio = Math.Round(ratio, 2);
 
-                lblMatchingRatioMP.Invoke(new Action(() =>
+                this.BeginInvoke(new Action(() =>
                 {
                     lblMatchingRatioMP.Text = ratio.ToString() + " %";
-                }));
 
-                decimal Per = 0;
-
-                trBarMP.Invoke(new Action(() =>
-                {
+                    decimal Per = 0;
                     Per = decimal.Parse(trBarMP.Value.ToString()) * 10;
+
+                    if (chkRefillMP.Checked)
+                    {
+                        if (ratio < Per)
+                        {
+                            //System.Console.WriteLine(ratio + " Search On");
+                            Action = true;
+                        }
+                    }
+
+                    if (Action)
+                    {
+                        if (GLOBAL._tskillboxes[1].IsUsed())
+                        {
+                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[1]]);
+                        }
+                    }
                 }));
-
-                if (chkRefillMP.Checked)
-                {
-                    if (ratio < Per)
-                    {
-                        //System.Console.WriteLine(ratio + " Search On");
-                        Action = true;
-                    }
-                }
-
-                if (Action)
-                {
-                    if (GLOBAL._tskillboxes[1].IsUsed())
-                    {
-                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[1]]);
-                    }
-                }
             }
         }
 
@@ -393,7 +401,7 @@ namespace VisionAssist.Forms
 
                 ratio = Math.Round(ratio, 2);
 
-                lblMatchingRatioHP.Invoke(new Action(() =>
+                lblMatchingRatioHP.BeginInvoke(new Action(() =>
                 {
                     lblMatchingRatioHP.Text = ratio.ToString() + " %";
                 }));
@@ -428,7 +436,7 @@ namespace VisionAssist.Forms
                     {
                         System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
  
-                        if (EvadeCounter >= 3)
+                        if (EvadeCounter >= 5)
                         {
                             Action = 2;
                             EvadeCounter = 0;
@@ -458,101 +466,104 @@ namespace VisionAssist.Forms
             }
         }
 
-        public void SetHPImagePos(Mat src)
-        {
-            if (HPsize == OpenCvSharp.Size.Zero)
-                return;
+        //public void SetHPImagePos(Mat src)
+        //{
+        //    if (HPsize == OpenCvSharp.Size.Zero)
+        //        return;
 
-            matHP?.Release();
-            matHP = src.Clone();
+        //    matHP?.Release();
+        //    matHP = src.Clone();
             
-            Cv2.Resize(matHP, matHP, HPsize, 0, 0, InterpolationFlags.Cubic);
+        //    Cv2.Resize(matHP, matHP, HPsize, 0, 0, InterpolationFlags.Cubic);
 
-            if (chkHPTest.Checked)
-            {
-                gImageProcess.ConvertColorNormalize(matHP,
-                    double.Parse(tbxHPUpper.Text),
-                    double.Parse(tbxHPLower.Text), 2);
-            }
-            else
-            {
-                gImageProcess.ConvertColorNormalize(matHP, 142, 255, 2);
-            }
+        //    if (chkHPTest.Checked)
+        //    {
+        //        gImageProcess.ConvertColorNormalize(matHP,
+        //            double.Parse(tbxHPUpper.Text),
+        //            double.Parse(tbxHPLower.Text), 2);
+        //    }
+        //    else
+        //    {
+        //        gImageProcess.ConvertColorNormalize(matHP, 142, 255, 2);
+        //    }
 
-            RefreshPicBox(ref matHP, ref picboxHP);
+        //    RefreshPicBox(ref matHP, ref picboxHP);
 
-            //RefreshHP();
+        //    //RefreshHP();
 
-            if (GLOBAL.IsRun())
-            {
-                int ret = HP_Work();
+        //    if (GLOBAL.IsRun())
+        //    {
+        //        int ret = HP_Work();
 
-                switch (ret)
-                {
-                    case 1:
-                        if (GLOBAL._tskillboxes[0].IsUsed())
-                        {
-                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
-                        }
-                        break;
-                    case 2:
-                        if (GLOBAL._tskillboxes[3].IsUsed())
-                        {
-                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-                        }
-                        break;
-                }
-            }
-        }
+        //        switch (ret)
+        //        {
+        //            case 1:
+        //                if (GLOBAL._tskillboxes[0].IsUsed())
+        //                {
+        //                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+        //                }
+        //                break;
+        //            case 2:
+        //                if (GLOBAL._tskillboxes[3].IsUsed())
+        //                {
+        //                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+        //                }
+        //                break;
+        //        }
+        //    }
+        //}
       
-        public void SetMPImagePos(Mat src)
-        {
-            if (MPsize == OpenCvSharp.Size.Zero)
-                return;
+        //public void SetMPImagePos(Mat src)
+        //{
+        //    if (MPsize == OpenCvSharp.Size.Zero)
+        //        return;
 
-            matMP?.Release();
-            matMP = src;
+        //    matMP?.Release();
+        //    matMP = src;
             
-            Cv2.Resize(matMP, matMP, MPsize, 0, 0, InterpolationFlags.Cubic);
+        //    Cv2.Resize(matMP, matMP, MPsize, 0, 0, InterpolationFlags.Cubic);
 
-            gImageProcess.ConvertColorNormalize(ref matMP,
-                102,
-                108);
+        //    gImageProcess.ConvertColorNormalize(ref matMP,
+        //        102,
+        //        108);
 
-            RefreshPicBox(ref matMP, ref picboxMP);
+        //    RefreshPicBox(ref matMP, ref picboxMP);
 
-            //RefreshMP();
+        //    //RefreshMP();
 
-            if (GLOBAL.IsRun())
-            {
-                if (MP_Work())
-                {
-                    if (GLOBAL._tskillboxes[1].checkBox.Checked)
-                    {
+        //    if (GLOBAL.IsRun())
+        //    {
+        //        if (MP_Work())
+        //        {
+        //            if (GLOBAL._tskillboxes[1].checkBox.Checked)
+        //            {
 
-                        //SearchSkillPos();
-                    }
-                }
-            }
-        }
+        //                //SearchSkillPos();
+        //            }
+        //        }
+        //    }
+        //}
 
         public bool SetAttackImagePos(ref Mat src)
         {
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
 
-            matAttack?.Release();
-            matAttack = src;
+            Mat MatAttack = src.SubMat(new Rect(837, 399, 42, 47));
+            WeakReference wMat = new WeakReference(MatAttack);
+
+            //matAttack?.Release();
+            //matAttack = src;
             
-            Cv2.Resize(matAttack, matAttack, Attacksize, 0, 0, InterpolationFlags.Cubic);
+            Cv2.Resize(MatAttack, MatAttack, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
 
             //gImageProcess.ConvertRGB2GRAY(matAttack);
 
-            RefreshPicBox(ref matAttack, ref picboxUserAttack);
+            RefreshPicBox(ref MatAttack, ref picboxUserAttack);
             
             if (GLOBAL.IsRun())
             {
-                if (EvadeAttack())
+                if (EvadeAttack(ref MatAttack))
                 {
                     if (GLOBAL._tskillboxes[3].IsUsed())
                     {
@@ -620,50 +631,49 @@ namespace VisionAssist.Forms
 
         }
 
-        private void RefreshHP()
-        {
-            if (!matHP.IsDisposed)
-            {
-                picboxHP.Image?.Dispose();
-                picboxHP.Invoke(new Action(() =>
-                {
-                    picboxHP.Image = matHP.ToBitmap();
-                }));
+        //private void RefreshHP()
+        //{
+        //    if (!matHP.IsDisposed)
+        //    {
+        //        picboxHP.Image?.Dispose();
+        //        picboxHP.Invoke(new Action(() =>
+        //        {
+        //            picboxHP.Image = matHP.ToBitmap();
+        //        }));
 
-            }
-        }
+        //    }
+        //}
 
-        private void RefreshMP()
-        {
-            try
-            {
-                if (!matMP.IsDisposed)
-                {
-                    if (picboxMP.Image != null)
-                    {
-                        picboxMP.Image.Dispose();
-                    }
+        //private void RefreshMP()
+        //{
+        //    try
+        //    {
+        //        if (!matMP.IsDisposed)
+        //        {
+        //            if (picboxMP.Image != null)
+        //            {
+        //                picboxMP.Image.Dispose();
+        //            }
 
-                    picboxMP.Invoke(new Action(() =>
-                    {
-                        picboxMP.Image = matMP.ToBitmap();
-                    }));
+        //            picboxMP.Invoke(new Action(() =>
+        //            {
+        //                picboxMP.Image = matMP.ToBitmap();
+        //            }));
 
 
-                }
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+        //}
 
         private void RefreshPicBox(ref Mat src, ref PictureBox target)
         {
-            if(target.Image != null)
-                target.Image?.Dispose();
+            var old = target.Image;
 
             try
             {
@@ -679,6 +689,10 @@ namespace VisionAssist.Forms
             {
                 Console.WriteLine(e);
                 throw;
+            }
+            finally
+            {
+                old.Dispose();
             }
         }
 
@@ -710,14 +724,14 @@ namespace VisionAssist.Forms
             Invalidate();
         }
 
-        private bool EvadeAttack()
+        private bool EvadeAttack(ref Mat MatAttack)
         {
             //if (matAttack != null && matPKImage != null)
             //{
                 //VecLoc3d result = gImageProcess.TemplateMatchingGetAllData(ref matPKImage, ref matAttack);
-                double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref matAttack);
+                double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref MatAttack);
 
-                lblMatchingRatioEvade.Invoke(new Action(() =>
+                lblMatchingRatioEvade.BeginInvoke(new Action(() =>
                 {
                     lblMatchingRatioEvade.Text = result.ToString() + " %";
                 }));
@@ -744,45 +758,7 @@ namespace VisionAssist.Forms
 
         private void bgwEvadeAttack_DoWork(object sender, DoWorkEventArgs e)
         {
-        //    while(true)
-        //    {
-        //        if (matAttack == null || matPKImage == null)
-        //            continue;
-
-        //        if (matPKImage.IsDisposed || matAttack.IsDisposed)
-        //            continue;
-
-        //        if (matAttack != null && matPKImage != null)
-        //        {
-        //            VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(matPKImage.Clone(), matAttack.Clone());
-
-        //            lblMatchingRatioEvade.Invoke(new Action(()=>
-        //            {
-        //                lblMatchingRatioEvade.Text = result.maxval.ToString() + " %";
-        //            }));
-
-        //            if(chkUserAttackEvade.Checked)
-        //            {
-        //                if (result.maxval >= 0.66)
-        //                {
-        //                    bEvadeAttack = true;
-        //                }
-        //                else
-        //                    bEvadeAttack = false;
-        //            }
-        //            else
-        //                bEvadeAttack = false;
-
-        //            if (bEvadeAttack)
-        //            {
-        //                ExcuteEvade();
-        //            }
-
-        //            result.retMat.Release();
-        //        }
-                
-        //        Thread.Sleep(100);
-        //    }
+       
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -929,55 +905,6 @@ namespace VisionAssist.Forms
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
         }
 
-        //private void ExcuteEvade()
-        //{
-        //    VecLoc4d result = gImageProcess.TemplateMatchingGetAllData(
-        //        gLMImageList.GetMat((int)eLMImageList.SearchItemArea).Clone(),
-        //        gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Clone());
-
-        //    Random r = new Random();
-
-        //    var threshold = 0.44;
-        //    System.Console.WriteLine("Excute : " + result.maxval);
-
-        //    if (result.maxval >= threshold)
-        //    {
-        //        int X = (int)(result.maxloc.X + matSearchItemAreaStartX) + 
-        //            (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Width / 2);
-        //        int Y = (int)(result.maxloc.Y + matSearchItemAreaStartY) + 
-        //            (gLMImageList.GetMat((int)eLMImageList.Item_TeleportScroll).Height / 2);
-
-        //        X = (int)GLOBAL.hfrmVision.VisionMoveScalingWidth(r.Next(X - 5, X + 5));
-        //        Y = (int)GLOBAL.hfrmVision.VisionMoveScalingHeight(r.Next(Y - 5, Y + 5));
-
-        //        int longParameter = GLOBAL.hfrmVision.GetLongParameter(X, Y);
-
-        //        //Thread.Sleep((r.Next(2000, 3000)));
-
-        //        GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
-        //        GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, longParameter);
-
-        //        // 서치된 부분을 빨간 테두리로
-        //        Rect rect = new Rect(result.maxloc.X, result.maxloc.Y, result.retMat.Width, result.retMat.Height);
-        //        Cv2.Rectangle(result.retMat, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
-
-        //        lblMatchingRatioExcute.Invoke(new Action(() =>
-        //        {
-        //            lblMatchingRatioExcute.Text = result.maxval.ToString();
-        //        }));
-
-        //        if (picEvadeTest.Image != null)
-        //            picEvadeTest.Image.Dispose();
-
-        //        Cv2.Resize(result.retMat, result.retMat, new Size(picEvadeTest.Width, picEvadeTest.Height), 0,0,InterpolationFlags.Cubic);
-
-        //        picEvadeTest.Image = result.retMat.ToBitmap();
-
-        //        //표시
-        //        //Cv2.ImShow("template1_show", result.retMat);
-        //        //Cv2.WaitKey(0);
-        //    }
-        //}
 
         private void bgwExcuteEvade_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -991,250 +918,251 @@ namespace VisionAssist.Forms
             }           
         }
 
-        private int HP_Work()
-        {
-            int Action = 0;
+        //private int HP_Work()
+        //{
+        //    int Action = 0;
 
-            if (matHP != null && matMaxHPImage != null)
-            {
-                double ratio = 0;
+        //    if (matHP != null && matMaxHPImage != null)
+        //    {
+        //        double ratio = 0;
 
-                try
-                {
-                    //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-                    ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
+        //        try
+        //        {
+        //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
+        //            ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
 
-                    if (ratio <= 0)
-                        return 0;
+        //            if (ratio <= 0)
+        //                return 0;
                         
-                    ratio = Math.Round(ratio, 2);
-                }
-                catch (Exception ex)
-                {
-                    System.Console.WriteLine(ex);
-                }
+        //            ratio = Math.Round(ratio, 2);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            System.Console.WriteLine(ex);
+        //        }
 
 
-                lblMatchingRatioMP.Invoke(new Action(() =>
-                {
-                    lblMatchingRatioHP.Text = ratio.ToString() + " %";
-                }));
+        //        lblMatchingRatioMP.Invoke(new Action(() =>
+        //        {
+        //            lblMatchingRatioHP.Text = ratio.ToString() + " %";
+        //        }));
 
-                double Per = 0;
+        //        double Per = 0;
 
-                trBarHP.Invoke(new Action(() =>
-                {
-                    Per = double.Parse(trBarHP.Value.ToString()) * 10;
-                }));
+        //        trBarHP.Invoke(new Action(() =>
+        //        {
+        //            Per = double.Parse(trBarHP.Value.ToString()) * 10;
+        //        }));
 
-                if (chkRefillHP.Checked)
-                {
-                    if (ratio <= Per)
-                    {
-                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
-                        //System.Console.WriteLine(ratio + " Search On");
-                        Action = 1;
-                    }
-                }
+        //        if (chkRefillHP.Checked)
+        //        {
+        //            if (ratio <= Per)
+        //            {
+        //                System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+        //                //System.Console.WriteLine(ratio + " Search On");
+        //                Action = 1;
+        //            }
+        //        }
 
-                double dEvade = 0;
+        //        double dEvade = 0;
 
-                trBarHP.Invoke(new Action(() =>
-                {
-                    dEvade = double.Parse(trBarHPEvade.Value.ToString()) * 10;
-                }));
+        //        trBarHP.Invoke(new Action(() =>
+        //        {
+        //            dEvade = double.Parse(trBarHPEvade.Value.ToString()) * 10;
+        //        }));
 
-                if (chkAvoidHP.Checked)
-                {
-                    if (ratio <= dEvade)
-                    {
-                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
-                        Action = 2;
-                    }
-                }
-            }
+        //        if (chkAvoidHP.Checked)
+        //        {
+        //            if (ratio <= dEvade)
+        //            {
+        //                System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+        //                Action = 2;
+        //            }
+        //        }
+        //    }
 
-            return Action;
-        }
+        //    return Action;
+        //}
 
         private void bgwHP_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
-            {
-                if (matHP == null)
-                    continue;
+            //while (true)
+            //{
+            //    if (matHP == null)
+            //        continue;
 
-                if (matHP.IsDisposed)
-                    continue;
+            //    if (matHP.IsDisposed)
+            //        continue;
 
-                if (matHP != null && matMaxHPImage != null)
-                {
-                    double ratio = 0;
+            //    if (matHP != null && matMaxHPImage != null)
+            //    {
+            //        double ratio = 0;
 
-                    try
-                    {
-                        //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-                        ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
+            //        try
+            //        {
+            //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
+            //            ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
 
-                        if (ratio <= 0)
-                            continue;
+            //            if (ratio <= 0)
+            //                continue;
 
-                        ratio = Math.Round(ratio, 2);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Console.WriteLine(ex);
-                        continue;
-                    }
+            //            ratio = Math.Round(ratio, 2);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            System.Console.WriteLine(ex);
+            //            continue;
+            //        }
 
 
-                    lblMatchingRatioHP.Invoke(new Action(() =>
-                    {
-                        lblMatchingRatioHP.Text = ratio.ToString() + " %";
-                    }));
+            //        lblMatchingRatioHP.Invoke(new Action(() =>
+            //        {
+            //            lblMatchingRatioHP.Text = ratio.ToString() + " %";
+            //        }));
 
-                    double Per = 0;
+            //        double Per = 0;
 
-                    trBarHP.Invoke(new Action(()=>
-                    {
-                        Per = double.Parse(trBarHP.Value.ToString()) * 10;
-                    }));
+            //        trBarHP.Invoke(new Action(()=>
+            //        {
+            //            Per = double.Parse(trBarHP.Value.ToString()) * 10;
+            //        }));
 
-                    if (chkRefillHP.Checked)
-                    {
-                        if (ratio < Per)
-                        {
-                            //System.Console.WriteLine(ratio + " Search On");
-                            bRefillHP = true;
-                        }
-                        else
-                            bRefillHP = false;
-                    }
-                    else
-                        bRefillHP = false;
-                }
+            //        if (chkRefillHP.Checked)
+            //        {
+            //            if (ratio < Per)
+            //            {
+            //                //System.Console.WriteLine(ratio + " Search On");
+            //                bRefillHP = true;
+            //            }
+            //            else
+            //                bRefillHP = false;
+            //        }
+            //        else
+            //            bRefillHP = false;
+            //    }
 
-                Thread.Sleep(100);
-            }
+            //    Thread.Sleep(100);
+            //}
         }
     
-        private bool MP_Work()
-        {
-            //if (matMP != null && matMaxMPImage != null)
-            //{
-                double ratio = 0;
+        //private bool MP_Work()
+        //{
+            ////if (matMP != null && matMaxMPImage != null)
+            ////{
+            //    double ratio = 0;
 
-                try
-                {
-                    //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-                    ratio = gImageProcess.SimpleColorMatching(matMaxMPImage.Clone(), matMP.Clone());
-                    ratio = Math.Round(ratio, 2);
+            //    try
+            //    {
+            //        //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
+            //        ratio = gImageProcess.SimpleColorMatching(matMaxMPImage.Clone(), matMP.Clone());
+            //        ratio = Math.Round(ratio, 2);
 
-                    //System.Console.WriteLine("Ratio = {0}", ratio);
-                    //Cv2.ImShow("1", matMaxMPImage);
-                    //Cv2.ImShow("2", matMP);
-                    //Cv2.WaitKey(0);
-                }
-                catch (Exception ex)
-                {
-                    System.Console.WriteLine(ex);
-                }
+            //        //System.Console.WriteLine("Ratio = {0}", ratio);
+            //        //Cv2.ImShow("1", matMaxMPImage);
+            //        //Cv2.ImShow("2", matMP);
+            //        //Cv2.WaitKey(0);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        System.Console.WriteLine(ex);
+            //    }
 
 
-                lblMatchingRatioMP.Invoke(new Action(() =>
-                {
-                    lblMatchingRatioMP.Text = ratio.ToString() + " %";
-                }));
+            //    lblMatchingRatioMP.Invoke(new Action(() =>
+            //    {
+            //        lblMatchingRatioMP.Text = ratio.ToString() + " %";
+            //    }));
 
-                double Per = 0;
+            //    double Per = 0;
 
-                trBarHP.Invoke(new Action(() =>
-                {
-                    Per = double.Parse(trBarMP.Value.ToString()) * 10;
-                }));
+            //    trBarHP.Invoke(new Action(() =>
+            //    {
+            //        Per = double.Parse(trBarMP.Value.ToString()) * 10;
+            //    }));
 
-                //System.Console.WriteLine(ratio);
+            //    //System.Console.WriteLine(ratio);
 
-                if (chkRefillMP.Checked)
-                {
-                    if (ratio < Per)
-                    {
-                        //System.Console.WriteLine(ratio + " Search On");
-                        bRefillMP = true;
-                    }
-                    else
-                        bRefillMP = false;
-                }
-                else
-                    bRefillMP = false;
-            //}
+            //    if (chkRefillMP.Checked)
+            //    {
+            //        if (ratio < Per)
+            //        {
+            //            //System.Console.WriteLine(ratio + " Search On");
+            //            bRefillMP = true;
+            //        }
+            //        else
+            //            bRefillMP = false;
+            //    }
+            //    else
+            //        bRefillMP = false;
+            ////}
 
-            return bRefillMP;
-        }
+            //return bRefillMP;
+        //}
+
         private void bgwMP_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
-            {
-                if (matMP == null)
-                    continue;
+            //while (true)
+            //{
+            //    if (matMP == null)
+            //        continue;
 
-                if (matMP.IsDisposed)
-                    continue;
+            //    if (matMP.IsDisposed)
+            //        continue;
 
-                if (matMP != null && matMaxMPImage != null)
-                {
-                    double ratio = 0;
+            //    if (matMP != null && matMaxMPImage != null)
+            //    {
+            //        double ratio = 0;
 
-                    try
-                    {
-                        //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-                        ratio = gImageProcess.SimpleColorMatching(matMaxMPImage, matMP);
+            //        try
+            //        {
+            //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
+            //            ratio = gImageProcess.SimpleColorMatching(matMaxMPImage, matMP);
 
-                        if (ratio <= 0)
-                            continue;
+            //            if (ratio <= 0)
+            //                continue;
 
-                        ratio = Math.Round(ratio, 2);
+            //            ratio = Math.Round(ratio, 2);
 
-                        //System.Console.WriteLine("Ratio = {0}", ratio);
-                        //Cv2.ImShow("1", matMaxMPImage);
-                        //Cv2.ImShow("2", matMP);
-                        //Cv2.WaitKey(0);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Console.WriteLine(ex);
-                        continue;
-                    }
+            //            //System.Console.WriteLine("Ratio = {0}", ratio);
+            //            //Cv2.ImShow("1", matMaxMPImage);
+            //            //Cv2.ImShow("2", matMP);
+            //            //Cv2.WaitKey(0);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            System.Console.WriteLine(ex);
+            //            continue;
+            //        }
 
 
-                    lblMatchingRatioMP.Invoke(new Action(() =>
-                    {
-                        lblMatchingRatioMP.Text = ratio.ToString() + " %";
-                    }));
+            //        lblMatchingRatioMP.Invoke(new Action(() =>
+            //        {
+            //            lblMatchingRatioMP.Text = ratio.ToString() + " %";
+            //        }));
 
-                    double Per = 0;
+            //        double Per = 0;
 
-                    trBarHP.Invoke(new Action(() =>
-                    {
-                        Per = double.Parse(trBarMP.Value.ToString()) * 10;
-                    }));
+            //        trBarHP.Invoke(new Action(() =>
+            //        {
+            //            Per = double.Parse(trBarMP.Value.ToString()) * 10;
+            //        }));
 
-                    if (chkRefillMP.Checked)
-                    {
-                        if (ratio < Per)
-                        {
-                            System.Console.WriteLine(ratio + " Search On");
-                            bRefillMP = true;
-                        }
-                        else
-                            bRefillMP = false;
-                    }
-                    else
-                        bRefillMP = false;
-                }
+            //        if (chkRefillMP.Checked)
+            //        {
+            //            if (ratio < Per)
+            //            {
+            //                System.Console.WriteLine(ratio + " Search On");
+            //                bRefillMP = true;
+            //            }
+            //            else
+            //                bRefillMP = false;
+            //        }
+            //        else
+            //            bRefillMP = false;
+            //    }
 
-                Thread.Sleep(100);
-            }
+            //    Thread.Sleep(100);
+            //}
         }
 
         private void label1_Click(object sender, EventArgs e)

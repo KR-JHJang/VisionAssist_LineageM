@@ -101,7 +101,10 @@ namespace VisionAssist.Forms
                             break;
                     }
 
-                    MessageBox.Show("Message", "Set Complete");
+                    if(GLOBAL.SetMousePositionMode == true)
+                    {
+                        MessageBox.Show("Message", "Set Complete");
+                    }                    
 
                     GLOBAL.ReadSetupFile(Path);
 

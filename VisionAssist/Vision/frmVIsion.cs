@@ -289,7 +289,10 @@ namespace VisionAssist.Vision
                     //            picVision.Size.Height);
 
                     mat = BitmapConverter.ToMat(stBitmap.gBitmap);
+                    WeakReference wMain = new WeakReference(mat);
+
                     FinalImage = new Mat();
+                    WeakReference wFinal = new WeakReference(FinalImage);
 
                     Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
                     Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
@@ -320,11 +323,14 @@ namespace VisionAssist.Vision
                     
                     ((IDisposable)oldimage).Dispose();
 
-
                     //if(mControlVision.IsDisposed)
-                    if (isImageRun == false)
-                        mControlVision = FinalImage.Clone();
 
+                    if (isImageRun == false)
+                    {
+                        mControlVision = FinalImage.Clone();
+                        WeakReference a = new WeakReference(mControlVision);
+                    }
+                        
                     mat.Release();
 
                     stBitmap.Dispose();
@@ -333,7 +339,8 @@ namespace VisionAssist.Vision
 
                     FinalImage.Release();
                     FinalImage.Dispose();
-                    GC.SuppressFinalize(this);
+                    //GC.SuppressFinalize(this);
+                    //GC.Collect();
                 }
             }
         }
@@ -499,30 +506,37 @@ namespace VisionAssist.Vision
                         continue;
                     }
 
-                    Mat Attack = mControlVision.SubMat(new Rect(837, 399, 42, 47));
-                    Mat mHP = mControlVision.SubMat(new Rect(96, 11, 76, 13));
-                    Mat mMP = mControlVision.SubMat(new Rect(107, 29, 54, 11));
+                    //Mat Attack = mControlVision.SubMat(new Rect(837, 399, 42, 47));
+                    //Mat mHP = mControlVision.SubMat(new Rect(96, 11, 76, 15));
+                    //Mat mMP = mControlVision.SubMat(new Rect(107, 28, 54, 13));
 
-                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref Attack)))
+                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
                     {
-                        // HP
-                        //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                        // HP Text
-                        GLOBAL.hfrmControl.GetHPTextImage(ref mHP);
-                        // MP
-                        //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                        // MP Text
-                        GLOBAL.hfrmControl.GetMPTextImage(ref mMP);
+                        Parallel.Invoke(
+                            () =>
+                            {
+                                // HP
+                                //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+                                // HP Text
+                                GLOBAL.hfrmControl.GetHPTextImage(ref mControlVision);
+                            },
+                            () =>
+                            {
+                                // MP
+                                //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+                                // MP Text
+                                GLOBAL.hfrmControl.GetMPTextImage(ref mControlVision);
+                            }
+                        );
                     }
 
                     //if(!(mControlVision.IsDisposed))
                     mControlVision.Release();
                     mControlVision.Dispose();
-                    GC.SuppressFinalize(this);
+                    //GC.SuppressFinalize(this);
+                    //GC.Collect();
 
                     isImageRun = false;
-
-                    System.Threading.Thread.Sleep(33);
                 }
             }
         }
