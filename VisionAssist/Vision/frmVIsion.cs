@@ -242,6 +242,9 @@ namespace VisionAssist.Vision
                 {
                     IntPtr main = GLOBAL.FindWindow(null, target);
                     IntPtr sub = IntPtr.Zero;
+                    IntPtr sub2 = IntPtr.Zero;
+                    IntPtr sub3 = IntPtr.Zero;
+                    IntPtr sub4 = IntPtr.Zero;
 
                     switch (GLOBAL.SelectAppPlayer)
                     {
@@ -257,6 +260,13 @@ namespace VisionAssist.Vision
                             // 블루스택
                             sub = GLOBAL.FindWindowEx(main, 0, "plrNativeInputWindowClass", "plrNativeInputWindow");
                             break;
+                        case 3:
+                            // 블루스택
+                            sub = GLOBAL.FindWindowEx(main, 0, "CEFBrowseWindowWndClass", "");
+                            sub2 = GLOBAL.FindWindowEx(sub, 0, "CefBrowserWindow", "리니지M ");
+                            sub3 = GLOBAL.FindWindowEx(sub2, 0, "Chrome_WidgetWin_0", "리니지M ");
+                            sub4 = GLOBAL.FindWindowEx(sub3, 0, "Intermediate D3D Window", "");
+                            break;
                     }
 
                     if (main == IntPtr.Zero)
@@ -264,6 +274,9 @@ namespace VisionAssist.Vision
 
                     if (sub == IntPtr.Zero)
                         return;
+
+                    if (GLOBAL.SelectAppPlayer == 3)
+                        sub = sub4;
 
 
                     GLOBAL.TargetHandle = sub;
@@ -280,6 +293,7 @@ namespace VisionAssist.Vision
                     Graphics g = Graphics.FromImage(stBitmap.gBitmap);
 
                     IntPtr hdc = g.GetHdc();
+                    //bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
                     bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
                     g.ReleaseHdc(hdc);
                     ret = GLOBAL.DeleteDC(hdc);

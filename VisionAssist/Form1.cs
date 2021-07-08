@@ -136,6 +136,9 @@ namespace VisionAssist
                         case 2:
                             gfrmVision.ImageCapture(cbxAppPlayer.Text);
                             break;
+                        case 3:
+                            gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+                            break;
                     }
                 }
             }

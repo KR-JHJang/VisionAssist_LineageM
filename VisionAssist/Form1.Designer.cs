@@ -145,7 +145,8 @@ namespace VisionAssist
             this.cbxAppPlayer.Items.AddRange(new object[] {
             "LDPlayer",
             "BlueStacks",
-            "LineageM"});
+            "LineageM",
+            "캐릭터명"});
             this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
             this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
