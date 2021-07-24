@@ -144,25 +144,17 @@ namespace VisionAssist.Forms
             {
                 if (GLOBAL.IsRun())
                 {
-                    btnStart.Invoke(new Action(() =>
+                    this.BeginInvoke(new Action(()=>
                     {
                         btnStart.Enabled = false;
-                    }));
-
-                    btnStop.Invoke(new Action(() =>
-                    {
                         btnStop.Enabled = true;
                     }));
-                }
+                                    }
                 else
                 {
-                    btnStart.Invoke(new Action(() =>
+                    this.BeginInvoke(new Action(() =>
                     {
                         btnStart.Enabled = true;
-                    }));
-
-                    btnStop.Invoke(new Action(() =>
-                    {
                         btnStop.Enabled = false;
                     }));
                 }

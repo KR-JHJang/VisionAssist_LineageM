@@ -108,12 +108,12 @@ namespace VisionAssist.Forms
             //bgwMP.RunWorkerAsync();
             //bgwHP.RunWorkerAsync();
 
-            Process currentProcess = Process.GetCurrentProcess();
+            //Process currentProcess = Process.GetCurrentProcess();
 
-            foreach (ProcessThread processThread in currentProcess.Threads)
-            {
-                processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
-            }
+            //foreach (ProcessThread processThread in currentProcess.Threads)
+            //{
+            //    processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
+            //}
         }
 
         private void LoadResource()
@@ -195,17 +195,12 @@ namespace VisionAssist.Forms
                 MatMP.Width * 4,
                 MatMP.Height * 4), 0,0, InterpolationFlags.Lanczos4);
 
-            gImageProcess.ConvertRgb2Gray(MatMP);
+            gImageProcess.ConvertRgb2Gray(ref MatMP);
             Cv2.Threshold(MatMP, MatMP, 200, 255, ThresholdTypes.Tozero);
 
             var old = picboxMP.Image;
 
-            //if (picboxMP.Image != null)
-            //    picboxMP.Image.Dispose();
-
             picboxMP.Image = MatMP.ToBitmap();
-
-            old.Dispose();
 
             Pix pix = PixConverter.ToPix(MatMP.ToBitmap());
             TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
@@ -224,7 +219,6 @@ namespace VisionAssist.Forms
 
             if (WordNum(MP, "\n") != 0)
                 return;
-
 
             string[] mpStrings = MP.Split('/');
 
@@ -247,11 +241,20 @@ namespace VisionAssist.Forms
                 LedMaxMP.Text = mpStrings[1];
             }));
 
+            result.Dispose();
+
             TengineMP.Dispose();
             TengineMP = null;
 
             if (mpStrings.Length == 2)
                 SimpleMPWork(mpStrings);
+
+            old.Dispose();
+            old = null;
+
+            MatMP.Release();
+            MatMP.Dispose();
+            MatMP = null;
         }
 
         public void GetHPTextImage(ref Mat src)
@@ -265,13 +268,10 @@ namespace VisionAssist.Forms
             Cv2.Resize(MatHP, MatHP, new Size(MatHP.Width*4, MatHP.Height*4)
                 , 0, 0, InterpolationFlags.Lanczos4);
 
-            gImageProcess.ConvertRgb2Gray(MatHP);
+            gImageProcess.ConvertRgb2Gray(ref MatHP);
             Cv2.Threshold(MatHP, MatHP, 180, 255, ThresholdTypes.Binary);
 
             var old = picboxHPText.Image;
-
-            //if (picboxHPText.Image != null)
-            //    picboxHPText.Image.Dispose();
 
             picboxHPText.Image = MatHP.ToBitmap();
 
@@ -318,13 +318,19 @@ namespace VisionAssist.Forms
                 LedMaxHP.Text = hpStrings[1];
             }));
 
-            //if (!(TengineMP.IsDisposed))
+            result.Dispose();
+
             TengineHP.Dispose();
             TengineHP = null;
 
             SimpleHPWork(hpStrings);
 
             old.Dispose();
+            old = null;
+
+            MatHP.Release();
+            MatHP.Dispose();
+            MatHP = null;
         }
 
         public int WordNum(String String, String Word)
@@ -366,7 +372,6 @@ namespace VisionAssist.Forms
                     {
                         if (ratio < Per)
                         {
-                            //System.Console.WriteLine(ratio + " Search On");
                             Action = true;
                         }
                     }
@@ -434,9 +439,9 @@ namespace VisionAssist.Forms
 
                     if (ratio <= dEvade)
                     {
-                        System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
+                        System.Console.WriteLine("[{0}] Evade HP : {1}", GLOBAL.GetTime(), ratio);
  
-                        if (EvadeCounter >= 5)
+                        if (EvadeCounter >= 3)
                         {
                             Action = 2;
                             EvadeCounter = 0;
@@ -465,84 +470,6 @@ namespace VisionAssist.Forms
                 }
             }
         }
-
-        //public void SetHPImagePos(Mat src)
-        //{
-        //    if (HPsize == OpenCvSharp.Size.Zero)
-        //        return;
-
-        //    matHP?.Release();
-        //    matHP = src.Clone();
-            
-        //    Cv2.Resize(matHP, matHP, HPsize, 0, 0, InterpolationFlags.Cubic);
-
-        //    if (chkHPTest.Checked)
-        //    {
-        //        gImageProcess.ConvertColorNormalize(matHP,
-        //            double.Parse(tbxHPUpper.Text),
-        //            double.Parse(tbxHPLower.Text), 2);
-        //    }
-        //    else
-        //    {
-        //        gImageProcess.ConvertColorNormalize(matHP, 142, 255, 2);
-        //    }
-
-        //    RefreshPicBox(ref matHP, ref picboxHP);
-
-        //    //RefreshHP();
-
-        //    if (GLOBAL.IsRun())
-        //    {
-        //        int ret = HP_Work();
-
-        //        switch (ret)
-        //        {
-        //            case 1:
-        //                if (GLOBAL._tskillboxes[0].IsUsed())
-        //                {
-        //                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
-        //                }
-        //                break;
-        //            case 2:
-        //                if (GLOBAL._tskillboxes[3].IsUsed())
-        //                {
-        //                    SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-        //                }
-        //                break;
-        //        }
-        //    }
-        //}
-      
-        //public void SetMPImagePos(Mat src)
-        //{
-        //    if (MPsize == OpenCvSharp.Size.Zero)
-        //        return;
-
-        //    matMP?.Release();
-        //    matMP = src;
-            
-        //    Cv2.Resize(matMP, matMP, MPsize, 0, 0, InterpolationFlags.Cubic);
-
-        //    gImageProcess.ConvertColorNormalize(ref matMP,
-        //        102,
-        //        108);
-
-        //    RefreshPicBox(ref matMP, ref picboxMP);
-
-        //    //RefreshMP();
-
-        //    if (GLOBAL.IsRun())
-        //    {
-        //        if (MP_Work())
-        //        {
-        //            if (GLOBAL._tskillboxes[1].checkBox.Checked)
-        //            {
-
-        //                //SearchSkillPos();
-        //            }
-        //        }
-        //    }
-        //}
 
         public bool SetAttackImagePos(ref Mat src)
         {
@@ -598,8 +525,6 @@ namespace VisionAssist.Forms
             matSearchItemAreaStartY = Area.Y;
         }
 
-
-
         public void SetMessage(string msg)
         {
             tbxSearchMessage.Invoke(new Action(()=>
@@ -619,8 +544,6 @@ namespace VisionAssist.Forms
 
         }
 
-
-
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
@@ -630,46 +553,6 @@ namespace VisionAssist.Forms
         {
 
         }
-
-        //private void RefreshHP()
-        //{
-        //    if (!matHP.IsDisposed)
-        //    {
-        //        picboxHP.Image?.Dispose();
-        //        picboxHP.Invoke(new Action(() =>
-        //        {
-        //            picboxHP.Image = matHP.ToBitmap();
-        //        }));
-
-        //    }
-        //}
-
-        //private void RefreshMP()
-        //{
-        //    try
-        //    {
-        //        if (!matMP.IsDisposed)
-        //        {
-        //            if (picboxMP.Image != null)
-        //            {
-        //                picboxMP.Image.Dispose();
-        //            }
-
-        //            picboxMP.Invoke(new Action(() =>
-        //            {
-        //                picboxMP.Image = matMP.ToBitmap();
-        //            }));
-
-
-        //        }
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //        throw;
-        //    }
-        //}
 
         private void RefreshPicBox(ref Mat src, ref PictureBox target)
         {
@@ -726,32 +609,24 @@ namespace VisionAssist.Forms
 
         private bool EvadeAttack(ref Mat MatAttack)
         {
-            //if (matAttack != null && matPKImage != null)
-            //{
-                //VecLoc3d result = gImageProcess.TemplateMatchingGetAllData(ref matPKImage, ref matAttack);
-                double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref MatAttack);
+            double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref MatAttack);
 
-                lblMatchingRatioEvade.BeginInvoke(new Action(() =>
-                {
-                    lblMatchingRatioEvade.Text = result.ToString() + " %";
-                }));
+            lblMatchingRatioEvade.Invoke(new Action(() =>
+            {
+                lblMatchingRatioEvade.Text = result.ToString() + " %";
+            }));
 
-                if (chkUserAttackEvade.Checked)
+            if (chkUserAttackEvade.Checked)
+            {
+                if (result >= 0.6)
                 {
-                    if (result >= 0.6)
-                    {
-                        bEvadeAttack = true;
-                    }
-                    else
-                        bEvadeAttack = false;
+                    bEvadeAttack = true;
                 }
                 else
                     bEvadeAttack = false;
-            //}
-            //else
-            //{
-            //    return;
-            //}
+            }
+            else
+                bEvadeAttack = false;
 
             return bEvadeAttack;
         }
@@ -901,7 +776,7 @@ namespace VisionAssist.Forms
         private void SimpleExcuteEvade(int Param)
         {
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-            Thread.Sleep(20);
+            Thread.Sleep(100);
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
         }
 
@@ -1185,7 +1060,6 @@ namespace VisionAssist.Forms
         {
             ttHP.SetToolTip(trBarHP, (trBarHP.Value * 10) + "%".ToString());
             INIControl.IniWrite("ControlParameter", "PerReFillHP", trBarHP.Value.ToString(), GLOBAL.Path);
-
         }
 
         private void trBarMP_Scroll(object sender, EventArgs e)

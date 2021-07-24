@@ -56,8 +56,8 @@ namespace VisionAssist.Vision
         public bool VisionGetRun = false;
         private Thread Visiontrd = null;
 
-        private Mat mat;
-        private Mat FinalImage;
+        private Mat mat = new Mat();
+        private Mat FinalImage = new Mat();
         private Mat FinalCopy;
 
         private bool isImageRun;
@@ -278,7 +278,6 @@ namespace VisionAssist.Vision
                     if (GLOBAL.SelectAppPlayer == 3)
                         sub = sub4;
 
-
                     GLOBAL.TargetHandle = sub;
 
                     //녹스앱플레이어를 쓴다면 //IntPtr c = FindWindowEx(b, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow"); 
@@ -297,19 +296,21 @@ namespace VisionAssist.Vision
                     bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
                     g.ReleaseHdc(hdc);
                     ret = GLOBAL.DeleteDC(hdc);
+                    g = null;
 
-                    //OpenCvSharp.Size size = new OpenCvSharp.Size(
-                    //            picVision.Size.Width,
-                    //            picVision.Size.Height);
+                    if (mat == null)
+                        mat = new Mat();
+
+                    if (FinalImage == null)
+                        FinalImage = new Mat();
 
                     mat = BitmapConverter.ToMat(stBitmap.gBitmap);
-                    WeakReference wMain = new WeakReference(mat);
-
-                    FinalImage = new Mat();
-                    WeakReference wFinal = new WeakReference(FinalImage);
 
                     Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
                     Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
+
+                    WeakReference wMain = new WeakReference(mat);
+                    WeakReference wFinal = new WeakReference(FinalImage);
 
                     if (bDrawText)
                     {
@@ -334,27 +335,34 @@ namespace VisionAssist.Vision
                     {
                         picVision.Image = FinalImage.ToBitmap();
                     }));
-                    
-                    ((IDisposable)oldimage).Dispose();
 
                     //if(mControlVision.IsDisposed)
 
-                    if (isImageRun == false)
+                    if (isImageRun == false && mControlVision.IsDisposed)
                     {
                         mControlVision = FinalImage.Clone();
-                        WeakReference a = new WeakReference(mControlVision);
                     }
-                        
+
+                    gdata.Dispose();
+                    gdata = null;
+
                     mat.Release();
+                    mat.Dispose();
+                    mat = null;
 
                     stBitmap.Dispose();
-                    g.Dispose();
-                    gdata.Dispose();
-
+                    
                     FinalImage.Release();
                     FinalImage.Dispose();
-                    //GC.SuppressFinalize(this);
-                    //GC.Collect();
+                    FinalImage = null;
+
+                    ((IDisposable)oldimage).Dispose();
+                    oldimage = null;
+
+                    GC.SuppressFinalize(this);
+                    GC.Collect();
+
+                    sub = IntPtr.Zero;
                 }
             }
         }
@@ -504,25 +512,16 @@ namespace VisionAssist.Vision
 
         private void bgwImageWork_DoWork(object sender, DoWorkEventArgs e)
         {
-            //Mat Attack = new Mat();
-            //Mat mHP = new Mat();
-            //Mat mMP = new Mat();
-
             while (true)
             {
                 if (mControlVision != null)
                 {
                     isImageRun = true;
-
                     if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
                     {
                         isImageRun = false;
                         continue;
                     }
-
-                    //Mat Attack = mControlVision.SubMat(new Rect(837, 399, 42, 47));
-                    //Mat mHP = mControlVision.SubMat(new Rect(96, 11, 76, 15));
-                    //Mat mMP = mControlVision.SubMat(new Rect(107, 28, 54, 13));
 
                     if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
                     {
@@ -544,11 +543,12 @@ namespace VisionAssist.Vision
                         );
                     }
 
-                    //if(!(mControlVision.IsDisposed))
+                    WeakReference sub = new WeakReference(mControlVision);
+
                     mControlVision.Release();
                     mControlVision.Dispose();
-                    //GC.SuppressFinalize(this);
-                    //GC.Collect();
+                    GC.SuppressFinalize(this);
+                    GC.Collect();
 
                     isImageRun = false;
                 }

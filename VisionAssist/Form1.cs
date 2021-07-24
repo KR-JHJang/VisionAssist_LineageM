@@ -160,47 +160,19 @@ namespace VisionAssist
         {
             while(true)
             {
-                tbxMouseX.Invoke(new Action(()=>
+                this.BeginInvoke(new Action(()=>
                 {
                     tbxMouseX.Text = stAxis.NowPosition.X.ToString();
-                }));
-
-                tbxMouseY.Invoke(new Action(()=>
-                {
                     tbxMouseY.Text = stAxis.NowPosition.Y.ToString();
-                }));
-
-                tbxRealMouseX.Invoke(new Action(() =>
-                {
                     tbxRealMouseX.Text = stAxis.NowRealPosition.X.ToString();
-                }));
-
-                tbxRealMouseY.Invoke(new Action(() =>
-                {
                     tbxRealMouseY.Text = stAxis.NowRealPosition.Y.ToString();
-                }));
-
-                tbxMouseStartPosX.Invoke(new Action(() =>
-                {
                     tbxMouseStartPosX.Text = stAxis.StartRangePos.X.ToString();
-                }));
-
-                tbxMouseStartPosY.Invoke(new Action(() =>
-                {
                     tbxMouseStartPosY.Text = stAxis.StartRangePos.Y.ToString();
-                }));
-
-                tbxMouseEndPosX.Invoke(new Action(() =>
-                {
                     tbxMouseEndPosX.Text = stAxis.RangeSize.X.ToString();
-                }));
-
-                tbxMouseEndPosY.Invoke(new Action(() =>
-                {
                     tbxMouseEndPosY.Text = stAxis.RangeSize.Y.ToString();
                 }));
 
-                Thread.Sleep(20);
+                Thread.Sleep(200);
             }
         }
 
@@ -208,37 +180,17 @@ namespace VisionAssist
         {
             while(true)
             {
-                tbxVisionSizeHeight.Invoke(new Action(() =>
+                this.BeginInvoke(new Action(() =>
                 {
                     tbxVisionSizeHeight.Text = GLOBAL.ScaleHeight.ToString();
-                }));
-
-                tbxVisionSizeWidth.Invoke(new Action(() =>
-                {
                     tbxVisionSizeWidth.Text = GLOBAL.ScaleWidth.ToString();
-                }));
-
-                tbxRealSizeWidth.Invoke(new Action(() =>
-                {
                     tbxRealSizeWidth.Text = GLOBAL.OriginWidth.ToString();
-                }));
-
-                tbxRealSizeHeight.Invoke(new Action(() =>
-                {
                     tbxRealSizeHeight.Text = GLOBAL.OriginHeight.ToString();
-                }));
-
-                tbxFormSizeWidth.Invoke(new Action(() =>
-                {
                     tbxFormSizeWidth.Text = GLOBAL.VisionWidth.ToString();
-                }));
-
-                tbxFormSizeHeight.Invoke(new Action(() =>
-                {
                     tbxFormSizeHeight.Text = GLOBAL.VisionHeight.ToString();
-                }));
+                }));               
 
-                Thread.Sleep(50);
+                Thread.Sleep(200);
             }
         }
 
