@@ -359,7 +359,6 @@ namespace VisionAssist.Vision
                     ((IDisposable)oldimage).Dispose();
                     oldimage = null;
 
-                    GC.SuppressFinalize(this);
                     GC.Collect();
 
                     sub = IntPtr.Zero;

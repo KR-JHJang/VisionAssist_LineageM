@@ -66,7 +66,11 @@ namespace VisionAssist
             this.bgwMousePosition = new System.ComponentModel.BackgroundWorker();
             this.bgwSizeChecker = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBottom.SuspendLayout();
+            this.cmnuNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlRight
@@ -434,6 +438,28 @@ namespace VisionAssist
             this.panel1.Size = new System.Drawing.Size(30, 590);
             this.panel1.TabIndex = 0;
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.cmnuNotify;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Vision Assist";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // cmnuNotify
+            // 
+            this.cmnuNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExit});
+            this.cmnuNotify.Name = "cmnuNotify";
+            this.cmnuNotify.Size = new System.Drawing.Size(181, 48);
+            // 
+            // mnuExit
+            // 
+            this.mnuExit.Name = "mnuExit";
+            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Text = "Exit";
+            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -446,12 +472,15 @@ namespace VisionAssist
             this.Controls.Add(this.pnlTop);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "frmMain";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vision Assist ";
+            this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();
+            this.cmnuNotify.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -492,6 +521,9 @@ namespace VisionAssist
         private Sunny.UI.UIComboBox cbxAppPlayer;
         public System.Windows.Forms.TextBox tbxRealMouseY;
         public System.Windows.Forms.TextBox tbxRealMouseX;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip cmnuNotify;
+        private System.Windows.Forms.ToolStripMenuItem mnuExit;
     }
 }
 

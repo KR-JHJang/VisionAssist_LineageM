@@ -776,8 +776,9 @@ namespace VisionAssist.Forms
         private void SimpleExcuteEvade(int Param)
         {
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-            Thread.Sleep(100);
+            Thread.Sleep(100);            
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
+            //Thread.Sleep(100);
         }
 
 

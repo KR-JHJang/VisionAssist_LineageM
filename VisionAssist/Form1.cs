@@ -219,5 +219,30 @@ namespace VisionAssist
             GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex;
             INIControl.IniWrite("Player", "SelectApp", cbxAppPlayer.SelectedIndex.ToString(), GLOBAL.Path);
         }
+
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                notifyIcon1.Visible = true; // tray icon 표시
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                notifyIcon1.Visible = false;
+                this.ShowInTaskbar = true; // 작업 표시줄 표시
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Dispose();
+        }
     }
 }
