@@ -63,6 +63,7 @@ namespace VisionAssist.Forms
 
         TesseractEngine TengineHP;
         TesseractEngine TengineMP;
+        TesseractEngine TengineLoc;
 
 
         public frmControl()
@@ -184,6 +185,101 @@ namespace VisionAssist.Forms
             }
         }
 
+        public void GetLocation(ref Mat src)
+        {
+            if (gImageProcess == null)
+                return;
+
+            Rect Pos = new Rect(800, 234, 152, 18);
+            Mat MatLoc = src.SubMat(Pos);
+            WeakReference wMat = new WeakReference(MatLoc);
+
+            var old = picboxLoc.Image;
+
+            try
+            {
+                VisionRect.SetRect(Pos, VisionRect.ePosition.Location);
+
+                Cv2.Resize(MatLoc, MatLoc, new Size(
+                    MatLoc.Width * 3,
+                    MatLoc.Height * 3), 0, 0, InterpolationFlags.Lanczos4);
+
+                //Cv2.InRange(MatLoc, )
+
+                gImageProcess.ConvertRgb2Gray(ref MatLoc);
+                //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);
+                Cv2.Threshold(MatLoc, MatLoc, 170, 255, ThresholdTypes.Tozero);
+
+                picboxLoc.Image = MatLoc.ToBitmap();
+
+                Pix pix = PixConverter.ToPix(MatLoc.ToBitmap());
+                TengineLoc = new TesseractEngine(@"./tessdata", "hangul", EngineMode.Default);
+
+                //string whitelist = "0123456789/";
+                //TengineLoc.SetVariable("tessedit_char_whitelist", whitelist);
+
+                var result = TengineLoc.Process(pix);
+                string strLoc = result.GetText().Trim();
+                strLoc = strLoc.Replace(" ", "").Trim();
+
+                System.Console.WriteLine(strLoc);
+
+            }
+            catch(Exception e)
+            {
+                return;
+            }
+            finally
+            {
+                //result.Dispose();
+
+                if(old != null)
+                    old.Dispose();
+
+                TengineLoc.Dispose();
+                TengineLoc = null;
+
+                MatLoc.Release();
+                MatLoc.Dispose();
+                MatLoc = null;
+            }
+
+            // tesseractengine 생성
+            //string whitelist = "0123456789/";
+            //TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
+
+            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+
+            //if (MP.IndexOf('/') == -1)
+            //if (WordNum(MP, "/") != 1)
+            //    return;
+
+            //if (WordNum(MP, "\n") != 0)
+            //    return;
+
+            //string[] mpStrings = MP.Split('/');
+
+            //if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
+            //    return;
+
+            //bool isnum = false;
+            //int chk = 0;
+            //foreach (var VARIABLE in mpStrings)
+            //{
+            //    isnum = int.TryParse(VARIABLE, out chk);
+            //}
+
+            //if (isnum == false)
+            //    return;
+
+            //this.BeginInvoke(new Action(() =>
+            //{
+            //    LedMP.Text = mpStrings[0];
+            //    LedMaxMP.Text = mpStrings[1];
+            //}));
+
+        }
+
         public void GetMPTextImage(ref Mat src)
         {
             if (gImageProcess == null)
@@ -208,7 +304,7 @@ namespace VisionAssist.Forms
             picboxMP.Image = MatMP.ToBitmap();
 
             Pix pix = PixConverter.ToPix(MatMP.ToBitmap());
-            TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
+            TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             // tesseractengine 생성
             string whitelist = "0123456789/";
             TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
@@ -285,7 +381,7 @@ namespace VisionAssist.Forms
             picboxHPText.Image = MatHP.ToBitmap();
 
             Pix pix = PixConverter.ToPix(MatHP.ToBitmap());
-            TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.TesseractOnly);
+            TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
             // tesseractengine 생성
             string whitelist = "0123456789/";
             TengineHP.SetVariable("tessedit_char_whitelist", whitelist);

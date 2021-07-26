@@ -546,6 +546,13 @@ namespace VisionAssist.Vision
                                 //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
                                 // MP Text
                                 GLOBAL.hfrmControl.GetMPTextImage(ref mControlVision);
+                            },
+                            () =>
+                            {
+                                // 현재 위치가 어디인지 파악 
+                                // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
+
+                                //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
                             }
                         );
                     }

@@ -101,14 +101,13 @@ namespace VisionAssist.Forms
                             break;
                     }
 
-                    if(GLOBAL.SetMousePositionMode == true)
+                    if(GLOBAL.SetMousePositionMode)
                     {
                         MessageBox.Show("Message", "Set Complete");
+
+                        GLOBAL.ReadSetupFile(Path);
+                        break;
                     }                    
-
-                    GLOBAL.ReadSetupFile(Path);
-
-                    break;
                 }
             }
         }
