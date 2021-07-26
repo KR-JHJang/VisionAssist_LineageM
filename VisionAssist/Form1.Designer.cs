@@ -69,6 +69,7 @@ namespace VisionAssist
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbxMaint = new System.Windows.Forms.CheckBox();
             this.pnlBottom.SuspendLayout();
             this.cmnuNotify.SuspendLayout();
             this.SuspendLayout();
@@ -109,6 +110,7 @@ namespace VisionAssist
             // pnlBottom
             // 
             this.pnlBottom.BackColor = System.Drawing.Color.DimGray;
+            this.pnlBottom.Controls.Add(this.cbxMaint);
             this.pnlBottom.Controls.Add(this.cbxAppPlayer);
             this.pnlBottom.Controls.Add(this.chkDrawText);
             this.pnlBottom.Controls.Add(this.label2);
@@ -451,14 +453,26 @@ namespace VisionAssist
             this.cmnuNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuExit});
             this.cmnuNotify.Name = "cmnuNotify";
-            this.cmnuNotify.Size = new System.Drawing.Size(181, 48);
+            this.cmnuNotify.Size = new System.Drawing.Size(94, 26);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Size = new System.Drawing.Size(93, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
+            // 
+            // cbxMaint
+            // 
+            this.cbxMaint.AutoSize = true;
+            this.cbxMaint.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxMaint.Location = new System.Drawing.Point(774, 34);
+            this.cbxMaint.Name = "cbxMaint";
+            this.cbxMaint.Size = new System.Drawing.Size(109, 21);
+            this.cbxMaint.TabIndex = 4;
+            this.cbxMaint.Text = "Maintenance";
+            this.cbxMaint.UseVisualStyleBackColor = true;
+            this.cbxMaint.Visible = false;
             // 
             // frmMain
             // 
@@ -524,6 +538,7 @@ namespace VisionAssist
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip cmnuNotify;
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
+        private System.Windows.Forms.CheckBox cbxMaint;
     }
 }
 

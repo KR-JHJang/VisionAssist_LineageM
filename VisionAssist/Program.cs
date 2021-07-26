@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisionAssist.API;
@@ -240,16 +242,37 @@ namespace VisionAssist
     }
 
     static class Program
-    {                
-        /// <summary>
-        /// 해당 애플리케이션의 주 진입점입니다.
-        /// </summary>
+    {
+        static void KillProcess()
+        {
+            Process[] pList = Process.GetProcessesByName("Vision Assist");
+            if (pList.Length > 0)
+            {
+                pList[0].Kill();
+            }
+        }/// 
+         /// <summary>
+         /// 해당 애플리케이션의 주 진입점입니다.
+         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            bool createdNew;
+            Mutex dup = new Mutex(true, "Focus Explorer MutexT", out createdNew); //Mutex생성
+
+            if (createdNew)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new frmMain());
+
+                dup.ReleaseMutex(); //Mutex 해제
+            }
+            else // 프로그램이 중복 실행된 경우
+            {
+                MessageBox.Show("The program is already running", "Informaion");
+                //KillProcess();
+            }
         }
     }
 }

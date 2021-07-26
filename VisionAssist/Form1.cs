@@ -50,6 +50,11 @@ namespace VisionAssist
             ReadData();
         }
 
+        public bool GetMaintenanceMode()
+        {
+            return cbxMaint.Checked;
+        }
+
         private void ReadData()
         {
             GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex = int.Parse(INIControl.IniRead("Player", "SelectApp", GLOBAL.Path));            
