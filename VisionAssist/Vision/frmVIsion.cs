@@ -18,6 +18,7 @@ using VisionAssist.API;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using VisionAssist.Forms;
+using VisionAssist.Classes;
 
 namespace VisionAssist.Vision
 {
@@ -328,6 +329,13 @@ namespace VisionAssist.Vision
                         ///// Font Scale
                         gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                     }
+                    
+                    // Maint 체크박스 활성화 시
+                    if(GLOBAL.hfrmMain.GetMaintenanceMode())
+                    {
+                        // 설정한 영역에 대한 사각박스를 그린다.
+                        VisionRect.DrawRectArea(ref FinalImage);
+                    }
 
                     var oldimage = picVision.Image;
 
@@ -520,7 +528,7 @@ namespace VisionAssist.Vision
                     {
                         isImageRun = false;
                         continue;
-                    }
+                    }                    
 
                     if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
                     {

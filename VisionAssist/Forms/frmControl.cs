@@ -19,6 +19,7 @@ using System.Runtime.Remoting.Messaging;
 using Tesseract;
 using Rect = OpenCvSharp.Rect;
 using Size = OpenCvSharp.Size;
+using VisionAssist.Classes;
 
 namespace VisionAssist.Forms
 {
@@ -188,8 +189,12 @@ namespace VisionAssist.Forms
             if (gImageProcess == null)
                 return;
 
-            Mat MatMP = src.SubMat(new Rect(107, 28, 54, 13));
+            Rect Pos = new Rect(107, 28, 54, 13);
+
+            Mat MatMP = src.SubMat(Pos);
             WeakReference wMat = new WeakReference(MatMP);
+
+            VisionRect.SetRect(Pos, VisionRect.ePosition.MP);
 
             Cv2.Resize(MatMP, MatMP, new Size(
                 MatMP.Width * 4,
@@ -262,8 +267,12 @@ namespace VisionAssist.Forms
             if (gImageProcess == null)
                 return;
 
-            Mat MatHP = src.SubMat(new Rect(96, 11, 76, 15));
+            Rect Pos = new Rect(96, 11, 76, 15);
+
+            Mat MatHP = src.SubMat(Pos);
             WeakReference wMat = new WeakReference(MatHP);
+
+            VisionRect.SetRect(Pos, VisionRect.ePosition.HP);
 
             Cv2.Resize(MatHP, MatHP, new Size(MatHP.Width*4, MatHP.Height*4)
                 , 0, 0, InterpolationFlags.Lanczos4);
@@ -476,12 +485,13 @@ namespace VisionAssist.Forms
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
 
-            Mat MatAttack = src.SubMat(new Rect(837, 399, 42, 47));
+            Rect Pos = new Rect(837, 399, 42, 47);
+
+            Mat MatAttack = src.SubMat(Pos);
             WeakReference wMat = new WeakReference(MatAttack);
 
-            //matAttack?.Release();
-            //matAttack = src;
-            
+            VisionRect.SetRect(Pos, VisionRect.ePosition.Attack);
+
             Cv2.Resize(MatAttack, MatAttack, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
 
             //gImageProcess.ConvertRGB2GRAY(matAttack);
