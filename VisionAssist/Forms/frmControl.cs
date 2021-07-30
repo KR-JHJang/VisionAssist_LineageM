@@ -20,6 +20,7 @@ using Tesseract;
 using Rect = OpenCvSharp.Rect;
 using Size = OpenCvSharp.Size;
 using VisionAssist.Classes;
+using System.IO;
 
 namespace VisionAssist.Forms
 {
@@ -581,6 +582,8 @@ namespace VisionAssist.Forms
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
 
+            //SaveImage(ref src);
+
             Rect Pos = new Rect(837, 399, 42, 47);
 
             Mat MatAttack = src.SubMat(Pos);
@@ -598,17 +601,33 @@ namespace VisionAssist.Forms
             {
                 if (EvadeAttack(ref MatAttack))
                 {
+                    SaveImage(ref src);
+
                     if (GLOBAL._tskillboxes[3].IsUsed())
                     {
                         System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-                        
+
                         return true;
                     }
                 }
             }
 
             return false;
+        }
+
+        private void SaveImage(ref Mat Src)
+        {
+            string Path = $@"{Application.StartupPath}\Capture\";
+            string Extention = Path + @DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".png";
+            if (Directory.Exists(Path) == false)
+            {
+                Directory.CreateDirectory(Path);
+            }
+            else
+            {
+                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 100));
+            }
         }
 
         public void SetSearchSkillAreaImage(Mat src, Rect Area)
