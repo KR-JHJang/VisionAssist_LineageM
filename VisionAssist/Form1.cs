@@ -55,6 +55,12 @@ namespace VisionAssist
             return cbxMaint.Checked;
         }
 
+        public void SetNotifyPopupMsg(string TempStr)
+        {
+            notifyIcon1.BalloonTipText = TempStr;
+            notifyIcon1.ShowBalloonTip(2000);
+        }
+
         private void ReadData()
         {
             GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex = int.Parse(INIControl.IniRead("Player", "SelectApp", GLOBAL.Path));            

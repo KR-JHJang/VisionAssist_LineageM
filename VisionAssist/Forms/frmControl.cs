@@ -582,8 +582,6 @@ namespace VisionAssist.Forms
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
 
-            //SaveImage(ref src);
-
             Rect Pos = new Rect(837, 399, 42, 47);
 
             Mat MatAttack = src.SubMat(Pos);
@@ -601,6 +599,10 @@ namespace VisionAssist.Forms
             {
                 if (EvadeAttack(ref MatAttack))
                 {
+                    // 공격당할 시 알려줄 메시지
+                    GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
+                    
+                    // 이미지 저장
                     SaveImage(ref src);
 
                     if (GLOBAL._tskillboxes[3].IsUsed())
@@ -1113,7 +1115,6 @@ namespace VisionAssist.Forms
             //    if (matMP != null && matMaxMPImage != null)
             //    {
             //        double ratio = 0;
-
             //        try
             //        {
             //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());

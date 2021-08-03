@@ -73,6 +73,8 @@ namespace VisionAssist.Vision
 
         private static object _imageLock = new object();
 
+        private bool MouseDown_Clicked = false;
+
         public frmVIsion()
         {
             InitializeComponent();
@@ -388,11 +390,19 @@ namespace VisionAssist.Vision
             if (GLOBAL.OriginWidth == 0 || GLOBAL.VisionWidth == 0)
                 return;
 
+            if (GLOBAL.SetMousePositionMode)
+            {
+                return;
+            }
+
             // 패턴 가져오기위해 이미지 그리기 멈춤
             if (GLOBAL.GetPatternMode)
             {
                 gRect = new Rect(e.X, e.Y, 0, 0);
                 SetMouseRangeStart(gRect.X, gRect.Y);
+
+                // 여기서부터 시작했다는 플래그 발생시킴
+                MouseDown_Clicked = true;
             }
             else
             {
@@ -413,18 +423,21 @@ namespace VisionAssist.Vision
             // 패턴 가져오기위해 이미지 그리기 멈춤
             if (GLOBAL.GetPatternMode)
             {
-                int width = e.Location.X - gRect.Location.X;
-                int height = e.Location.X - gRect.Location.Y;
+                if (MouseDown_Clicked)
+                {
+                    int width = e.Location.X - gRect.Location.X;
+                    int height = e.Location.X - gRect.Location.Y;
 
-                gRect.Width = width;
-                gRect.Height = height;
+                    gRect.Width = width;
+                    gRect.Height = height;
 
-                gRect = new Rect(gRect.Left, gRect.Top,
-                    Math.Min(e.X - gRect.Left, ClientRectangle.Width - gRect.Left),
-                    Math.Min(e.Y - gRect.Top, ClientRectangle.Height - gRect.Top));
+                    gRect = new Rect(gRect.Left, gRect.Top,
+                        Math.Min(e.X - gRect.Left, ClientRectangle.Width - gRect.Left),
+                        Math.Min(e.Y - gRect.Top, ClientRectangle.Height - gRect.Top));
 
-                // Paint 이벤트 발생
-                picVision.Invalidate();
+                    // Paint 이벤트 발생
+                    picVision.Invalidate(); 
+                }
             }
             else
             {
@@ -454,6 +467,8 @@ namespace VisionAssist.Vision
 
                 GetImageFromPictureBox(gRect);
                 SetMouseRangeEnd(width, height);
+                
+                MouseDown_Clicked = false;
 
                 picVision.Invalidate();
             }
