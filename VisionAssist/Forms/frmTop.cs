@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -294,6 +295,12 @@ namespace VisionAssist.Forms
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
             INIControl.IniWrite("ControlParameter", "UseCheckBox4", Convert.ToInt32(checkBox4.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void btnOpenCaptureFolder_Click(object sender, EventArgs e)
+        {
+            string Path = $@"{Application.StartupPath}\Capture\";
+            Process.Start(Path);
         }
     }
 }

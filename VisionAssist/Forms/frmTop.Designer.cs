@@ -85,6 +85,7 @@ namespace VisionAssist.Forms
             this.btnLoginKakaoTalk = new System.Windows.Forms.Button();
             this.btnSendMsg = new System.Windows.Forms.Button();
             this.btnSendMsg2 = new System.Windows.Forms.Button();
+            this.btnOpenCaptureFolder = new System.Windows.Forms.Button();
             this.gbox2.SuspendLayout();
             this.gbox1.SuspendLayout();
             this.gbox3.SuspendLayout();
@@ -668,10 +669,10 @@ namespace VisionAssist.Forms
             // btnLoginKakaoTalk
             // 
             this.btnLoginKakaoTalk.BackColor = System.Drawing.Color.Yellow;
-            this.btnLoginKakaoTalk.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoginKakaoTalk.Location = new System.Drawing.Point(769, 4);
+            this.btnLoginKakaoTalk.Font = new System.Drawing.Font("Arial Narrow", 12F);
+            this.btnLoginKakaoTalk.Location = new System.Drawing.Point(863, 4);
             this.btnLoginKakaoTalk.Name = "btnLoginKakaoTalk";
-            this.btnLoginKakaoTalk.Size = new System.Drawing.Size(166, 76);
+            this.btnLoginKakaoTalk.Size = new System.Drawing.Size(72, 76);
             this.btnLoginKakaoTalk.TabIndex = 6;
             this.btnLoginKakaoTalk.Text = "Login KAKAO TALK";
             this.btnLoginKakaoTalk.UseVisualStyleBackColor = false;
@@ -701,12 +702,25 @@ namespace VisionAssist.Forms
             this.btnSendMsg2.UseVisualStyleBackColor = false;
             this.btnSendMsg2.Click += new System.EventHandler(this.btnSendMsg2_Click);
             // 
+            // btnOpenCaptureFolder
+            // 
+            this.btnOpenCaptureFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnOpenCaptureFolder.Font = new System.Drawing.Font("Arial Narrow", 12F);
+            this.btnOpenCaptureFolder.Location = new System.Drawing.Point(769, 3);
+            this.btnOpenCaptureFolder.Name = "btnOpenCaptureFolder";
+            this.btnOpenCaptureFolder.Size = new System.Drawing.Size(88, 76);
+            this.btnOpenCaptureFolder.TabIndex = 6;
+            this.btnOpenCaptureFolder.Text = "Open Capture Folder";
+            this.btnOpenCaptureFolder.UseVisualStyleBackColor = false;
+            this.btnOpenCaptureFolder.Click += new System.EventHandler(this.btnOpenCaptureFolder_Click);
+            // 
             // frmTop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.btnSendMsg2);
             this.Controls.Add(this.btnSendMsg);
+            this.Controls.Add(this.btnOpenCaptureFolder);
             this.Controls.Add(this.btnLoginKakaoTalk);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
@@ -790,5 +804,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.Button btnLoginKakaoTalk;
         private System.Windows.Forms.Button btnSendMsg;
         private System.Windows.Forms.Button btnSendMsg2;
+        private System.Windows.Forms.Button btnOpenCaptureFolder;
     }
 }
