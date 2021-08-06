@@ -429,7 +429,7 @@ namespace VisionAssist.Forms
             TengineHP.Dispose();
             TengineHP = null;
 
-            SimpleHPWork(hpStrings);
+            SimpleHPWork(hpStrings, ref src);
 
             old.Dispose();
             old = null;
@@ -494,7 +494,7 @@ namespace VisionAssist.Forms
         }
 
         private int EvadeCounter;
-        public void SimpleHPWork(string[] data)
+        public void SimpleHPWork(string[] data, ref Mat src)
         {
             if (GLOBAL.IsRun())
             {
@@ -570,6 +570,12 @@ namespace VisionAssist.Forms
                     case 2:
                         if (GLOBAL._tskillboxes[3].IsUsed())
                         {
+                            // 공격당할 시 알려줄 메시지
+                            GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
+
+                            // 이미지 저장
+                            SaveImage(ref src, "Evade");
+
                             SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         }
                         break;
@@ -603,7 +609,7 @@ namespace VisionAssist.Forms
                     GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
                     
                     // 이미지 저장
-                    SaveImage(ref src);
+                    SaveImage(ref src, "Attack");
 
                     if (GLOBAL._tskillboxes[3].IsUsed())
                     {
@@ -618,10 +624,10 @@ namespace VisionAssist.Forms
             return false;
         }
 
-        private void SaveImage(ref Mat Src)
+        private void SaveImage(ref Mat Src, string Msg = "")
         {
-            string Path = $@"{Application.StartupPath}\Capture\";
-            string Extention = Path + @DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".png";
+            string Path = $@"{Application.StartupPath}\Capture\" + @DateTime.Now.ToString("yyyy-MM-dd") + "\\";
+            string Extention = Path + @DateTime.Now.ToString("HH-mm-ss ") + Msg + ".png";
             if (Directory.Exists(Path) == false)
             {
                 Directory.CreateDirectory(Path);
