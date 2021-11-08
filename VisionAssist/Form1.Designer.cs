@@ -35,6 +35,7 @@ namespace VisionAssist
             this.pnlTop = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pnlBottom = new System.Windows.Forms.Panel();
+            this.cbxMaint = new System.Windows.Forms.CheckBox();
             this.cbxAppPlayer = new Sunny.UI.UIComboBox();
             this.chkDrawText = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -69,7 +70,6 @@ namespace VisionAssist
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbxMaint = new System.Windows.Forms.CheckBox();
             this.pnlBottom.SuspendLayout();
             this.cmnuNotify.SuspendLayout();
             this.SuspendLayout();
@@ -144,15 +144,26 @@ namespace VisionAssist
             this.pnlBottom.TabIndex = 6;
             this.pnlBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlBottom_Paint);
             // 
+            // cbxMaint
+            // 
+            this.cbxMaint.AutoSize = true;
+            this.cbxMaint.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxMaint.Location = new System.Drawing.Point(774, 34);
+            this.cbxMaint.Name = "cbxMaint";
+            this.cbxMaint.Size = new System.Drawing.Size(109, 21);
+            this.cbxMaint.TabIndex = 4;
+            this.cbxMaint.Text = "Maintenance";
+            this.cbxMaint.UseVisualStyleBackColor = true;
+            // 
             // cbxAppPlayer
             // 
             this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
             this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.cbxAppPlayer.Items.AddRange(new object[] {
-            "LDPlayer",
-            "BlueStacks",
-            "LineageM",
-            "캐릭터명"});
+            "LDPlayer0",
+            "LDPlayer1",
+            "LDPlayer2",
+            "LDPlayer3"});
             this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
             this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
@@ -462,17 +473,6 @@ namespace VisionAssist
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
-            // cbxMaint
-            // 
-            this.cbxMaint.AutoSize = true;
-            this.cbxMaint.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxMaint.Location = new System.Drawing.Point(774, 34);
-            this.cbxMaint.Name = "cbxMaint";
-            this.cbxMaint.Size = new System.Drawing.Size(109, 21);
-            this.cbxMaint.TabIndex = 4;
-            this.cbxMaint.Text = "Maintenance";
-            this.cbxMaint.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -490,6 +490,8 @@ namespace VisionAssist
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vision Assist ";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();

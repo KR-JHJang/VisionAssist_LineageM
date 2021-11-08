@@ -72,6 +72,9 @@ namespace VisionAssist
         /// <returns>처리 결과</returns>
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr windowHandle, int message, IntPtr longParameter, IntPtr wordParameter);
+
+        [DllImport("User32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
         #endregion
 
         #region 메시지 보내기 - SendMessage(windowHandle, message, longParameter, wordParameter)
@@ -257,22 +260,22 @@ namespace VisionAssist
         [STAThread]
         static void Main()
         {
-            bool createdNew;
-            Mutex dup = new Mutex(true, "Focus Explorer MutexT", out createdNew); //Mutex생성
+            //bool createdNew;
+            //Mutex dup = new Mutex(true, "Focus Explorer MutexT", out createdNew); //Mutex생성
 
-            if (createdNew)
-            {
+            //if (createdNew)
+            //{
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new frmMain());
 
-                dup.ReleaseMutex(); //Mutex 해제
-            }
-            else // 프로그램이 중복 실행된 경우
-            {
-                MessageBox.Show("The program is already running", "Informaion");
-                //KillProcess();
-            }
+            //    dup.ReleaseMutex(); //Mutex 해제
+            //}
+            //else // 프로그램이 중복 실행된 경우
+            //{
+            //    MessageBox.Show("The program is already running", "Informaion");
+            //    //KillProcess();
+            //}
         }
     }
 }

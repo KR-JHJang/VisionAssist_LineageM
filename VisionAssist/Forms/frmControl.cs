@@ -547,7 +547,7 @@ namespace VisionAssist.Forms
                     {
                         System.Console.WriteLine("[{0}] Evade HP : {1}", GLOBAL.GetTime(), ratio);
  
-                        if (EvadeCounter >= 3)
+                        if (EvadeCounter >= 5)
                         {
                             Action = 2;
                             EvadeCounter = 0;
@@ -1219,6 +1219,12 @@ namespace VisionAssist.Forms
         private void chkRefillHP_CheckedChanged(object sender, EventArgs e)
         {
             INIControl.IniWrite("ControlParameter", "UseReFillHP", Convert.ToInt32(chkRefillHP.Checked).ToString(), GLOBAL.Path);
+        }
+
+        private void btnSetMessage_Click(object sender, EventArgs e)
+        {
+            //TextBox textBox = sender as TextBox;
+            GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x004A, 0, tbxKeyString.Text);
         }
     }
 }

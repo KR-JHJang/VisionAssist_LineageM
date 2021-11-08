@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using VisionAssist.Forms;
 using VisionAssist.Classes;
+using System.Runtime.InteropServices;
 
 namespace VisionAssist.Vision
 {
@@ -79,6 +80,8 @@ namespace VisionAssist.Vision
         {
             InitializeComponent();
             GLOBAL.hfrmVision = this;
+
+            this.KeyUp += GLOBAL.hfrmMain.frmMain_KeyUp;
 
             Application.Idle += Application_Idle;
         }
@@ -256,19 +259,25 @@ namespace VisionAssist.Vision
                             sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             break;
                         case 1:
+                            // LD Player1
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
+                            //sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
                             break;
                         case 2:
+                            // LD Player2
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "plrNativeInputWindowClass", "plrNativeInputWindow");
+                            //sub = GLOBAL.FindWindowEx(main, 0, "plrNativeInputWindowClass", "plrNativeInputWindow");
                             break;
                         case 3:
+                            // LD Player3
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "CEFBrowseWindowWndClass", "");
-                            sub2 = GLOBAL.FindWindowEx(sub, 0, "CefBrowserWindow", "리니지M ");
-                            sub3 = GLOBAL.FindWindowEx(sub2, 0, "Chrome_WidgetWin_0", "리니지M ");
-                            sub4 = GLOBAL.FindWindowEx(sub3, 0, "Intermediate D3D Window", "");
+                            //sub = GLOBAL.FindWindowEx(main, 0, "CEFBrowseWindowWndClass", "");
+                            //sub2 = GLOBAL.FindWindowEx(sub, 0, "CefBrowserWindow", "리니지M ");
+                            //sub3 = GLOBAL.FindWindowEx(sub2, 0, "Chrome_WidgetWin_0", "리니지M ");
+                            //sub4 = GLOBAL.FindWindowEx(sub3, 0, "Intermediate D3D Window", "");
                             break;
                     }
 
@@ -594,5 +603,19 @@ namespace VisionAssist.Vision
             gfrm = new frmUserPosition(GLOBAL.hfrmMain);
             gfrm.Show();
         }
+
+        private void picVision_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x000c, 0, textBox.Text);
+        }
+    }
+
+    public struct COPYDATASTRUCT
+    {
+        public IntPtr dwData;
+        public UInt32 cbData;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string lpData;
     }
 }

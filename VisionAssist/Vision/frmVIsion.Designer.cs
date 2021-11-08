@@ -34,10 +34,10 @@ namespace VisionAssist.Vision
             this.picVision = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.stripTitle = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsSetMousePosition = new System.Windows.Forms.ToolStripMenuItem();
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bgwShowVIsion = new System.ComponentModel.BackgroundWorker();
             this.bgwImageWork = new System.ComponentModel.BackgroundWorker();
-            this.tsSetMousePosition = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picVision)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +57,7 @@ namespace VisionAssist.Vision
             this.picVision.MouseEnter += new System.EventHandler(this.picVision_MouseEnter);
             this.picVision.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseMove);
             this.picVision.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseUp);
+            this.picVision.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.picVision_PreviewKeyDown);
             // 
             // contextMenuStrip1
             // 
@@ -65,7 +66,7 @@ namespace VisionAssist.Vision
             this.tsSetMousePosition,
             this.getImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(210, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(210, 82);
             // 
             // stripTitle
             // 
@@ -79,6 +80,13 @@ namespace VisionAssist.Vision
             this.stripTitle.Size = new System.Drawing.Size(209, 26);
             this.stripTitle.Text = "Vision Control";
             this.stripTitle.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            // 
+            // tsSetMousePosition
+            // 
+            this.tsSetMousePosition.Name = "tsSetMousePosition";
+            this.tsSetMousePosition.Size = new System.Drawing.Size(209, 26);
+            this.tsSetMousePosition.Text = "Set Mouse Position";
+            this.tsSetMousePosition.Click += new System.EventHandler(this.tsSetMousePosition_Click);
             // 
             // getImageToolStripMenuItem
             // 
@@ -98,13 +106,6 @@ namespace VisionAssist.Vision
             this.bgwImageWork.WorkerReportsProgress = true;
             this.bgwImageWork.WorkerSupportsCancellation = true;
             this.bgwImageWork.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwImageWork_DoWork);
-            // 
-            // tsSetMousePosition
-            // 
-            this.tsSetMousePosition.Name = "tsSetMousePosition";
-            this.tsSetMousePosition.Size = new System.Drawing.Size(209, 26);
-            this.tsSetMousePosition.Text = "Set Mouse Position";
-            this.tsSetMousePosition.Click += new System.EventHandler(this.tsSetMousePosition_Click);
             // 
             // frmVIsion
             // 

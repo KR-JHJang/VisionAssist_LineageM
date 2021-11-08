@@ -56,6 +56,7 @@ namespace VisionAssist.Forms
             this.trBarHPEvade = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.picboxLoc = new System.Windows.Forms.PictureBox();
             this.picboxHP = new System.Windows.Forms.PictureBox();
             this.picboxMP = new System.Windows.Forms.PictureBox();
             this.picboxHPText = new System.Windows.Forms.PictureBox();
@@ -77,7 +78,9 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
-            this.picboxLoc = new System.Windows.Forms.PictureBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.tbxKeyString = new System.Windows.Forms.TextBox();
+            this.btnSetMessage = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -88,6 +91,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
@@ -97,7 +101,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).BeginInit();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -114,6 +118,7 @@ namespace VisionAssist.Forms
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage1.Controls.Add(this.groupBox8);
             this.tabPage1.Controls.Add(this.groupBox7);
             this.tabPage1.Controls.Add(this.groupBox5);
             this.tabPage1.Controls.Add(this.groupBox4);
@@ -131,7 +136,7 @@ namespace VisionAssist.Forms
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox7.Location = new System.Drawing.Point(3, 382);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(216, 221);
+            this.groupBox7.Size = new System.Drawing.Size(216, 86);
             this.groupBox7.TabIndex = 16;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "현재 위치";
@@ -414,6 +419,16 @@ namespace VisionAssist.Forms
             this.tabPage4.Text = "Admin";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // picboxLoc
+            // 
+            this.picboxLoc.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxLoc.Image = ((System.Drawing.Image)(resources.GetObject("picboxLoc.Image")));
+            this.picboxLoc.Location = new System.Drawing.Point(3, 441);
+            this.picboxLoc.Name = "picboxLoc";
+            this.picboxLoc.Size = new System.Drawing.Size(216, 86);
+            this.picboxLoc.TabIndex = 16;
+            this.picboxLoc.TabStop = false;
+            // 
             // picboxHP
             // 
             this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
@@ -595,15 +610,34 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
-            // picboxLoc
+            // groupBox8
             // 
-            this.picboxLoc.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxLoc.Image = ((System.Drawing.Image)(resources.GetObject("picboxLoc.Image")));
-            this.picboxLoc.Location = new System.Drawing.Point(3, 441);
-            this.picboxLoc.Name = "picboxLoc";
-            this.picboxLoc.Size = new System.Drawing.Size(216, 86);
-            this.picboxLoc.TabIndex = 16;
-            this.picboxLoc.TabStop = false;
+            this.groupBox8.Controls.Add(this.btnSetMessage);
+            this.groupBox8.Controls.Add(this.tbxKeyString);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox8.Location = new System.Drawing.Point(3, 468);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(216, 132);
+            this.groupBox8.TabIndex = 17;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "키보드 명령";
+            // 
+            // tbxKeyString
+            // 
+            this.tbxKeyString.Location = new System.Drawing.Point(6, 21);
+            this.tbxKeyString.Name = "tbxKeyString";
+            this.tbxKeyString.Size = new System.Drawing.Size(140, 21);
+            this.tbxKeyString.TabIndex = 0;
+            // 
+            // btnSetMessage
+            // 
+            this.btnSetMessage.Location = new System.Drawing.Point(152, 21);
+            this.btnSetMessage.Name = "btnSetMessage";
+            this.btnSetMessage.Size = new System.Drawing.Size(61, 23);
+            this.btnSetMessage.TabIndex = 1;
+            this.btnSetMessage.Text = "Send";
+            this.btnSetMessage.UseVisualStyleBackColor = true;
+            this.btnSetMessage.Click += new System.EventHandler(this.btnSetMessage_Click);
             // 
             // frmControl
             // 
@@ -627,6 +661,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
@@ -636,7 +671,8 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxColorRed)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picGetImage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -691,5 +727,8 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picboxHP;
         private System.Windows.Forms.PictureBox picboxMP;
         private System.Windows.Forms.PictureBox picboxLoc;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TextBox tbxKeyString;
+        private System.Windows.Forms.Button btnSetMessage;
     }
 }

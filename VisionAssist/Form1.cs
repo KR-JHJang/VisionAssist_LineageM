@@ -142,13 +142,16 @@ namespace VisionAssist
                             gfrmVision.ImageCapture("LDPlayer");
                             break;
                         case 1:
-                            gfrmVision.ImageCapture("BlueStacks");
+                            gfrmVision.ImageCapture("LDPlayer1");
+                            //gfrmVision.ImageCapture("BlueStacks");
                             break;
                         case 2:
-                            gfrmVision.ImageCapture(cbxAppPlayer.Text);
+                            gfrmVision.ImageCapture("LDPlayer2");
+                            //gfrmVision.ImageCapture(cbxAppPlayer.Text);
                             break;
                         case 3:
-                            gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+                            gfrmVision.ImageCapture("LDPlayer3");
+                            //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
                             break;
                     }
                 }
@@ -254,6 +257,16 @@ namespace VisionAssist
         private void mnuExit_Click(object sender, EventArgs e)
         {
             Dispose();
+        }
+
+        public void frmMain_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }
