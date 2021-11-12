@@ -246,7 +246,7 @@ namespace VisionAssist.Vision
             {
                 lock (_imageLock)
                 {
-                    IntPtr main = GLOBAL.FindWindow(null, target);
+                    IntPtr main = GLOBAL.FindWindow(null, target+ "(64)");
                     IntPtr sub = IntPtr.Zero;
                     IntPtr sub2 = IntPtr.Zero;
                     IntPtr sub3 = IntPtr.Zero;
@@ -259,24 +259,16 @@ namespace VisionAssist.Vision
                             sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             break;
                         case 1:
-                            // LD Player1
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            //sub = GLOBAL.FindWindowEx(main, 0, "WindowsForms10.Window.8.app.0.2fc056_r6_ad1", "BlueStacks Android PluginAndroid");
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             break;
                         case 2:
-                            // LD Player2
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            //sub = GLOBAL.FindWindowEx(main, 0, "plrNativeInputWindowClass", "plrNativeInputWindow");
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             break;
                         case 3:
-                            // LD Player3
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             // 블루스택
-                            //sub = GLOBAL.FindWindowEx(main, 0, "CEFBrowseWindowWndClass", "");
-                            //sub2 = GLOBAL.FindWindowEx(sub, 0, "CefBrowserWindow", "리니지M ");
-                            //sub3 = GLOBAL.FindWindowEx(sub2, 0, "Chrome_WidgetWin_0", "리니지M ");
+                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
                             //sub4 = GLOBAL.FindWindowEx(sub3, 0, "Intermediate D3D Window", "");
                             break;
                     }
@@ -287,8 +279,8 @@ namespace VisionAssist.Vision
                     if (sub == IntPtr.Zero)
                         return;
 
-                    if (GLOBAL.SelectAppPlayer == 3)
-                        sub = sub4;
+                    //if (GLOBAL.SelectAppPlayer == 3)
+                    //    sub = sub4;
 
                     GLOBAL.TargetHandle = sub;
 

@@ -139,7 +139,7 @@ namespace VisionAssist
                     switch(GLOBAL.SelectAppPlayer)
                     {
                         case 0:
-                            gfrmVision.ImageCapture("LDPlayer");
+                            gfrmVision.ImageCapture("LDPlayer0");
                             break;
                         case 1:
                             gfrmVision.ImageCapture("LDPlayer1");
