@@ -547,7 +547,7 @@ namespace VisionAssist.Forms
                     {
                         System.Console.WriteLine("[{0}] Evade HP : {1}", GLOBAL.GetTime(), ratio);
  
-                        if (EvadeCounter >= 5)
+                        if (EvadeCounter >= 3)
                         {
                             Action = 2;
                             EvadeCounter = 0;
