@@ -157,6 +157,7 @@ namespace VisionAssist
             // 
             // cbxAppPlayer
             // 
+            this.cbxAppPlayer.DataSource = null;
             this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
             this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.cbxAppPlayer.Items.AddRange(new object[] {
@@ -490,6 +491,7 @@ namespace VisionAssist
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vision Assist ";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
             this.Resize += new System.EventHandler(this.frmMain_Resize);

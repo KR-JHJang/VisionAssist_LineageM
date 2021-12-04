@@ -244,41 +244,6 @@ namespace VisionAssist.Forms
                 MatLoc.Dispose();
                 MatLoc = null;
             }
-
-            // tesseractengine 생성
-            //string whitelist = "0123456789/";
-            //TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
-
-            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
-
-            //if (MP.IndexOf('/') == -1)
-            //if (WordNum(MP, "/") != 1)
-            //    return;
-
-            //if (WordNum(MP, "\n") != 0)
-            //    return;
-
-            //string[] mpStrings = MP.Split('/');
-
-            //if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
-            //    return;
-
-            //bool isnum = false;
-            //int chk = 0;
-            //foreach (var VARIABLE in mpStrings)
-            //{
-            //    isnum = int.TryParse(VARIABLE, out chk);
-            //}
-
-            //if (isnum == false)
-            //    return;
-
-            //this.BeginInvoke(new Action(() =>
-            //{
-            //    LedMP.Text = mpStrings[0];
-            //    LedMaxMP.Text = mpStrings[1];
-            //}));
-
         }
 
         public void GetMPTextImage(ref Mat src)
@@ -305,7 +270,7 @@ namespace VisionAssist.Forms
             picboxMP.Image = MatMP.ToBitmap();
 
             Pix pix = PixConverter.ToPix(MatMP.ToBitmap());
-            TengineMP = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+            TengineMP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default);
             // tesseractengine 생성
             string whitelist = "0123456789/";
             TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
@@ -383,6 +348,7 @@ namespace VisionAssist.Forms
 
             Pix pix = PixConverter.ToPix(MatHP.ToBitmap());
             TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default);
+
             // tesseractengine 생성
             string whitelist = "0123456789/";
             TengineHP.SetVariable("tessedit_char_whitelist", whitelist);
@@ -445,7 +411,6 @@ namespace VisionAssist.Forms
             Num = Num / Word.Length;
 
             return Num;
-
         }
 
         public void SimpleMPWork(string[] data)
@@ -537,23 +502,26 @@ namespace VisionAssist.Forms
                     dEvade = decimal.Parse(trBarHPEvade.Value.ToString()) * 10;
                 }));
 
-                if (chkAvoidHP.Checked)
+                if(Action != 1)
                 {
-                    EvadeCounter++;
-
-                    if (ratio <= dEvade)
+                    if (chkAvoidHP.Checked)
                     {
-                        System.Console.WriteLine("[{0}] Evade HP : {1}", GLOBAL.GetTime(), ratio);
- 
-                        if (EvadeCounter >= 3)
+                        EvadeCounter++;
+
+                        if (ratio <= dEvade)
                         {
-                            Action = 2;
+                            System.Console.WriteLine("[{0}] Evade HP : {1}", GLOBAL.GetTime(), ratio);
+
+                            if (EvadeCounter >= 3)
+                            {
+                                Action = 2;
+                                EvadeCounter = 0;
+                            }
+                        }
+                        else
+                        {
                             EvadeCounter = 0;
                         }
-                    }
-                    else
-                    {
-                        EvadeCounter = 0;
                     }
                 }
 
@@ -578,6 +546,8 @@ namespace VisionAssist.Forms
                             SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
                         }
                         break;
+                    default:
+                    break;
                 }
             }
         }
@@ -988,7 +958,7 @@ namespace VisionAssist.Forms
         private void btnSetMessage_Click(object sender, EventArgs e)
         {
             //TextBox textBox = sender as TextBox;
-            GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x004A, 0, tbxKeyString.Text);
+            //GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x004A, 0, tbxKeyString.Text);
         }
     }
 }

@@ -309,5 +309,10 @@ namespace VisionAssist
         {
 
         }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
     }
 }

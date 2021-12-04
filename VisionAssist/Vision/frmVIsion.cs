@@ -100,11 +100,6 @@ namespace VisionAssist.Vision
                 picVision.Size.Width,
                 picVision.Size.Height);
 
-            //bgwShowVIsion.RunWorkerAsync();
-
-            // 원래 쓰던거
-            //bgwImageWork.RunWorkerAsync();
-
             // 새로 추가함
             TaskRun();
 
@@ -112,13 +107,6 @@ namespace VisionAssist.Vision
             GLOBAL.VisionHeight = picVision.Height;
 
             gImageProcess = new HPKR_ImageProcess();
-
-            Process currentProcess = Process.GetCurrentProcess();
-
-           // foreach (ProcessThread processThread in currentProcess.Threads)
-           // {
-           //     processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
-           // }
         }
 
         private async void TaskRun()
@@ -170,8 +158,6 @@ namespace VisionAssist.Vision
 
                     mControlVision.Release();
                     mControlVision.Dispose();
-                    GC.SuppressFinalize(this);
-                    GC.Collect();
 
                     isImageRun = false;
                 }
@@ -312,9 +298,9 @@ namespace VisionAssist.Vision
                 {
                     IntPtr main = GLOBAL.FindWindow(null, target+ "(64)");
                     IntPtr sub = IntPtr.Zero;
-                    IntPtr sub2 = IntPtr.Zero;
-                    IntPtr sub3 = IntPtr.Zero;
-                    IntPtr sub4 = IntPtr.Zero;
+                    //IntPtr sub2 = IntPtr.Zero;
+                    //IntPtr sub3 = IntPtr.Zero;
+                    //IntPtr sub4 = IntPtr.Zero;
 
                     switch (GLOBAL.SelectAppPlayer)
                     {
@@ -333,7 +319,6 @@ namespace VisionAssist.Vision
                         case 3:
                             // 블루스택
                             sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-                            //sub4 = GLOBAL.FindWindowEx(sub3, 0, "Intermediate D3D Window", "");
                             break;
                     }
 
@@ -342,9 +327,6 @@ namespace VisionAssist.Vision
 
                     if (sub == IntPtr.Zero)
                         return;
-
-                    //if (GLOBAL.SelectAppPlayer == 3)
-                    //    sub = sub4;
 
                     GLOBAL.TargetHandle = sub;
 
@@ -382,18 +364,18 @@ namespace VisionAssist.Vision
 
                     if (bDrawText)
                     {
-                        /// Text Location
+                        // Text Location
                         OpenCvSharp.Point myPoint;
                         myPoint.X = FinalImage.Width - 400;
                         myPoint.Y = FinalImage.Height - 10;
 
-                        /// Font Face
+                        // Font Face
                         int myFontFace = 2;
 
                         Vector2 Pos = GetMousePosition();
                         string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
 
-                        ///// Font Scale
+                        // Font Scale
                         gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
                     }
                     
@@ -410,8 +392,6 @@ namespace VisionAssist.Vision
                     {
                         picVision.Image = FinalImage.ToBitmap();
                     }));
-
-                    //if(mControlVision.IsDisposed)
 
                     if (isImageRun == false && mControlVision.IsDisposed)
                     {
@@ -434,9 +414,9 @@ namespace VisionAssist.Vision
                     ((IDisposable)oldimage).Dispose();
                     oldimage = null;
 
-                    GC.Collect();
-
                     sub = IntPtr.Zero;
+
+                    GC.Collect();
                 }
             }
         }
@@ -604,6 +584,7 @@ namespace VisionAssist.Vision
                 if (mControlVision != null)
                 {
                     isImageRun = true;
+
                     if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
                     {
                         isImageRun = false;
@@ -641,8 +622,6 @@ namespace VisionAssist.Vision
 
                     mControlVision.Release();
                     mControlVision.Dispose();
-                    GC.SuppressFinalize(this);
-                    GC.Collect();
 
                     isImageRun = false;
                 }
