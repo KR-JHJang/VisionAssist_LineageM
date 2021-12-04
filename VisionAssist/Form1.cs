@@ -43,11 +43,13 @@ namespace VisionAssist
             SyncForm(this);
             LoadForm();
 
-            bgwSearchWindow.RunWorkerAsync();
+            //bgwSearchWindow.RunWorkerAsync();
             bgwMousePosition.RunWorkerAsync();
             bgwSizeChecker.RunWorkerAsync();
 
             ReadData();
+
+            TaskRun();
         }
 
         public bool GetMaintenanceMode()
@@ -127,6 +129,44 @@ namespace VisionAssist
             //gfrmVision.ImageCapture("LDPlayer");
         }
 
+        private async void TaskRun()
+        {
+            await Task.Run(() => func_Task_Run());
+        }
+
+        private async Task func_Task_Run()
+        {
+            while (true)
+            {
+                if (GLOBAL.SelectAppPlayer == int.MinValue)
+                    continue;
+
+                if (isWindowMoving == false)
+                {
+                    switch (GLOBAL.SelectAppPlayer)
+                    {
+                        case 0:
+                            gfrmVision.ImageCapture("LDPlayer0");
+                            break;
+                        case 1:
+                            gfrmVision.ImageCapture("LDPlayer1");
+                            //gfrmVision.ImageCapture("BlueStacks");
+                            break;
+                        case 2:
+                            gfrmVision.ImageCapture("LDPlayer2");
+                            //gfrmVision.ImageCapture(cbxAppPlayer.Text);
+                            break;
+                        case 3:
+                            gfrmVision.ImageCapture("LDPlayer3");
+                            //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+                            break;
+                    }
+                }
+
+                await Task.Delay(20);
+            }
+        }
+
         private void bgwSearchWindow_DoWork(object sender, DoWorkEventArgs e)
         {
             while(true)
@@ -186,6 +226,7 @@ namespace VisionAssist
                     tbxMouseEndPosY.Text = stAxis.RangeSize.Y.ToString();
                 }));
 
+                //Task.Delay(200);
                 Thread.Sleep(200);
             }
         }

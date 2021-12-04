@@ -382,7 +382,7 @@ namespace VisionAssist.Forms
             picboxHPText.Image = MatHP.ToBitmap();
 
             Pix pix = PixConverter.ToPix(MatHP.ToBitmap());
-            TengineHP = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default);
+            TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default);
             // tesseractengine 생성
             string whitelist = "0123456789/";
             TengineHP.SetVariable("tessedit_char_whitelist", whitelist);
@@ -400,7 +400,6 @@ namespace VisionAssist.Forms
                 return;
 
             string[] hpStrings = HP.Split('/');
-
 
             if (hpStrings[0] == "" || hpStrings[1] == "" || hpStrings[1] == "0")
                 return;
@@ -505,7 +504,6 @@ namespace VisionAssist.Forms
                     return;
 
                 decimal ratio = (hp / max) * 100;
-
                 decimal barhp = Decimal.Zero;
 
                 int Action = int.MinValue;
@@ -570,8 +568,9 @@ namespace VisionAssist.Forms
                     case 2:
                         if (GLOBAL._tskillboxes[3].IsUsed())
                         {
+                            // 회피 시엔 알람 필요 없음
                             // 공격당할 시 알려줄 메시지
-                            GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
+                            //GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
 
                             // 이미지 저장
                             SaveImage(ref src, "Evade");
@@ -634,7 +633,7 @@ namespace VisionAssist.Forms
             }
             else
             {
-                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 100));
+                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 1));
             }
         }
 
@@ -909,7 +908,7 @@ namespace VisionAssist.Forms
         private void SimpleExcuteEvade(int Param)
         {
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-            Thread.Sleep(100);            
+            Thread.Sleep(200);            
             GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
             //Thread.Sleep(100);
         }
@@ -927,250 +926,15 @@ namespace VisionAssist.Forms
             }           
         }
 
-        //private int HP_Work()
-        //{
-        //    int Action = 0;
-
-        //    if (matHP != null && matMaxHPImage != null)
-        //    {
-        //        double ratio = 0;
-
-        //        try
-        //        {
-        //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-        //            ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
-
-        //            if (ratio <= 0)
-        //                return 0;
-                        
-        //            ratio = Math.Round(ratio, 2);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            System.Console.WriteLine(ex);
-        //        }
-
-
-        //        lblMatchingRatioMP.Invoke(new Action(() =>
-        //        {
-        //            lblMatchingRatioHP.Text = ratio.ToString() + " %";
-        //        }));
-
-        //        double Per = 0;
-
-        //        trBarHP.Invoke(new Action(() =>
-        //        {
-        //            Per = double.Parse(trBarHP.Value.ToString()) * 10;
-        //        }));
-
-        //        if (chkRefillHP.Checked)
-        //        {
-        //            if (ratio <= Per)
-        //            {
-        //                System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
-        //                //System.Console.WriteLine(ratio + " Search On");
-        //                Action = 1;
-        //            }
-        //        }
-
-        //        double dEvade = 0;
-
-        //        trBarHP.Invoke(new Action(() =>
-        //        {
-        //            dEvade = double.Parse(trBarHPEvade.Value.ToString()) * 10;
-        //        }));
-
-        //        if (chkAvoidHP.Checked)
-        //        {
-        //            if (ratio <= dEvade)
-        //            {
-        //                System.Console.WriteLine("[{0}] Refill HP : {1}", GLOBAL.GetTime(), ratio);
-        //                Action = 2;
-        //            }
-        //        }
-        //    }
-
-        //    return Action;
-        //}
-
         private void bgwHP_DoWork(object sender, DoWorkEventArgs e)
         {
-            //while (true)
-            //{
-            //    if (matHP == null)
-            //        continue;
-
-            //    if (matHP.IsDisposed)
-            //        continue;
-
-            //    if (matHP != null && matMaxHPImage != null)
-            //    {
-            //        double ratio = 0;
-
-            //        try
-            //        {
-            //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-            //            ratio = gImageProcess.SimpleColorMatching(matMaxHPImage.Clone(), matHP.Clone(), 2);
-
-            //            if (ratio <= 0)
-            //                continue;
-
-            //            ratio = Math.Round(ratio, 2);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            System.Console.WriteLine(ex);
-            //            continue;
-            //        }
-
-
-            //        lblMatchingRatioHP.Invoke(new Action(() =>
-            //        {
-            //            lblMatchingRatioHP.Text = ratio.ToString() + " %";
-            //        }));
-
-            //        double Per = 0;
-
-            //        trBarHP.Invoke(new Action(()=>
-            //        {
-            //            Per = double.Parse(trBarHP.Value.ToString()) * 10;
-            //        }));
-
-            //        if (chkRefillHP.Checked)
-            //        {
-            //            if (ratio < Per)
-            //            {
-            //                //System.Console.WriteLine(ratio + " Search On");
-            //                bRefillHP = true;
-            //            }
-            //            else
-            //                bRefillHP = false;
-            //        }
-            //        else
-            //            bRefillHP = false;
-            //    }
-
-            //    Thread.Sleep(100);
-            //}
+            
         }
     
-        //private bool MP_Work()
-        //{
-            ////if (matMP != null && matMaxMPImage != null)
-            ////{
-            //    double ratio = 0;
-
-            //    try
-            //    {
-            //        //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-            //        ratio = gImageProcess.SimpleColorMatching(matMaxMPImage.Clone(), matMP.Clone());
-            //        ratio = Math.Round(ratio, 2);
-
-            //        //System.Console.WriteLine("Ratio = {0}", ratio);
-            //        //Cv2.ImShow("1", matMaxMPImage);
-            //        //Cv2.ImShow("2", matMP);
-            //        //Cv2.WaitKey(0);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        System.Console.WriteLine(ex);
-            //    }
-
-
-            //    lblMatchingRatioMP.Invoke(new Action(() =>
-            //    {
-            //        lblMatchingRatioMP.Text = ratio.ToString() + " %";
-            //    }));
-
-            //    double Per = 0;
-
-            //    trBarHP.Invoke(new Action(() =>
-            //    {
-            //        Per = double.Parse(trBarMP.Value.ToString()) * 10;
-            //    }));
-
-            //    //System.Console.WriteLine(ratio);
-
-            //    if (chkRefillMP.Checked)
-            //    {
-            //        if (ratio < Per)
-            //        {
-            //            //System.Console.WriteLine(ratio + " Search On");
-            //            bRefillMP = true;
-            //        }
-            //        else
-            //            bRefillMP = false;
-            //    }
-            //    else
-            //        bRefillMP = false;
-            ////}
-
-            //return bRefillMP;
-        //}
 
         private void bgwMP_DoWork(object sender, DoWorkEventArgs e)
         {
-            //while (true)
-            //{
-            //    if (matMP == null)
-            //        continue;
-
-            //    if (matMP.IsDisposed)
-            //        continue;
-
-            //    if (matMP != null && matMaxMPImage != null)
-            //    {
-            //        double ratio = 0;
-            //        try
-            //        {
-            //            //ratio = gImageProcess.TemplateMatchingRatio(matMaxMPImage.Clone(), matMP.Clone());
-            //            ratio = gImageProcess.SimpleColorMatching(matMaxMPImage, matMP);
-
-            //            if (ratio <= 0)
-            //                continue;
-
-            //            ratio = Math.Round(ratio, 2);
-
-            //            //System.Console.WriteLine("Ratio = {0}", ratio);
-            //            //Cv2.ImShow("1", matMaxMPImage);
-            //            //Cv2.ImShow("2", matMP);
-            //            //Cv2.WaitKey(0);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            System.Console.WriteLine(ex);
-            //            continue;
-            //        }
-
-
-            //        lblMatchingRatioMP.Invoke(new Action(() =>
-            //        {
-            //            lblMatchingRatioMP.Text = ratio.ToString() + " %";
-            //        }));
-
-            //        double Per = 0;
-
-            //        trBarHP.Invoke(new Action(() =>
-            //        {
-            //            Per = double.Parse(trBarMP.Value.ToString()) * 10;
-            //        }));
-
-            //        if (chkRefillMP.Checked)
-            //        {
-            //            if (ratio < Per)
-            //            {
-            //                System.Console.WriteLine(ratio + " Search On");
-            //                bRefillMP = true;
-            //            }
-            //            else
-            //                bRefillMP = false;
-            //        }
-            //        else
-            //            bRefillMP = false;
-            //    }
-
-            //    Thread.Sleep(100);
-            //}
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
