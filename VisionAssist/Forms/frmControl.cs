@@ -465,7 +465,7 @@ namespace VisionAssist.Forms
                 decimal hp = decimal.Parse(data[0]);
                 decimal max = decimal.Parse(data[1]);
 
-                if (max == 0)
+                if (max < 100)
                     return;
 
                 decimal ratio = (hp / max) * 100;
