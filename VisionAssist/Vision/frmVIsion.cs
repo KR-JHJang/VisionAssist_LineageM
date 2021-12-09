@@ -114,7 +114,7 @@ namespace VisionAssist.Vision
             var task1 = Task.Run(() => func_Task_ImageWork());
         }
 
-        private void func_Task_ImageWork()
+        private async Task func_Task_ImageWork()
         {
             while (true)
             {
@@ -161,6 +161,8 @@ namespace VisionAssist.Vision
 
                     isImageRun = false;
                 }
+
+                await Task.Delay(100);
             }
         }
 
@@ -579,53 +581,53 @@ namespace VisionAssist.Vision
 
         private void bgwImageWork_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
-            {
-                if (mControlVision != null)
-                {
-                    isImageRun = true;
+            //while (true)
+            //{
+            //    if (mControlVision != null)
+            //    {
+            //        isImageRun = true;
 
-                    if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
-                    {
-                        isImageRun = false;
-                        continue;
-                    }                    
+            //        if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
+            //        {
+            //            isImageRun = false;
+            //            continue;
+            //        }                    
 
-                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
-                    {
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                // HP
-                                //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                                // HP Text
-                                GLOBAL.hfrmControl.GetHPTextImage(ref mControlVision);
-                            },
-                            () =>
-                            {
-                                // MP
-                                //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                                // MP Text
-                                GLOBAL.hfrmControl.GetMPTextImage(ref mControlVision);
-                            },
-                            () =>
-                            {
-                                // 현재 위치가 어디인지 파악 
-                                // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
+            //        if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
+            //        {
+            //            Parallel.Invoke(
+            //                () =>
+            //                {
+            //                    // HP
+            //                    //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+            //                    // HP Text
+            //                    GLOBAL.hfrmControl.GetHPTextImage(ref mControlVision);
+            //                },
+            //                () =>
+            //                {
+            //                    // MP
+            //                    //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+            //                    // MP Text
+            //                    GLOBAL.hfrmControl.GetMPTextImage(ref mControlVision);
+            //                },
+            //                () =>
+            //                {
+            //                    // 현재 위치가 어디인지 파악 
+            //                    // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
 
-                                //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
-                            }
-                        );
-                    }
+            //                    //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
+            //                }
+            //            );
+            //        }
 
-                    WeakReference sub = new WeakReference(mControlVision);
+            //        WeakReference sub = new WeakReference(mControlVision);
 
-                    mControlVision.Release();
-                    mControlVision.Dispose();
+            //        mControlVision.Release();
+            //        mControlVision.Dispose();
 
-                    isImageRun = false;
-                }
-            }
+            //        isImageRun = false;
+            //    }
+            //}
         }
 
         private void picVision_MouseEnter(object sender, EventArgs e)

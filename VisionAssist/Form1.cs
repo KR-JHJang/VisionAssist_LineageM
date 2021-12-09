@@ -163,39 +163,41 @@ namespace VisionAssist
                     }
                 }
 
-                await Task.Delay(20);
+                await Task.Delay(100);
             }
         }
 
         private void bgwSearchWindow_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
-            {
-                if(GLOBAL.SelectAppPlayer == int.MinValue)
-                    continue;
+            //while(true)
+            //{
+            //    if(GLOBAL.SelectAppPlayer == int.MinValue)
+            //        continue;
 
-                if(isWindowMoving == false)
-                {
-                    switch(GLOBAL.SelectAppPlayer)
-                    {
-                        case 0:
-                            gfrmVision.ImageCapture("LDPlayer0");
-                            break;
-                        case 1:
-                            gfrmVision.ImageCapture("LDPlayer1");
-                            //gfrmVision.ImageCapture("BlueStacks");
-                            break;
-                        case 2:
-                            gfrmVision.ImageCapture("LDPlayer2");
-                            //gfrmVision.ImageCapture(cbxAppPlayer.Text);
-                            break;
-                        case 3:
-                            gfrmVision.ImageCapture("LDPlayer3");
-                            //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
-                            break;
-                    }
-                }
-            }
+            //    if(isWindowMoving == false)
+            //    {
+            //        switch(GLOBAL.SelectAppPlayer)
+            //        {
+            //            case 0:
+            //                gfrmVision.ImageCapture("LDPlayer0");
+            //                break;
+            //            case 1:
+            //                gfrmVision.ImageCapture("LDPlayer1");
+            //                //gfrmVision.ImageCapture("BlueStacks");
+            //                break;
+            //            case 2:
+            //                gfrmVision.ImageCapture("LDPlayer2");
+            //                //gfrmVision.ImageCapture(cbxAppPlayer.Text);
+            //                break;
+            //            case 3:
+            //                gfrmVision.ImageCapture("LDPlayer3");
+            //                //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+            //                break;
+            //        }
+            //    }
+
+            //    Thread.Sleep(100);
+            //}
         }
 
         private void chkDrawText_CheckedChanged(object sender, EventArgs e)
