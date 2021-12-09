@@ -273,6 +273,8 @@ namespace VisionAssist
         {
             GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex;
             INIControl.IniWrite("Player", "SelectApp", cbxAppPlayer.SelectedIndex.ToString(), GLOBAL.Path);
+
+            notifyIcon1.Text = string.Format("Vision Assist - {0}", cbxAppPlayer.SelectedIndex);
         }
 
         private void frmMain_Resize(object sender, EventArgs e)
