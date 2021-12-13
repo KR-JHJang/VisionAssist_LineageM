@@ -111,7 +111,7 @@ namespace VisionAssist.Vision
 
         private async void TaskRun()
         {
-            var task1 = Task.Run(() => func_Task_ImageWork());
+            await Task.Run(() => func_Task_ImageWork());
         }
 
         private async Task func_Task_ImageWork()
@@ -120,14 +120,16 @@ namespace VisionAssist.Vision
             {
                 if (mControlVision != null)
                 {
+                    Mat VisionData = mControlVision.Clone();
+
                     isImageRun = true;
-                    if (mControlVision.IsDisposed || mControlVision.Width == 0 || mControlVision.Height == 0)
+                    if (VisionData.IsDisposed || VisionData.Width == 0 || VisionData.Height == 0)
                     {
                         isImageRun = false;
                         continue;
                     }
 
-                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref mControlVision)))
+                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
                     {
                         Parallel.Invoke(
                             () =>
@@ -135,14 +137,14 @@ namespace VisionAssist.Vision
                                 // HP
                                 //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
                                 // HP Text
-                                GLOBAL.hfrmControl.GetHPTextImage(ref mControlVision);
+                                GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
                             },
                             () =>
                             {
                                 // MP
                                 //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
                                 // MP Text
-                                GLOBAL.hfrmControl.GetMPTextImage(ref mControlVision);
+                                GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
                             },
                             () =>
                             {
@@ -154,15 +156,15 @@ namespace VisionAssist.Vision
                         );
                     }
 
-                    WeakReference sub = new WeakReference(mControlVision);
+                    WeakReference sub = new WeakReference(VisionData);
 
-                    mControlVision.Release();
-                    mControlVision.Dispose();
+                    VisionData.Release();
+                    VisionData.Dispose();
 
                     isImageRun = false;
-                }
 
-                await Task.Delay(100);
+                    GC.Collect();
+                }
             }
         }
 
@@ -395,10 +397,10 @@ namespace VisionAssist.Vision
                         picVision.Image = FinalImage.ToBitmap();
                     }));
 
-                    if (isImageRun == false && mControlVision.IsDisposed)
-                    {
+                    //if (isImageRun == false && mControlVision.IsDisposed)
+                    //{
                         mControlVision = FinalImage.Clone();
-                    }
+                    //}
 
                     gdata.Dispose();
                     gdata = null;
