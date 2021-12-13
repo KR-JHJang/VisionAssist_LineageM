@@ -390,6 +390,7 @@ namespace VisionAssist.Vision
                         VisionRect.DrawRectArea(ref FinalImage);
                     }
 
+
                     var oldimage = picVision.Image;
 
                     this.Invoke(new Action(() =>
