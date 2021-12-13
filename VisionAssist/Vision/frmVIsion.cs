@@ -118,16 +118,16 @@ namespace VisionAssist.Vision
         {
             while (true)
             {
-                if (mControlVision != null)
+                if (mControlVision != null && mControlVision.IsDisposed == false)
                 {
                     Mat VisionData = mControlVision.Clone();
 
-                    isImageRun = true;
-                    if (VisionData.IsDisposed || VisionData.Width == 0 || VisionData.Height == 0)
-                    {
-                        isImageRun = false;
-                        continue;
-                    }
+                    //isImageRun = true;
+                    //if (VisionData.IsDisposed || VisionData.Width == 0 || VisionData.Height == 0)
+                    //{
+                    //    isImageRun = false;
+                    //    continue;
+                    //}
 
                     if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
                     {
@@ -161,9 +161,14 @@ namespace VisionAssist.Vision
                     VisionData.Release();
                     VisionData.Dispose();
 
-                    isImageRun = false;
+                    //isImageRun = false;
 
                     GC.Collect();
+                }
+                else
+                {
+                    Thread.Sleep(10);
+                    continue;
                 }
             }
         }
