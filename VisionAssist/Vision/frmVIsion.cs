@@ -101,7 +101,7 @@ namespace VisionAssist.Vision
                 picVision.Size.Height);
 
             // 새로 추가함
-            TaskRun();
+            //TaskRun();
 
             GLOBAL.VisionWidth = picVision.Width;
             GLOBAL.VisionHeight = picVision.Height;
@@ -170,6 +170,36 @@ namespace VisionAssist.Vision
                     Thread.Sleep(10);
                     continue;
                 }
+            }
+        }
+
+        private void func_ImageWork(Mat VisionData)
+        {
+            if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
+            {
+                Parallel.Invoke(
+                    () =>
+                    {
+                        // HP
+                        //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
+                        // HP Text
+                        GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
+                    },
+                    () =>
+                    {
+                        // MP
+                        //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
+                        // MP Text
+                        GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
+                    },
+                    () =>
+                    {
+                        // 현재 위치가 어디인지 파악 
+                        // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
+
+                        //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
+                    }
+                );
             }
         }
 
@@ -395,6 +425,7 @@ namespace VisionAssist.Vision
                         VisionRect.DrawRectArea(ref FinalImage);
                     }
 
+                    func_ImageWork(FinalImage);
 
                     var oldimage = picVision.Image;
 
@@ -405,7 +436,7 @@ namespace VisionAssist.Vision
 
                     //if (isImageRun == false && mControlVision.IsDisposed)
                     //{
-                        mControlVision = FinalImage.Clone();
+                    //mControlVision = FinalImage.Clone();
                     //}
 
                     gdata.Dispose();

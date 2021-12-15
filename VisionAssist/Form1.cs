@@ -163,7 +163,7 @@ namespace VisionAssist
                     }
                 }
 
-                await Task.Delay(100);
+                await Task.Delay(20);
             }
         }
 
