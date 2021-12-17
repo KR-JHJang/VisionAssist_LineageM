@@ -465,7 +465,7 @@ namespace VisionAssist.Forms
                 decimal hp = decimal.Parse(data[0]);
                 decimal max = decimal.Parse(data[1]);
 
-                if (max < 100 || max > 15000)
+                if (max < 1000 || max > 15000)
                 {
                     System.Console.WriteLine(string.Format(@"Max Value is Abnormal : {0}", max));
                     return;
