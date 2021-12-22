@@ -59,8 +59,11 @@ namespace VisionAssist
 
         public void SetNotifyPopupMsg(string TempStr)
         {
-            notifyIcon1.BalloonTipText = TempStr;
-            notifyIcon1.ShowBalloonTip(2000);
+            Invoke(new Action(()=>
+            {
+                notifyIcon1.BalloonTipText = TempStr;
+                notifyIcon1.ShowBalloonTip(2000);
+            }));
         }
 
         private void ReadData()
