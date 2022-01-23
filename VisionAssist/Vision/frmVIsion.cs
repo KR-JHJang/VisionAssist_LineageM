@@ -374,6 +374,7 @@ namespace VisionAssist.Vision
 
                     Rectangle rect = Rectangle.Round(gdata.VisibleClipBounds);
                     rect = DPIConverter(rect, sub);
+                    gdata.Dispose();
 
                     stBitmap.SetBitmap(new Bitmap(rect.Width, rect.Height,
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb));
@@ -385,7 +386,7 @@ namespace VisionAssist.Vision
                     bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
                     g.ReleaseHdc(hdc);
                     ret = GLOBAL.DeleteDC(hdc);
-                    g = null;
+                    g.Dispose();
 
                     if (mat == null)
                         mat = new Mat();
