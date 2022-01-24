@@ -46,7 +46,6 @@ namespace VisionAssist.Vision
             // 
             this.picVision.ContextMenuStrip = this.contextMenuStrip1;
             this.picVision.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picVision.Image = ((System.Drawing.Image)(resources.GetObject("picVision.Image")));
             this.picVision.Location = new System.Drawing.Point(0, 0);
             this.picVision.Name = "picVision";
             this.picVision.Size = new System.Drawing.Size(960, 540);
