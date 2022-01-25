@@ -599,6 +599,7 @@ namespace VisionAssist.Forms
             this.BackColor = System.Drawing.Color.DimGray;
             this.Controls.Add(this.tbxSearchMessage);
             this.Controls.Add(this.tabMain);
+            this.DoubleBuffered = true;
             this.Name = "frmControl";
             this.Size = new System.Drawing.Size(230, 654);
             this.tabMain.ResumeLayout(false);

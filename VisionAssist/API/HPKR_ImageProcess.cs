@@ -87,14 +87,18 @@ namespace HPKR.API
         public int VisionWidth;
         public int VisionHeight;
 
-        public void ConvertRgb2Gray(ref Mat src)
-        {
-            Cv2.CvtColor(src, src, ColorConversionCodes.BGR2GRAY);
-        }
         public Mat ConvertRgb2Gray(Mat src)
         {
-            Cv2.CvtColor(src, src, ColorConversionCodes.BGR2GRAY);
-            return src;
+            using(Mat result = new Mat())
+            {
+                Cv2.CvtColor(src, result, ColorConversionCodes.BGR2GRAY);
+                return result.Clone();
+            }
+        }
+        public void ConvertRgb2Gray(Mat src, out Mat result)
+        {
+            result = new Mat();
+            Cv2.CvtColor(src, result, ColorConversionCodes.BGR2GRAY);
         }
         public Mat ConvertRgb2Hsv(Mat src)
         {

@@ -62,7 +62,6 @@ namespace VisionAssist.Forms
         private OpenCvSharp.Size HPsize;
         private OpenCvSharp.Size Attacksize;
 
-        TesseractEngine TengineHP;
         TesseractEngine TengineMP;
         TesseractEngine TengineLoc;
 
@@ -207,7 +206,7 @@ namespace VisionAssist.Forms
 
                 //Cv2.InRange(MatLoc, )
 
-                gImageProcess.ConvertRgb2Gray(ref MatLoc);
+                gImageProcess.ConvertRgb2Gray(MatLoc);
                 //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);
                 Cv2.Threshold(MatLoc, MatLoc, 170, 255, ThresholdTypes.Tozero);
 
@@ -246,162 +245,172 @@ namespace VisionAssist.Forms
             }
         }
 
-        public void GetMPTextImage(ref Mat src)
+        public void GetMPTextImage(Mat src)
         {
             if (gImageProcess == null)
                 return;
 
             Rect Pos = new Rect(107, 28, 54, 13);
 
-            Mat MatMP = src.SubMat(Pos);
-            WeakReference wMat = new WeakReference(MatMP);
-
-            VisionRect.SetRect(Pos, VisionRect.ePosition.MP);
-
-            Cv2.Resize(MatMP, MatMP, new Size(
-                MatMP.Width * 4,
-                MatMP.Height * 4), 0,0, InterpolationFlags.Lanczos4);
-
-            gImageProcess.ConvertRgb2Gray(ref MatMP);
-            Cv2.Threshold(MatMP, MatMP, 200, 255, ThresholdTypes.Tozero);
-
-            var old = picboxMP.Image;
-
-            picboxMP.Image = MatMP.ToBitmap();
-
-            Pix pix = PixConverter.ToPix(MatMP.ToBitmap());
-            TengineMP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default);
-            // tesseractengine 생성
-            string whitelist = "0123456789/";
-            TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
-
-            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
-            var result = TengineMP.Process(pix);
-            string MP = result.GetText().Trim();
-            MP = MP.Replace(" ", "").Trim();
-
-            //if (MP.IndexOf('/') == -1)
-            if (WordNum(MP, "/") != 1)
-                return;
-
-            if (WordNum(MP, "\n") != 0)
-                return;
-
-            string[] mpStrings = MP.Split('/');
-
-            if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
-                return;
-
-            bool isnum = false;
-            int chk = 0;
-            foreach (var VARIABLE in mpStrings)
+            using (Mat Source = src.Clone())
+            using (Mat MatMP = Source.SubMat(Pos))
+            using (Mat ResultResize = new Mat())
             {
-                isnum = int.TryParse(VARIABLE, out chk);
+                VisionRect.SetRect(Pos, VisionRect.ePosition.MP);
+
+                Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 4, MatMP.Height * 4)
+                    , 0, 0, InterpolationFlags.Lanczos4);
+
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                // Stopwatch 를 시작 합니다.
+                sw.Start();
+
+                using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
+                using (Mat ThresMat = new Mat())
+                using (var old = picboxMP.Image)
+                {
+                    Cv2.Threshold(GrayMat, ThresMat, 200, 255, ThresholdTypes.Tozero);
+
+                    picboxMP.Image = ThresMat.ToBitmap();
+
+                    using (Pix pix = PixConverter.ToPix(ThresMat.ToBitmap()))
+#if FAST_TESS
+                    using (TesseractEngine TengineMP = new TesseractEngine(@"./tessdata/Fast", "eng", EngineMode.Default))
+#else
+                    using(TesseractEngine TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default))
+#endif
+                    {
+                        // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+                        var result = TengineMP.Process(pix);
+                        string MP = result.GetText().Trim();
+                        MP = MP.Replace(" ", "").Trim();
+
+                        //if (MP.IndexOf('/') == -1)
+                        if (WordNum(MP, "/") != 1)
+                            return;
+
+                        if (WordNum(MP, "\n") != 0)
+                            return;
+
+                        string[] mpStrings = MP.Split('/');
+
+                        if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
+                            return;
+
+                        bool isnum = false;
+                        int chk = 0;
+                        foreach (var VARIABLE in mpStrings)
+                        {
+                            isnum = int.TryParse(VARIABLE, out chk);
+                        }
+
+                        if (isnum == false)
+                            return;
+
+                        this.BeginInvoke(new Action(() =>
+                        {
+                            LedMP.Text = mpStrings[0];
+                            LedMaxMP.Text = mpStrings[1];
+                        }));
+
+                        if (mpStrings.Length == 2)
+                            SimpleMPWork(mpStrings);
+
+                        result.Dispose();
+                    }
+                }
+
+                sw.Stop();
+                Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
             }
 
-            if (isnum == false)
-                return;
-
-            this.BeginInvoke(new Action(() =>
-            {
-                LedMP.Text = mpStrings[0];
-                LedMaxMP.Text = mpStrings[1];
-            }));
-
-            result.Dispose();
-
-            TengineMP.Dispose();
-            TengineMP = null;
-
-            if (mpStrings.Length == 2)
-                SimpleMPWork(mpStrings);
-
-            old.Dispose();
-            old = null;
-
-            MatMP.Release();
-            MatMP.Dispose();
-            MatMP = null;
+            
         }
 
-        public void GetHPTextImage(ref Mat src)
+        public void GetHPTextImage(Mat src)
         {
             if (gImageProcess == null)
                 return;
 
             Rect Pos = new Rect(96, 11, 76, 15);
 
-            Mat MatHP = src.SubMat(Pos);
-            WeakReference wMat = new WeakReference(MatHP);
-
-            VisionRect.SetRect(Pos, VisionRect.ePosition.HP);
-
-            Cv2.Resize(MatHP, MatHP, new Size(MatHP.Width*4, MatHP.Height*4)
-                , 0, 0, InterpolationFlags.Lanczos4);
-
-            gImageProcess.ConvertRgb2Gray(ref MatHP);
-            Cv2.Threshold(MatHP, MatHP, 180, 255, ThresholdTypes.Binary);
-
-            var old = picboxHPText.Image;
-
-            picboxHPText.Image = MatHP.ToBitmap();
-
-            Pix pix = PixConverter.ToPix(MatHP.ToBitmap());
-            TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default);
-
-            // tesseractengine 생성
-            string whitelist = "0123456789/";
-            TengineHP.SetVariable("tessedit_char_whitelist", whitelist);
-
-            // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
-            var result = TengineHP.Process(pix);
-            string HP = result.GetText().Trim();
-            HP = HP.Replace(" ", "").Trim();
-
-            //if (HP.IndexOf('/') == -1)
-            if(WordNum(HP, "/") != 1)
-                return;
-
-            if (WordNum(HP, "\n") != 0)
-                return;
-
-            string[] hpStrings = HP.Split('/');
-
-            if (hpStrings[0] == "" || hpStrings[1] == "" || hpStrings[1] == "0")
-                return;
-
-            if (hpStrings.Length != 2)
-                return;
-
-            bool isnum = false;
-            int chk = 0;
-            foreach (var VARIABLE in hpStrings)
+            using(Mat Source = src.Clone())
+            using(Mat MatHP = Source.SubMat(Pos))
+            using(Mat ResultResize = new Mat())
             {
-                isnum = int.TryParse(VARIABLE, out chk);
+                VisionRect.SetRect(Pos, VisionRect.ePosition.HP);
+                
+                Cv2.Resize(MatHP, ResultResize, new Size(MatHP.Width * 4, MatHP.Height * 4)
+                    , 0, 0, InterpolationFlags.Lanczos4);
+
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                // Stopwatch 를 시작 합니다.
+                sw.Start();
+
+                using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
+                using(Mat ThresMat = new Mat())
+                using(var old = picboxHPText.Image)
+                {
+                    Cv2.Threshold(GrayMat, ThresMat, 180, 255, ThresholdTypes.Binary);
+
+                    picboxHPText.Image = ThresMat.ToBitmap();
+
+                    using (Pix pix = PixConverter.ToPix(ThresMat.ToBitmap()))
+#if FAST_TESS
+                    using(TesseractEngine TengineHP = new TesseractEngine(@"./tessdata/Fast", "eng", EngineMode.Default))
+#else
+                    using(TesseractEngine TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default))
+#endif
+                    {
+                        // tesseractengine 생성
+                        string whitelist = "0123456789/";
+                        // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+                        TengineHP.SetVariable("tessedit_char_whitelist", whitelist);                       
+
+                        var result = TengineHP.Process(pix);
+                        string HP = result.GetText().Trim();
+                        HP = HP.Replace(" ", "").Trim();
+
+                        //if (HP.IndexOf('/') == -1)
+                        if (WordNum(HP, "/") != 1)
+                            return;
+
+                        if (WordNum(HP, "\n") != 0)
+                            return;
+
+                        string[] hpStrings = HP.Split('/');
+
+                        if (hpStrings[0] == "" || hpStrings[1] == "" || hpStrings[1] == "0")
+                            return;
+
+                        if (hpStrings.Length != 2)
+                            return;
+
+                        bool isnum = false;
+                        int chk = 0;
+                        foreach (var VARIABLE in hpStrings)
+                        {
+                            isnum = int.TryParse(VARIABLE, out chk);
+                        }
+
+                        if (isnum == false)
+                            return;
+
+                        this.BeginInvoke(new Action(() =>
+                        {
+                            LedHP.Text = hpStrings[0];
+                            LedMaxHP.Text = hpStrings[1];
+                        }));
+
+                        SimpleHPWork(hpStrings, ref src);
+
+                        result.Dispose();
+                    }
+                }
+
+                sw.Stop();
+                Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
             }
-
-            if (isnum == false)
-                return;
-
-            this.BeginInvoke(new Action(() =>
-            {
-                LedHP.Text = hpStrings[0];
-                LedMaxHP.Text = hpStrings[1];
-            }));
-
-            result.Dispose();
-
-            TengineHP.Dispose();
-            TengineHP = null;
-
-            SimpleHPWork(hpStrings, ref src);
-
-            old.Dispose();
-            old = null;
-
-            MatHP.Release();
-            MatHP.Dispose();
-            MatHP = null;
         }
 
         public int WordNum(String String, String Word)
@@ -572,12 +581,13 @@ namespace VisionAssist.Forms
 
                     this.Invoke(new Action(()=>
                     {
-                        RefreshPicBox(MatAttack, picboxUserAttack);
+                        picboxUserAttack.Image = ResultMat.ToBitmap();
+                        //RefreshPicBox(ResultMat, picboxUserAttack);
                     }));
 
                     if (GLOBAL.IsRun())
                     {
-                        if (EvadeAttack(MatAttack))
+                        if (EvadeAttack(ResultMat))
                         {
                             // 공격당할 시 알려줄 메시지
                             GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
@@ -669,6 +679,7 @@ namespace VisionAssist.Forms
             using (var box = target)
             {
                 box.Image = mat.ToBitmap();
+                box.Refresh();
             }
         }
 

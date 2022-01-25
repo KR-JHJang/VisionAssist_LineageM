@@ -113,29 +113,54 @@ namespace VisionAssist.Vision
         {
             if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
             {
+#if FAST_TESS
                 Parallel.Invoke(
-                    () =>
-                    {
-                        // HP
-                        //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                        // HP Text
-                        //GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
-                    },
-                    () =>
-                    {
-                        // MP
-                        //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                        // MP Text
-                        //GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
-                    },
-                    () =>
-                    {
-                        // 현재 위치가 어디인지 파악 
-                        // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
+                () =>
+                {
+                    GLOBAL.hfrmControl.GetHPTextImage(VisionData);
+                },
+                () =>
+                {
+                    GLOBAL.hfrmControl.GetMPTextImage(VisionData);
+                },
+                () =>
+                {
+                    // 현재 위치가 어디인지 파악 
+                    // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
 
-                        //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
-                    }
-                );
+                    //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
+                });
+#else
+                Mat Sample = null;
+                if (VisionData.IsDisposed == false)
+                {
+                    Sample = VisionData.Clone();
+                    Thread RunThread = new Thread(new ThreadStart(delegate ()
+                    {
+                        Parallel.Invoke(
+                        () =>
+                        {
+                            GLOBAL.hfrmControl.GetHPTextImage(Sample);
+                        },
+                        () =>
+                        {
+                            //GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
+                        },
+                        () =>
+                        {
+                            // 현재 위치가 어디인지 파악 
+                            // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
+
+                            //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
+                        });
+
+                        Sample.Dispose();
+                    }));
+
+
+                    RunThread.Start();
+                }
+#endif
             }
         }
 
