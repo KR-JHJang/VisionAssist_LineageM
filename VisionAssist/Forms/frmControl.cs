@@ -570,7 +570,10 @@ namespace VisionAssist.Forms
                 {
                     Cv2.Resize(MatAttack, ResultMat, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
 
-                    RefreshPicBox(MatAttack, picboxUserAttack);
+                    this.Invoke(new Action(()=>
+                    {
+                        RefreshPicBox(MatAttack, picboxUserAttack);
+                    }));
 
                     if (GLOBAL.IsRun())
                     {
@@ -662,28 +665,10 @@ namespace VisionAssist.Forms
 
         private void RefreshPicBox(Mat src, PictureBox target)
         {
-            var old = target.Image;
-
-            try
+            using(var mat = src.Clone())
+            using (var box = target)
             {
-                //if (!src.IsDisposed)
-                using(var mat = src.Clone())
-                using (var box = target)
-                {
-                    //var mat = src;
-                    //var box = target;
-
-                    box.Image = mat.ToBitmap();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                old.Dispose();
+                box.Image = mat.ToBitmap();
             }
         }
 

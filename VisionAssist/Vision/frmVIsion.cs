@@ -119,14 +119,14 @@ namespace VisionAssist.Vision
                         // HP
                         //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
                         // HP Text
-                        GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
+                        //GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
                     },
                     () =>
                     {
                         // MP
                         //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
                         // MP Text
-                        GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
+                        //GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
                     },
                     () =>
                     {
