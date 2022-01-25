@@ -109,70 +109,6 @@ namespace VisionAssist.Vision
             gImageProcess = new HPKR_ImageProcess();
         }
 
-        private async void TaskRun()
-        {
-            await Task.Run(() => func_Task_ImageWork());
-        }
-
-        private async Task func_Task_ImageWork()
-        {
-            while (true)
-            {
-                if (mControlVision != null && mControlVision.IsDisposed == false)
-                {
-                    Mat VisionData = mControlVision.Clone();
-
-                    //isImageRun = true;
-                    //if (VisionData.IsDisposed || VisionData.Width == 0 || VisionData.Height == 0)
-                    //{
-                    //    isImageRun = false;
-                    //    continue;
-                    //}
-
-                    if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
-                    {
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                // HP
-                                //GLOBAL.hfrmControl.SetHPImagePos(FinalImage.SubMat(new Rect(64, 18, 150, 8)));
-                                // HP Text
-                                GLOBAL.hfrmControl.GetHPTextImage(ref VisionData);
-                            },
-                            () =>
-                            {
-                                // MP
-                                //GLOBAL.hfrmControl.SetMPImagePos(FinalImage.SubMat(new Rect(64, 34, 150, 3)));
-                                // MP Text
-                                GLOBAL.hfrmControl.GetMPTextImage(ref VisionData);
-                            },
-                            () =>
-                            {
-                                // 현재 위치가 어디인지 파악 
-                                // 해당 기능은 추후 자동사냥 구현할때 참고 될지도...?
-
-                                //GLOBAL.hfrmControl.GetLocation(ref mControlVision);
-                            }
-                        );
-                    }
-
-                    WeakReference sub = new WeakReference(VisionData);
-
-                    VisionData.Release();
-                    VisionData.Dispose();
-
-                    //isImageRun = false;
-
-                    GC.Collect();
-                }
-                else
-                {
-                    Thread.Sleep(10);
-                    continue;
-                }
-            }
-        }
-
         private void func_ImageWork(Mat VisionData)
         {
             if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
@@ -337,29 +273,8 @@ namespace VisionAssist.Vision
                 {
                     IntPtr main = GLOBAL.FindWindow(null, target+ "(64)");
                     IntPtr sub = IntPtr.Zero;
-                    //IntPtr sub2 = IntPtr.Zero;
-                    //IntPtr sub3 = IntPtr.Zero;
-                    //IntPtr sub4 = IntPtr.Zero;
 
-                    switch (GLOBAL.SelectAppPlayer)
-                    {
-                        case 0:
-                            // LD Player
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-                            break;
-                        case 1:
-                            // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-                            break;
-                        case 2:
-                            // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-                            break;
-                        case 3:
-                            // 블루스택
-                            sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
-                            break;
-                    }
+                    sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
 
                     if (main == IntPtr.Zero)
                         return;
@@ -369,94 +284,65 @@ namespace VisionAssist.Vision
 
                     GLOBAL.TargetHandle = sub;
 
-                    //녹스앱플레이어를 쓴다면 //IntPtr c = FindWindowEx(b, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow"); 
-                    Graphics gdata = Graphics.FromHwnd(sub);
-
-                    Rectangle rect = Rectangle.Round(gdata.VisibleClipBounds);
-                    rect = DPIConverter(rect, sub);
-                    gdata.Dispose();
-
-                    stBitmap.SetBitmap(new Bitmap(rect.Width, rect.Height,
-                        System.Drawing.Imaging.PixelFormat.Format32bppArgb));
-
-                    Graphics g = Graphics.FromImage(stBitmap.gBitmap);
-
-                    IntPtr hdc = g.GetHdc();
-                    //bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
-                    bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
-                    g.ReleaseHdc(hdc);
-                    ret = GLOBAL.DeleteDC(hdc);
-                    g.Dispose();
-
-                    if (mat == null)
-                        mat = new Mat();
-
-                    if (FinalImage == null)
-                        FinalImage = new Mat();
-
-                    mat = BitmapConverter.ToMat(stBitmap.gBitmap);
-
-                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
-                    Cv2.CvtColor(FinalImage, FinalImage, ColorConversionCodes.BGRA2BGR);
-
-                    WeakReference wMain = new WeakReference(mat);
-                    WeakReference wFinal = new WeakReference(FinalImage);
-
-                    if (bDrawText)
+                    using (Graphics gdata = Graphics.FromHwnd(sub))
                     {
-                        // Text Location
-                        OpenCvSharp.Point myPoint;
-                        myPoint.X = FinalImage.Width - 400;
-                        myPoint.Y = FinalImage.Height - 10;
+                        Rectangle rect = Rectangle.Round(gdata.VisibleClipBounds);
+                        rect = DPIConverter(rect, sub);
 
-                        // Font Face
-                        int myFontFace = 2;
+                        using (Bitmap BitData = new Bitmap(rect.Width, rect.Height,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                        using (Mat ResultMat = new Mat())
+                        {
+                            using(Graphics g = Graphics.FromImage(BitData))
+                            {
+                                IntPtr hdc = g.GetHdc();
 
-                        Vector2 Pos = GetMousePosition();
-                        string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
+                                bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
+                                g.ReleaseHdc(hdc);
+                                ret = GLOBAL.DeleteDC(hdc);
 
-                        // Font Scale
-                        gImageProcess.DrawTextToImage(myPoint, FinalImage, frame, Scalar.Red);
+                                using (mat = BitmapConverter.ToMat(BitData))
+                                {
+                                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
+                                    Cv2.CvtColor(FinalImage, ResultMat, ColorConversionCodes.BGRA2BGR);
+
+                                    if (bDrawText)
+                                    {
+                                        // Text Location
+                                        OpenCvSharp.Point myPoint;
+                                        myPoint.X = FinalImage.Width - 400;
+                                        myPoint.Y = FinalImage.Height - 10;
+
+                                        // Font Face
+                                        int myFontFace = 2;
+
+                                        Vector2 Pos = GetMousePosition();
+                                        string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
+
+                                        // Font Scale
+                                        gImageProcess.DrawTextToImage(myPoint, ResultMat, frame, Scalar.Red);
+                                    }
+
+                                    // Maint 체크박스 활성화 시
+                                    if (GLOBAL.hfrmMain.GetMaintenanceMode())
+                                    {
+                                        // 설정한 영역에 대한 사각박스를 그린다.
+                                        VisionRect.DrawRectArea(ResultMat);
+                                    }
+
+                                    func_ImageWork(ResultMat);
+
+                                    using (var oldimage = picVision.Image)
+                                    {
+                                        this.Invoke(new Action(() =>
+                                        {
+                                            picVision.Image = ResultMat.ToBitmap();
+                                        }));
+                                    }
+                                }
+                            }
+                        }
                     }
-                    
-                    // Maint 체크박스 활성화 시
-                    if(GLOBAL.hfrmMain.GetMaintenanceMode())
-                    {
-                        // 설정한 영역에 대한 사각박스를 그린다.
-                        VisionRect.DrawRectArea(ref FinalImage);
-                    }
-
-                    func_ImageWork(FinalImage);
-
-                    var oldimage = picVision.Image;
-
-                    this.Invoke(new Action(() =>
-                    {
-                        picVision.Image = FinalImage.ToBitmap();
-                    }));
-
-                    //if (isImageRun == false && mControlVision.IsDisposed)
-                    //{
-                    //mControlVision = FinalImage.Clone();
-                    //}
-
-                    gdata.Dispose();
-                    gdata = null;
-
-                    mat.Release();
-                    mat.Dispose();
-                    mat = null;
-
-                    stBitmap.Dispose();
-                    
-                    FinalImage.Release();
-                    FinalImage.Dispose();
-                    FinalImage = null;
-
-                    if(oldimage != null)
-                        ((IDisposable)oldimage).Dispose();
-
-                    sub = IntPtr.Zero;
                 }
             }
         }

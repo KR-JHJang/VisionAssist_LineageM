@@ -144,33 +144,32 @@ namespace HPKR.API
 
         public double TemplateMatchingGetRatio(ref Mat area, ref Mat target)
         {
-            Mat result = new Mat();
-            Mat GrayMat = new Mat();
-            Mat GrayArea = new Mat();
+            double max = 0;
 
-            Cv2.CvtColor(target, GrayMat, ColorConversionCodes.BGR2GRAY);
-            Cv2.CvtColor(area, GrayArea, ColorConversionCodes.BGR2GRAY);
+            using(Mat result = new Mat())
+            using(Mat GrayMat = new Mat())
+            using(Mat GrayArea = new Mat())
+            {
+                Cv2.CvtColor(target, GrayMat, ColorConversionCodes.BGR2GRAY);
+                Cv2.CvtColor(area, GrayArea, ColorConversionCodes.BGR2GRAY);
 
-            Cv2.MatchTemplate(GrayMat, GrayArea, result, TemplateMatchModes.CCoeffNormed);
+                Cv2.MatchTemplate(GrayMat, GrayArea, result, TemplateMatchModes.CCoeffNormed);
 
-            // 이미지의 최대/ 최소 위치 취득
-            OpenCvSharp.Point minloc, maxloc;
-            // 이미지 매칭율 최대 / 최소 데이터 취득
+                // 이미지의 최대/ 최소 위치 취득
+                OpenCvSharp.Point minloc, maxloc;
+                // 이미지 매칭율 최대 / 최소 데이터 취득
 
-            Cv2.MinMaxLoc(result, out var minval, out var maxval, out minloc, out maxloc);
+                Cv2.MinMaxLoc(result, out var minval, out var maxval, out minloc, out maxloc);
 
-            // 서치된 부분을 빨간 테두리로
-            //Rect rect = new Rect(maxloc.X, maxloc.Y, target.Width, target.Height);
-            //Cv2.Rectangle(GrayArea, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
+                // 서치된 부분을 빨간 테두리로
+                //Rect rect = new Rect(maxloc.X, maxloc.Y, target.Width, target.Height);
+                //Cv2.Rectangle(GrayArea, rect, new OpenCvSharp.Scalar(0, 0, 255), 2);
 
-            // 소수점 두번째 반올림
-            maxval = Math.Round(maxval, 2);
+                // 소수점 두번째 반올림
+                max = Math.Round(maxval, 2);
+            }
 
-            GrayMat.Release();
-            GrayArea.Release();
-            result.Release();
-
-            return maxval;
+            return max;
         }
 
         public double SimpleColorMatching(Mat src, Mat target, int BGR)

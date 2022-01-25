@@ -49,7 +49,7 @@ namespace VisionAssist.Classes
             return pRect;
         }
 
-        public static void DrawRectArea(ref Mat Data)
+        public static void DrawRectArea(Mat Data)
         {
             for(int idx = 0; idx < (int)ePosition.Max; idx++)
             {

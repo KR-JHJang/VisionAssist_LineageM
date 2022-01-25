@@ -562,33 +562,34 @@ namespace VisionAssist.Forms
 
             Rect Pos = new Rect(837, 399, 42, 47);
 
-            Mat MatAttack = src.SubMat(Pos);
-            WeakReference wMat = new WeakReference(MatAttack);
-
-            VisionRect.SetRect(Pos, VisionRect.ePosition.Attack);
-
-            Cv2.Resize(MatAttack, MatAttack, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
-
-            //gImageProcess.ConvertRGB2GRAY(matAttack);
-
-            RefreshPicBox(ref MatAttack, ref picboxUserAttack);
-            
-            if (GLOBAL.IsRun())
+            using (Mat MatAttack = src.SubMat(Pos))
             {
-                if (EvadeAttack(ref MatAttack))
+                VisionRect.SetRect(Pos, VisionRect.ePosition.Attack);
+
+                using (Mat ResultMat = new Mat())
                 {
-                    // 공격당할 시 알려줄 메시지
-                    GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
-                    
-                    // 이미지 저장
-                    SaveImage(ref src, "Attack");
+                    Cv2.Resize(MatAttack, ResultMat, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
 
-                    if (GLOBAL._tskillboxes[3].IsUsed())
+                    RefreshPicBox(MatAttack, picboxUserAttack);
+
+                    if (GLOBAL.IsRun())
                     {
-                        System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-                        SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                        if (EvadeAttack(MatAttack))
+                        {
+                            // 공격당할 시 알려줄 메시지
+                            GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
 
-                        return true;
+                            // 이미지 저장
+                            SaveImage(ref src, "Attack");
+
+                            if (GLOBAL._tskillboxes[3].IsUsed())
+                            {
+                                System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                                SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -659,16 +660,18 @@ namespace VisionAssist.Forms
 
         }
 
-        private void RefreshPicBox(ref Mat src, ref PictureBox target)
+        private void RefreshPicBox(Mat src, PictureBox target)
         {
             var old = target.Image;
 
             try
             {
-                if (!src.IsDisposed)
+                //if (!src.IsDisposed)
+                using(var mat = src.Clone())
+                using (var box = target)
                 {
-                    var mat = src;
-                    var box = target;
+                    //var mat = src;
+                    //var box = target;
 
                     box.Image = mat.ToBitmap();
                 }
@@ -712,7 +715,7 @@ namespace VisionAssist.Forms
             Invalidate();
         }
 
-        private bool EvadeAttack(ref Mat MatAttack)
+        private bool EvadeAttack(Mat MatAttack)
         {
             double result = gImageProcess.TemplateMatchingGetRatio(ref matPKImage, ref MatAttack);
 
