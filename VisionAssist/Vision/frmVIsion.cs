@@ -453,12 +453,10 @@ namespace VisionAssist.Vision
                     FinalImage.Dispose();
                     FinalImage = null;
 
-                    ((IDisposable)oldimage).Dispose();
-                    oldimage = null;
+                    if(oldimage != null)
+                        ((IDisposable)oldimage).Dispose();
 
                     sub = IntPtr.Zero;
-
-                    GC.Collect();
                 }
             }
         }
