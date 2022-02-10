@@ -84,7 +84,6 @@ namespace VisionAssist.Forms
             InitPicturebox();
 
             ReadData();
-            RunThread();
 
             HPsize = new OpenCvSharp.Size(picboxHP.Size.Width, picboxHP.Size.Height);
             MPsize = new OpenCvSharp.Size(picboxMP.Size.Width, picboxMP.Size.Height);
@@ -101,21 +100,6 @@ namespace VisionAssist.Forms
             trBarHP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerReFillHP", GLOBAL.Path)); ;
             trBarHPEvade.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerEvadeHP", GLOBAL.Path)); ;
             trBarMP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerRefillMP", GLOBAL.Path)); ;
-        }
-
-        private void RunThread()
-        {
-            //bgwSearchSkillPos.RunWorkerAsync();
-            //bgwEvadeAttack.RunWorkerAsync();
-            //bgwMP.RunWorkerAsync();
-            //bgwHP.RunWorkerAsync();
-
-            //Process currentProcess = Process.GetCurrentProcess();
-
-            //foreach (ProcessThread processThread in currentProcess.Threads)
-            //{
-            //    processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
-            //}
         }
 
         private void LoadResource()
@@ -155,6 +139,7 @@ namespace VisionAssist.Forms
             matMaxMPImage = mBlue.Clone();
 
         }
+
         private void InitVariables()
         {
             gLMImageList = new LMImageList();
@@ -261,10 +246,6 @@ namespace VisionAssist.Forms
                 Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 4, MatMP.Height * 4)
                     , 0, 0, InterpolationFlags.Lanczos4);
 
-                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-                // Stopwatch 를 시작 합니다.
-                sw.Start();
-
                 using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
                 using (Mat ThresMat = new Mat())
                 using (var old = picboxMP.Image)
@@ -277,54 +258,57 @@ namespace VisionAssist.Forms
 #if FAST_TESS
                     using (TesseractEngine TengineMP = new TesseractEngine(@"./tessdata/Fast", "eng", EngineMode.Default))
 #else
-                    using(TesseractEngine TengineHP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default))
+                    using(TesseractEngine TengineMP = new TesseractEngine(@"./tessdata/Best", "eng", EngineMode.Default))
 #endif
                     {
+                        // tesseractengine 생성
+                        string whitelist = "0123456789/";
                         // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
-                        var result = TengineMP.Process(pix);
-                        string MP = result.GetText().Trim();
-                        MP = MP.Replace(" ", "").Trim();
+                        TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
 
-                        //if (MP.IndexOf('/') == -1)
-                        if (WordNum(MP, "/") != 1)
-                            return;
-
-                        if (WordNum(MP, "\n") != 0)
-                            return;
-
-                        string[] mpStrings = MP.Split('/');
-
-                        if (mpStrings[0] == "" || mpStrings[1] == "" || mpStrings[1] == "0")
-                            return;
-
-                        bool isnum = false;
-                        int chk = 0;
-                        foreach (var VARIABLE in mpStrings)
+                        // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
+                        using (var result = TengineMP.Process(pix))
                         {
-                            isnum = int.TryParse(VARIABLE, out chk);
+                            string MP = result.GetText().Trim();
+                            MP = MP.Replace(" ", "").Trim();
+
+                            //if (MP.IndexOf('/') == -1)
+                            if (WordNum(MP, "/") != 1)
+                                return;
+
+                            if (WordNum(MP, "\n") != 0)
+                                return;
+
+                            string[] mpStrings = MP.Split('/');
+
+                            if (mpStrings[0] == string.Empty || mpStrings[1] == string.Empty || mpStrings[1] == "0")
+                                return;
+
+                            bool isnum = false;
+                            int chk = 0;
+                            foreach (var VARIABLE in mpStrings)
+                            {
+                                isnum = int.TryParse(VARIABLE, out chk);
+
+                                if (isnum == false)
+                                {
+                                    return;
+                                }
+
+                            }
+
+                            this.Invoke(new Action(() =>
+                            {
+                                LedMP.Text = mpStrings[0];
+                                LedMaxMP.Text = mpStrings[1];
+                            }));
+
+                            if (mpStrings.Length == 2)
+                                SimpleMPWork(mpStrings);
                         }
-
-                        if (isnum == false)
-                            return;
-
-                        this.BeginInvoke(new Action(() =>
-                        {
-                            LedMP.Text = mpStrings[0];
-                            LedMaxMP.Text = mpStrings[1];
-                        }));
-
-                        if (mpStrings.Length == 2)
-                            SimpleMPWork(mpStrings);
-
-                        result.Dispose();
                     }
                 }
-
-                sw.Stop();
-                Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
             }
-
-            
         }
 
         public void GetHPTextImage(Mat src)
@@ -367,44 +351,46 @@ namespace VisionAssist.Forms
                         // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
                         TengineHP.SetVariable("tessedit_char_whitelist", whitelist);                       
 
-                        var result = TengineHP.Process(pix);
-                        string HP = result.GetText().Trim();
-                        HP = HP.Replace(" ", "").Trim();
-
-                        //if (HP.IndexOf('/') == -1)
-                        if (WordNum(HP, "/") != 1)
-                            return;
-
-                        if (WordNum(HP, "\n") != 0)
-                            return;
-
-                        string[] hpStrings = HP.Split('/');
-
-                        if (hpStrings[0] == "" || hpStrings[1] == "" || hpStrings[1] == "0")
-                            return;
-
-                        if (hpStrings.Length != 2)
-                            return;
-
-                        bool isnum = false;
-                        int chk = 0;
-                        foreach (var VARIABLE in hpStrings)
+                        using(var result = TengineHP.Process(pix))
                         {
-                            isnum = int.TryParse(VARIABLE, out chk);
+                            string HP = result.GetText().Trim();
+                            HP = HP.Replace(" ", "").Trim();
+
+                            //if (HP.IndexOf('/') == -1)
+                            if (WordNum(HP, "/") != 1)
+                                return;
+
+                            if (WordNum(HP, "\n") != 0)
+                                return;
+
+                            string[] hpStrings = HP.Split('/');
+
+                            if (hpStrings[0] == string.Empty || hpStrings[1] == string.Empty || hpStrings[1] == "0")
+                                return;
+
+                            if (hpStrings.Length != 2)
+                                return;
+
+                            bool isnum = false;
+                            int chk = 0;
+                            foreach (var VARIABLE in hpStrings)
+                            {
+                                isnum = int.TryParse(VARIABLE, out chk);
+
+                                if (isnum == false)
+                                {
+                                    return;
+                                }
+                            }
+
+                            this.Invoke(new Action(() =>
+                            {
+                                LedHP.Text = hpStrings[0];
+                                LedMaxHP.Text = hpStrings[1];
+                            }));
+
+                            SimpleHPWork(hpStrings, ref src);
                         }
-
-                        if (isnum == false)
-                            return;
-
-                        this.BeginInvoke(new Action(() =>
-                        {
-                            LedHP.Text = hpStrings[0];
-                            LedMaxHP.Text = hpStrings[1];
-                        }));
-
-                        SimpleHPWork(hpStrings, ref src);
-
-                        result.Dispose();
                     }
                 }
 
