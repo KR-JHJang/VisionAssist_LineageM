@@ -81,7 +81,6 @@ namespace VisionAssist.Forms
 
             InitVariables();
             LoadResource();
-            InitPicturebox();
 
             ReadData();
 
@@ -120,24 +119,6 @@ namespace VisionAssist.Forms
             TempMat = Properties.Resources.Teleport_Scroll.ToMat();
             TempMat = gImageProcess.ImageResize(TempMat, 70, 70);
             gLMImageList.InsertMat(TempMat, (int)eLMImageList.Item_TeleportScroll);
-        }
-
-        private void InitPicturebox()
-        {
-            Mat mBlue = new Mat();
-            mBlue.Create(picboxColorBlue.Height, picboxColorBlue.Width, MatType.CV_8UC3);
-            gImageProcess.FillColor(mBlue, new Vec3b(255,0,0));
-
-            Mat mRed = new Mat();
-            mRed.Create(picboxColorRed.Height, picboxColorRed.Width, MatType.CV_8UC3);
-            gImageProcess.FillColor(mRed, new Vec3b(0, 0, 255));
-
-            picboxColorRed.Image = mRed.ToBitmap();
-            picboxColorBlue.Image = mBlue.ToBitmap();
-
-            matMaxHPImage = mRed.Clone();
-            matMaxMPImage = mBlue.Clone();
-
         }
 
         private void InitVariables()
