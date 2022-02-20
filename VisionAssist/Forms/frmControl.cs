@@ -377,6 +377,17 @@ namespace VisionAssist.Forms
             }
         }
 
+        public void SimpleAttackSkill()
+        {
+            if (GLOBAL.IsRun())
+            {
+                if (GLOBAL._tskillboxes[2].IsUsed() && chkUseAttackSkill.Checked == true)
+                {
+                    SimpleExcute(GLOBAL._mousePositions[GLOBAL._tskillpos[2]]);
+                }
+            }
+        }
+
         public int WordNum(String String, String Word)
         {
             int Num;
@@ -841,10 +852,26 @@ namespace VisionAssist.Forms
 
         private void SimpleExcuteEvade(int Param)
         {
-            GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-            Thread.Sleep(200);            
-            GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
-            //Thread.Sleep(100);
+            Thread runThread = new Thread(new ThreadStart(delegate
+            {
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
+                Thread.Sleep(200);            
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
+            }));
+
+            runThread.Start();
+        }
+
+        private void SimpleExcute(int Param)
+        {
+            Thread runThread = new Thread(new ThreadStart(delegate 
+            {
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
+                Thread.Sleep(200);
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
+            }));
+
+            runThread.Start();
         }
 
 
