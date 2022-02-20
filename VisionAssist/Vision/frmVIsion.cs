@@ -315,7 +315,7 @@ namespace VisionAssist.Vision
                         rect = DPIConverter(rect, sub);
 
                         using (Bitmap BitData = new Bitmap(rect.Width, rect.Height,
-                        System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                        System.Drawing.Imaging.PixelFormat.Format32bppPArgb))
                         using (Mat ResultMat = new Mat())
                         {
                             using(Graphics g = Graphics.FromImage(BitData))

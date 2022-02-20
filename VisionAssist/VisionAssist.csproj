@@ -287,7 +287,7 @@
   </Target>
   <Import Project="packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('packages\Tesseract.4.1.1\build\Tesseract.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir  "$(TargetDir)tessdata"
+    <PostBuildEvent>IF NOT EXIST "$(TargetDir)tessdata" mkdir  "$(TargetDir)tessdata"
 XCOPY "$(ProjectDir)tessdata\*.*" "$(TargetDir)tessdata\" /Y /E</PostBuildEvent>
   </PropertyGroup>
 </Project>
