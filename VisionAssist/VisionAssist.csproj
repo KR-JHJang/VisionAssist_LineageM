@@ -286,4 +286,8 @@
     <Error Condition="!Exists('packages\OpenCvSharp4.runtime.win.4.5.3.20210817\build\net\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenCvSharp4.runtime.win.4.5.3.20210817\build\net\OpenCvSharp4.runtime.win.props'))" />
   </Target>
   <Import Project="packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('packages\Tesseract.4.1.1\build\Tesseract.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir  "$(TargetDir)tessdata"
+XCOPY "$(ProjectDir)tessdata\*.*" "$(TargetDir)tessdata\" /Y /E</PostBuildEvent>
+  </PropertyGroup>
 </Project>

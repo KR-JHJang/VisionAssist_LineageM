@@ -25,7 +25,6 @@ namespace VisionAssist
 
         private bool isWindowMoving;
 
-        private bool bFindWindow = false;
         public frmMain()
         {
             InitializeComponent();

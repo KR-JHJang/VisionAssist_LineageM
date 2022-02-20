@@ -37,8 +37,6 @@ namespace VisionAssist.Forms
         private Mat[] matArrMP;
 
         private Mat matPKImage;
-        private Mat matMaxHPImage;
-        private Mat matMaxMPImage;
 
         private Mat matSearchSkillArea;
         private int matSearchSkillAreaStartX;
@@ -84,7 +82,6 @@ namespace VisionAssist.Forms
 
             ReadData();
 
-            HPsize = new OpenCvSharp.Size(picboxHP.Size.Width, picboxHP.Size.Height);
             MPsize = new OpenCvSharp.Size(picboxMP.Size.Width, picboxMP.Size.Height);
             Attacksize = new OpenCvSharp.Size(picboxUserAttack.Size.Width, picboxUserAttack.Size.Height);
         }
@@ -151,65 +148,65 @@ namespace VisionAssist.Forms
             }
         }
 
-        public void GetLocation(ref Mat src)
-        {
-            if (gImageProcess == null)
-                return;
+        //public void GetLocation(ref Mat src)
+        //{
+        //    if (gImageProcess == null)
+        //        return;
 
-            Rect Pos = new Rect(800, 234, 152, 18);
-            Mat MatLoc = src.SubMat(Pos);
-            WeakReference wMat = new WeakReference(MatLoc);
+        //    Rect Pos = new Rect(800, 234, 152, 18);
+        //    Mat MatLoc = src.SubMat(Pos);
+        //    WeakReference wMat = new WeakReference(MatLoc);
 
-            var old = picboxLoc.Image;
+        //    var old = picboxLoc.Image;
 
-            try
-            {
-                VisionRect.SetRect(Pos, VisionRect.ePosition.Location);
+        //    try
+        //    {
+        //        VisionRect.SetRect(Pos, VisionRect.ePosition.Location);
 
-                Cv2.Resize(MatLoc, MatLoc, new Size(
-                    MatLoc.Width * 3,
-                    MatLoc.Height * 3), 0, 0, InterpolationFlags.Lanczos4);
+        //        Cv2.Resize(MatLoc, MatLoc, new Size(
+        //            MatLoc.Width * 3,
+        //            MatLoc.Height * 3), 0, 0, InterpolationFlags.Lanczos4);
 
-                //Cv2.InRange(MatLoc, )
+        //        //Cv2.InRange(MatLoc, )
 
-                gImageProcess.ConvertRgb2Gray(MatLoc);
-                //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);
-                Cv2.Threshold(MatLoc, MatLoc, 170, 255, ThresholdTypes.Tozero);
+        //        gImageProcess.ConvertRgb2Gray(MatLoc);
+        //        //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);
+        //        Cv2.Threshold(MatLoc, MatLoc, 170, 255, ThresholdTypes.Tozero);
 
-                picboxLoc.Image = MatLoc.ToBitmap();
+        //        picboxLoc.Image = MatLoc.ToBitmap();
 
-                Pix pix = PixConverter.ToPix(MatLoc.ToBitmap());
-                TengineLoc = new TesseractEngine(@"./tessdata", "hangul", EngineMode.Default);
+        //        Pix pix = PixConverter.ToPix(MatLoc.ToBitmap());
+        //        TengineLoc = new TesseractEngine(@"./tessdata", "hangul", EngineMode.Default);
 
-                //string whitelist = "0123456789/";
-                //TengineLoc.SetVariable("tessedit_char_whitelist", whitelist);
+        //        //string whitelist = "0123456789/";
+        //        //TengineLoc.SetVariable("tessedit_char_whitelist", whitelist);
 
-                var result = TengineLoc.Process(pix);
-                string strLoc = result.GetText().Trim();
-                strLoc = strLoc.Replace(" ", "").Trim();
+        //        var result = TengineLoc.Process(pix);
+        //        string strLoc = result.GetText().Trim();
+        //        strLoc = strLoc.Replace(" ", "").Trim();
 
-                System.Console.WriteLine(strLoc);
+        //        System.Console.WriteLine(strLoc);
 
-            }
-            catch(Exception e)
-            {
-                return;
-            }
-            finally
-            {
-                //result.Dispose();
+        //    }
+        //    catch(Exception)
+        //    {
+        //        return;
+        //    }
+        //    finally
+        //    {
+        //        //result.Dispose();
 
-                if(old != null)
-                    old.Dispose();
+        //        if(old != null)
+        //            old.Dispose();
 
-                TengineLoc.Dispose();
-                TengineLoc = null;
+        //        TengineLoc.Dispose();
+        //        TengineLoc = null;
 
-                MatLoc.Release();
-                MatLoc.Dispose();
-                MatLoc = null;
-            }
-        }
+        //        MatLoc.Release();
+        //        MatLoc.Dispose();
+        //        MatLoc = null;
+        //    }
+        //}
 
         public void GetMPTextImage(Mat src)
         {
@@ -224,14 +221,14 @@ namespace VisionAssist.Forms
             {
                 VisionRect.SetRect(Pos, VisionRect.ePosition.MP);
 
-                Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 4, MatMP.Height * 4)
-                    , 0, 0, InterpolationFlags.Lanczos4);
+                Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 15, MatMP.Height * 15)
+                    , 0, 0, InterpolationFlags.Cubic);
 
                 using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
                 using (Mat ThresMat = new Mat())
                 using (var old = picboxMP.Image)
                 {
-                    Cv2.Threshold(GrayMat, ThresMat, 200, 255, ThresholdTypes.Tozero);
+                    Cv2.Threshold(GrayMat, ThresMat, 195, 255, ThresholdTypes.Tozero);
 
                     picboxMP.Image = ThresMat.ToBitmap();
 
@@ -305,7 +302,7 @@ namespace VisionAssist.Forms
             {
                 VisionRect.SetRect(Pos, VisionRect.ePosition.HP);
                 
-                Cv2.Resize(MatHP, ResultResize, new Size(MatHP.Width * 4, MatHP.Height * 4)
+                Cv2.Resize(MatHP, ResultResize, new Size(MatHP.Width * 10, MatHP.Height * 10)
                     , 0, 0, InterpolationFlags.Lanczos4);
 
                 System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
@@ -402,8 +399,6 @@ namespace VisionAssist.Forms
                     return;
 
                 decimal ratio = (mp / max) * 100;
-
-                decimal barmp = Decimal.Zero;
 
                 ratio = Math.Round(ratio, 2);
 
@@ -794,7 +789,7 @@ namespace VisionAssist.Forms
                             Cv2.CvtColor(matGunner_ManaChange, GrayMat, ColorConversionCodes.BGR2GRAY);
                             Cv2.CvtColor(matSearchSkillArea, GrayArea, ColorConversionCodes.BGR2GRAY);
                         }
-                        catch(Exception ex)
+                        catch (Exception)
                         {
                             continue;
                         }

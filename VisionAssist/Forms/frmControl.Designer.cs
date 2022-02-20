@@ -55,13 +55,6 @@ namespace VisionAssist.Forms
             this.trBarHPEvade = new System.Windows.Forms.TrackBar();
             this.trBarHP = new System.Windows.Forms.TrackBar();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.picboxLoc = new System.Windows.Forms.PictureBox();
-            this.picboxHP = new System.Windows.Forms.PictureBox();
-            this.picboxMP = new System.Windows.Forms.PictureBox();
-            this.picboxHPText = new System.Windows.Forms.PictureBox();
-            this.chkHPTest = new System.Windows.Forms.CheckBox();
-            this.tbxHPLower = new System.Windows.Forms.TextBox();
-            this.tbxHPUpper = new System.Windows.Forms.TextBox();
             this.tbxSearchMessage = new System.Windows.Forms.TextBox();
             this.ttHP = new System.Windows.Forms.ToolTip(this.components);
             this.ttMP = new System.Windows.Forms.ToolTip(this.components);
@@ -70,6 +63,8 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
+            this.picboxHPText = new System.Windows.Forms.PictureBox();
+            this.picboxMP = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -80,10 +75,8 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -371,13 +364,8 @@ namespace VisionAssist.Forms
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.picboxLoc);
-            this.tabPage4.Controls.Add(this.picboxHP);
             this.tabPage4.Controls.Add(this.picboxMP);
             this.tabPage4.Controls.Add(this.picboxHPText);
-            this.tabPage4.Controls.Add(this.chkHPTest);
-            this.tabPage4.Controls.Add(this.tbxHPLower);
-            this.tabPage4.Controls.Add(this.tbxHPUpper);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -385,75 +373,6 @@ namespace VisionAssist.Forms
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Admin";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // picboxLoc
-            // 
-            this.picboxLoc.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxLoc.Image = ((System.Drawing.Image)(resources.GetObject("picboxLoc.Image")));
-            this.picboxLoc.Location = new System.Drawing.Point(3, 177);
-            this.picboxLoc.Name = "picboxLoc";
-            this.picboxLoc.Size = new System.Drawing.Size(216, 86);
-            this.picboxLoc.TabIndex = 16;
-            this.picboxLoc.TabStop = false;
-            // 
-            // picboxHP
-            // 
-            this.picboxHP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxHP.Image = ((System.Drawing.Image)(resources.GetObject("picboxHP.Image")));
-            this.picboxHP.Location = new System.Drawing.Point(3, 77);
-            this.picboxHP.Name = "picboxHP";
-            this.picboxHP.Size = new System.Drawing.Size(216, 100);
-            this.picboxHP.TabIndex = 15;
-            this.picboxHP.TabStop = false;
-            // 
-            // picboxMP
-            // 
-            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picboxMP.Image = ((System.Drawing.Image)(resources.GetObject("picboxMP.Image")));
-            this.picboxMP.Location = new System.Drawing.Point(3, 3);
-            this.picboxMP.Name = "picboxMP";
-            this.picboxMP.Size = new System.Drawing.Size(216, 74);
-            this.picboxMP.TabIndex = 14;
-            this.picboxMP.TabStop = false;
-            // 
-            // picboxHPText
-            // 
-            this.picboxHPText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.picboxHPText.Image = ((System.Drawing.Image)(resources.GetObject("picboxHPText.Image")));
-            this.picboxHPText.Location = new System.Drawing.Point(3, 560);
-            this.picboxHPText.Name = "picboxHPText";
-            this.picboxHPText.Size = new System.Drawing.Size(216, 43);
-            this.picboxHPText.TabIndex = 13;
-            this.picboxHPText.TabStop = false;
-            // 
-            // chkHPTest
-            // 
-            this.chkHPTest.AutoSize = true;
-            this.chkHPTest.Location = new System.Drawing.Point(10, 535);
-            this.chkHPTest.Name = "chkHPTest";
-            this.chkHPTest.Size = new System.Drawing.Size(49, 16);
-            this.chkHPTest.TabIndex = 12;
-            this.chkHPTest.Text = "Test";
-            this.chkHPTest.UseVisualStyleBackColor = true;
-            this.chkHPTest.Visible = false;
-            // 
-            // tbxHPLower
-            // 
-            this.tbxHPLower.Location = new System.Drawing.Point(152, 533);
-            this.tbxHPLower.Name = "tbxHPLower";
-            this.tbxHPLower.Size = new System.Drawing.Size(61, 21);
-            this.tbxHPLower.TabIndex = 10;
-            this.tbxHPLower.Text = "0";
-            this.tbxHPLower.Visible = false;
-            // 
-            // tbxHPUpper
-            // 
-            this.tbxHPUpper.Location = new System.Drawing.Point(89, 533);
-            this.tbxHPUpper.Name = "tbxHPUpper";
-            this.tbxHPUpper.Size = new System.Drawing.Size(61, 21);
-            this.tbxHPUpper.TabIndex = 11;
-            this.tbxHPUpper.Text = "0";
-            this.tbxHPUpper.Visible = false;
             // 
             // tbxSearchMessage
             // 
@@ -507,6 +426,26 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
+            // picboxHPText
+            // 
+            this.picboxHPText.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxHPText.Location = new System.Drawing.Point(3, 3);
+            this.picboxHPText.Name = "picboxHPText";
+            this.picboxHPText.Size = new System.Drawing.Size(216, 76);
+            this.picboxHPText.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picboxHPText.TabIndex = 13;
+            this.picboxHPText.TabStop = false;
+            // 
+            // picboxMP
+            // 
+            this.picboxMP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picboxMP.Location = new System.Drawing.Point(3, 79);
+            this.picboxMP.Name = "picboxMP";
+            this.picboxMP.Size = new System.Drawing.Size(216, 74);
+            this.picboxMP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picboxMP.TabIndex = 14;
+            this.picboxMP.TabStop = false;
+            // 
             // frmControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -529,11 +468,8 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHP)).EndInit();
             this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxLoc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxHP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -573,12 +509,7 @@ namespace VisionAssist.Forms
         private Sunny.UI.UILedDisplay LedHP;
         private Sunny.UI.UILedDisplay LedMP;
         private Sunny.UI.UILedDisplay LedMaxMP;
-        private System.Windows.Forms.PictureBox picboxHPText;
-        private System.Windows.Forms.CheckBox chkHPTest;
-        private System.Windows.Forms.TextBox tbxHPLower;
-        private System.Windows.Forms.TextBox tbxHPUpper;
-        private System.Windows.Forms.PictureBox picboxHP;
         private System.Windows.Forms.PictureBox picboxMP;
-        private System.Windows.Forms.PictureBox picboxLoc;
+        private System.Windows.Forms.PictureBox picboxHPText;
     }
 }
