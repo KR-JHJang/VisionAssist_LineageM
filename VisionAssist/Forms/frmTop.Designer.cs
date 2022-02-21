@@ -82,9 +82,6 @@ namespace VisionAssist.Forms
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.bgwUseGroups = new System.ComponentModel.BackgroundWorker();
             this.bgwCheckRadioButtonSelect = new System.ComponentModel.BackgroundWorker();
-            this.btnLoginKakaoTalk = new System.Windows.Forms.Button();
-            this.btnSendMsg = new System.Windows.Forms.Button();
-            this.btnSendMsg2 = new System.Windows.Forms.Button();
             this.btnOpenCaptureFolder = new System.Windows.Forms.Button();
             this.gbox2.SuspendLayout();
             this.gbox1.SuspendLayout();
@@ -666,49 +663,13 @@ namespace VisionAssist.Forms
             this.bgwCheckRadioButtonSelect.WorkerSupportsCancellation = true;
             this.bgwCheckRadioButtonSelect.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCheckRadioButtonSelect_DoWork);
             // 
-            // btnLoginKakaoTalk
-            // 
-            this.btnLoginKakaoTalk.BackColor = System.Drawing.Color.Yellow;
-            this.btnLoginKakaoTalk.Font = new System.Drawing.Font("Arial Narrow", 12F);
-            this.btnLoginKakaoTalk.Location = new System.Drawing.Point(863, 4);
-            this.btnLoginKakaoTalk.Name = "btnLoginKakaoTalk";
-            this.btnLoginKakaoTalk.Size = new System.Drawing.Size(72, 76);
-            this.btnLoginKakaoTalk.TabIndex = 6;
-            this.btnLoginKakaoTalk.Text = "Login KAKAO TALK";
-            this.btnLoginKakaoTalk.UseVisualStyleBackColor = false;
-            this.btnLoginKakaoTalk.Click += new System.EventHandler(this.btnLoginKakaoTalk_Click);
-            // 
-            // btnSendMsg
-            // 
-            this.btnSendMsg.BackColor = System.Drawing.Color.Yellow;
-            this.btnSendMsg.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.btnSendMsg.Location = new System.Drawing.Point(941, 4);
-            this.btnSendMsg.Name = "btnSendMsg";
-            this.btnSendMsg.Size = new System.Drawing.Size(92, 38);
-            this.btnSendMsg.TabIndex = 6;
-            this.btnSendMsg.Text = "Send MSG";
-            this.btnSendMsg.UseVisualStyleBackColor = false;
-            this.btnSendMsg.Click += new System.EventHandler(this.btnSendMsg_Click);
-            // 
-            // btnSendMsg2
-            // 
-            this.btnSendMsg2.BackColor = System.Drawing.Color.Yellow;
-            this.btnSendMsg2.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.btnSendMsg2.Location = new System.Drawing.Point(941, 42);
-            this.btnSendMsg2.Name = "btnSendMsg2";
-            this.btnSendMsg2.Size = new System.Drawing.Size(92, 38);
-            this.btnSendMsg2.TabIndex = 6;
-            this.btnSendMsg2.Text = "Send MSG";
-            this.btnSendMsg2.UseVisualStyleBackColor = false;
-            this.btnSendMsg2.Click += new System.EventHandler(this.btnSendMsg2_Click);
-            // 
             // btnOpenCaptureFolder
             // 
             this.btnOpenCaptureFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnOpenCaptureFolder.Font = new System.Drawing.Font("Arial Narrow", 12F);
             this.btnOpenCaptureFolder.Location = new System.Drawing.Point(769, 3);
             this.btnOpenCaptureFolder.Name = "btnOpenCaptureFolder";
-            this.btnOpenCaptureFolder.Size = new System.Drawing.Size(88, 76);
+            this.btnOpenCaptureFolder.Size = new System.Drawing.Size(152, 76);
             this.btnOpenCaptureFolder.TabIndex = 6;
             this.btnOpenCaptureFolder.Text = "Open Capture Folder";
             this.btnOpenCaptureFolder.UseVisualStyleBackColor = false;
@@ -718,10 +679,7 @@ namespace VisionAssist.Forms
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.btnSendMsg2);
-            this.Controls.Add(this.btnSendMsg);
             this.Controls.Add(this.btnOpenCaptureFolder);
-            this.Controls.Add(this.btnLoginKakaoTalk);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -801,9 +759,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.CheckBox checkBox4;
         private System.ComponentModel.BackgroundWorker bgwUseGroups;
         private System.ComponentModel.BackgroundWorker bgwCheckRadioButtonSelect;
-        private System.Windows.Forms.Button btnLoginKakaoTalk;
-        private System.Windows.Forms.Button btnSendMsg;
-        private System.Windows.Forms.Button btnSendMsg2;
         private System.Windows.Forms.Button btnOpenCaptureFolder;
     }
 }

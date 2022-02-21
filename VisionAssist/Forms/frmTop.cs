@@ -243,29 +243,29 @@ namespace VisionAssist.Forms
             }
         }
 
-        private void btnLoginKakaoTalk_Click(object sender, EventArgs e)
-        {
-            if (btnLoginKakaoTalk.Text == "Login KAKAO TALK")
-            {
-                frmKakaoTalk form = new frmKakaoTalk();
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    btnLoginKakaoTalk.Text = "로그아웃";
-                }
-            }
-            else
-            {
-                var client = new RestClient(KakaoHandle.HOST_API_URL);
+        //private void btnLoginKakaoTalk_Click(object sender, EventArgs e)
+        //{
+        //    if (btnLoginKakaoTalk.Text == "Login KAKAO TALK")
+        //    {
+        //        frmKakaoTalk form = new frmKakaoTalk();
+        //        if (form.ShowDialog() == DialogResult.OK)
+        //        {
+        //            btnLoginKakaoTalk.Text = "로그아웃";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var client = new RestClient(KakaoHandle.HOST_API_URL);
 
-                var request = new RestRequest("/v1/user/unlink", Method.POST);
-                request.AddHeader("Authorization", "bearer " + KakaoHandle.ACCESS_TOKEN);
+        //        var request = new RestRequest("/v1/user/unlink", Method.POST);
+        //        request.AddHeader("Authorization", "bearer " + KakaoHandle.ACCESS_TOKEN);
 
-                if (client.Execute(request).IsSuccessful)
-                {
-                    btnLoginKakaoTalk.Text = "Login KAKAO TALK";
-                }
-            }
-        }
+        //        if (client.Execute(request).IsSuccessful)
+        //        {
+        //            btnLoginKakaoTalk.Text = "Login KAKAO TALK";
+        //        }
+        //    }
+        //}
 
         private void btnSendMsg_Click(object sender, EventArgs e)
         {

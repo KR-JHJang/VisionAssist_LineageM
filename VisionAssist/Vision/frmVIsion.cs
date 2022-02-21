@@ -282,14 +282,13 @@ namespace VisionAssist.Vision
             if(rect.TopLeft == rect.BottomRight)
                 return;
 
-            Bitmap Dummy = new Bitmap(picVision.Image);
+            using(Bitmap Dummy = (Bitmap)picVision.Image.Clone())
+            {
+                using(Mat test = gImageProcess.ImageCrop(Dummy, rect))
+                {
 
-            Mat test = gImageProcess.ImageCrop(Dummy, rect);
-
-            Cv2.ImShow("test", test);
-
-            test.Release();
-            Dummy.Dispose();
+                }
+            }
         }
 
         public void ImageCapture(string target)
