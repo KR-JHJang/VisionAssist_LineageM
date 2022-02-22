@@ -185,6 +185,7 @@
     <Compile Include="Forms\ImageSave\frmImageSave.Designer.cs">
       <DependentUpon>frmImageSave.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ImageSave\Functions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vision\frmVIsion.cs">
@@ -294,7 +295,6 @@
   <ItemGroup>
     <Content Include="icons8-ufo-64.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

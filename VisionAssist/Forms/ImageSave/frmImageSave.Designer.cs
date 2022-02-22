@@ -51,6 +51,7 @@ namespace VisionAssist.Forms.ImageSave
             this.btnSaveImage.TabIndex = 1;
             this.btnSaveImage.Text = "저장";
             this.btnSaveImage.UseVisualStyleBackColor = true;
+            this.btnSaveImage.Click += new System.EventHandler(this.btnSaveImage_Click);
             // 
             // frmImageSave
             // 
