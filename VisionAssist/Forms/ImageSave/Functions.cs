@@ -1,20 +1,16 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisionAssist.Properties;
 
 namespace VisionAssist.Forms.ImageSave
 {
-    public class ImageFunctions
+    internal class Functions
     {
-        public void SaveImage(Mat src)
+        internal void SaveImage(Mat src)
         {
             using (SaveFileDialog saveDlg = new SaveFileDialog())
             {
@@ -29,7 +25,7 @@ namespace VisionAssist.Forms.ImageSave
                 {
                     filter = Path.GetExtension(saveDlg.FileName);
 
-                    using (Bitmap default_image = (Bitmap)src.Clone())
+                    using (Bitmap default_image = src.ToBitmap())
                     {
                         switch (filter)
                         {

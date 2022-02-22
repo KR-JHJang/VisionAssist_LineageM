@@ -1,26 +1,19 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using VisionAssist.Properties;
 
 namespace VisionAssist.Forms.ImageSave
 {
     public partial class frmImageSave : Form
     {
-        private ImageFunctions gImageFunctions;
         private Mat gMatSource;
+        internal Functions gFunc;
         public frmImageSave(Mat src)
         {
             InitializeComponent();
+
+            gFunc = new Functions();
 
             gMatSource = src;
             picImage.Image = gMatSource.ToBitmap();
@@ -34,7 +27,7 @@ namespace VisionAssist.Forms.ImageSave
 
         private void btnSaveImage_Click(object sender, EventArgs e)
         {
-            gImageFunctions.SaveImage(gMatSource);
+            gFunc.SaveImage(gMatSource);
         }
     }
 }
