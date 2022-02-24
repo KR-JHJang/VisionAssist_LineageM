@@ -289,10 +289,10 @@ namespace VisionAssist.Forms
             }
         }
 
-        public void GetHPTextImage(Mat src)
+        public bool GetHPTextImage(Mat src)
         {
             if (gImageProcess == null)
-                return;
+                return false;
 
             Rect Pos = new Rect(96, 11, 76, 15);
 
@@ -336,18 +336,18 @@ namespace VisionAssist.Forms
 
                             //if (HP.IndexOf('/') == -1)
                             if (WordNum(HP, "/") != 1)
-                                return;
+                                return false;
 
                             if (WordNum(HP, "\n") != 0)
-                                return;
+                                return false;
 
                             string[] hpStrings = HP.Split('/');
 
                             if (hpStrings[0] == string.Empty || hpStrings[1] == string.Empty || hpStrings[1] == "0")
-                                return;
+                                return false;
 
                             if (hpStrings.Length != 2)
-                                return;
+                                return false;
 
                             bool isnum = false;
                             int chk = 0;
@@ -357,7 +357,7 @@ namespace VisionAssist.Forms
 
                                 if (isnum == false)
                                 {
-                                    return;
+                                    return false;
                                 }
                             }
 
@@ -375,6 +375,8 @@ namespace VisionAssist.Forms
                 sw.Stop();
                 Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
             }
+
+            return true;
         }
 
         public void SimpleAttackSkill()
@@ -855,7 +857,7 @@ namespace VisionAssist.Forms
             Thread runThread = new Thread(new ThreadStart(delegate
             {
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-                Thread.Sleep(200);            
+                Thread.Sleep(100);            
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
             }));
 
@@ -867,7 +869,7 @@ namespace VisionAssist.Forms
             Thread runThread = new Thread(new ThreadStart(delegate 
             {
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Param);
-                Thread.Sleep(200);
+                Thread.Sleep(100);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Param);
             }));
 

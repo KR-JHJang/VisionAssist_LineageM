@@ -117,7 +117,11 @@ namespace VisionAssist.Vision
                 Parallel.Invoke(
                 () =>
                 {
-                    GLOBAL.hfrmControl.GetHPTextImage(VisionData);
+                    if(GLOBAL.hfrmControl.GetHPTextImage(VisionData))
+                    {
+                        // 자동 스킬 공격
+                        GLOBAL.hfrmControl.SimpleAttackSkill();
+                    }
                 },
                 () =>
                 {
@@ -125,8 +129,7 @@ namespace VisionAssist.Vision
                 },
                 () =>
                 {
-                    // 자동 스킬 공격
-                    GLOBAL.hfrmControl.SimpleAttackSkill();
+                    //
                 },
                 () =>
                 {
