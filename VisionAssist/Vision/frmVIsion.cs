@@ -125,7 +125,7 @@ namespace VisionAssist.Vision
                 },
                 () =>
                 {
-                    GLOBAL.hfrmControl.GetMPTextImage(VisionData);
+                    //GLOBAL.hfrmControl.GetMPTextImage(VisionData);
                 },
                 () =>
                 {

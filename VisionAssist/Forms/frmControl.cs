@@ -367,7 +367,12 @@ namespace VisionAssist.Forms
                                 LedMaxHP.Text = hpStrings[1];
                             }));
 
-                            SimpleHPWork(hpStrings, ref src);
+                            if(SimpleHPWork(hpStrings, ref src))
+                            {                                
+                                return true;
+                            }
+                            else
+                                return false;
                         }
                     }
                 }
@@ -442,7 +447,7 @@ namespace VisionAssist.Forms
         }
 
         private int EvadeCounter;
-        public void SimpleHPWork(string[] data, ref Mat src)
+        public bool SimpleHPWork(string[] data, ref Mat src)
         {
             if (GLOBAL.IsRun())
             {
@@ -452,7 +457,7 @@ namespace VisionAssist.Forms
                 if (max < 1000 || max > 15000)
                 {
                     System.Console.WriteLine(string.Format(@"Max Value is Abnormal : {0}", max));
-                    return;
+                    return true;
                 }
                 
                 decimal ratio = (hp / max) * 100;
@@ -528,15 +533,19 @@ namespace VisionAssist.Forms
                             //GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
 
                             // 이미지 저장
-                            SaveImage(ref src, "Evade");
+                            //SaveImage(ref src, "Evade");
 
                             SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                            return false;
                         }
                         break;
                     default:
-                    break;
+                        return true;
+                        break;
                 }
             }
+
+            return true;
         }
 
         public bool SetAttackImagePos(ref Mat src)
