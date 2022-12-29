@@ -200,6 +200,19 @@ namespace VisionAssist.Vision
             stAxis.NowRealPosition.Y = (float)VisionMoveScalingHeight(Y);
         }
 
+        public Vector2 GetRealPosition(Rect pos)
+        {
+            float posX = pos.X + (pos.Width / 2);
+            float posY = pos.Y + (pos.Height / 2);
+
+            Vector2 RealPos = new Vector2(0, 0);
+
+            RealPos.X = (float)VisionMoveScalingWidth(posX);
+            RealPos.Y = (float)VisionMoveScalingHeight(posY);
+
+            return RealPos;
+        }
+
         public void SetMouseRangeStart(int X, int Y)
         {
             stAxis.StartRangePos.X = X;
