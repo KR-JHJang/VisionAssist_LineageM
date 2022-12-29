@@ -26,7 +26,7 @@ namespace VisionAssist
 
         private bool isWindowMoving;
 
-        private WhileThread RunTask;
+        private List<WhileThread> RunTask;
 
         public frmMain()
         {
@@ -51,8 +51,16 @@ namespace VisionAssist
 
             ReadData();
 
-            RunTask = new WhileThread(100, func_Task_Run);
-            RunTask.Start();
+            RunTask = new List<WhileThread>
+            {
+                new WhileThread(10, func_Task_Run),
+                new WhileThread(333, func_Vision_Process_Run)
+            };
+
+            foreach (var v in RunTask)
+            {
+                v.Start();
+            }
         }
 
         public bool GetMaintenanceMode()
@@ -139,6 +147,17 @@ namespace VisionAssist
         //{
         //    await Task.Run(() => func_Task_Run());
         //}
+
+        private void func_Vision_Process_Run()
+        {
+            if(stImageWork.isRun != true && stImageWork.Target != null)
+            {
+                gfrmVision.func_ImageWork(stImageWork.Target.Clone());
+                stImageWork.Target.Release();
+                stImageWork.Target.Dispose();
+                stImageWork.Target = null;
+            }
+        }
 
         private void func_Task_Run()
         {

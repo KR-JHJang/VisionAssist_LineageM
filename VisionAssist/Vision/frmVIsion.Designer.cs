@@ -31,30 +31,13 @@ namespace VisionAssist.Vision
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVIsion));
-            this.picVision = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.stripTitle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSetMousePosition = new System.Windows.Forms.ToolStripMenuItem();
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.picVision)).BeginInit();
+            this.picVision = new SharpDX.Windows.RenderControl();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // picVision
-            // 
-            this.picVision.ContextMenuStrip = this.contextMenuStrip1;
-            this.picVision.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picVision.Location = new System.Drawing.Point(0, 0);
-            this.picVision.Name = "picVision";
-            this.picVision.Size = new System.Drawing.Size(960, 540);
-            this.picVision.TabIndex = 0;
-            this.picVision.TabStop = false;
-            this.picVision.Paint += new System.Windows.Forms.PaintEventHandler(this.picVision_Paint);
-            this.picVision.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseDown);
-            this.picVision.MouseEnter += new System.EventHandler(this.picVision_MouseEnter);
-            this.picVision.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseMove);
-            this.picVision.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseUp);
-            this.picVision.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.picVision_PreviewKeyDown);
             // 
             // contextMenuStrip1
             // 
@@ -92,6 +75,19 @@ namespace VisionAssist.Vision
             this.getImageToolStripMenuItem.Text = "Get Image";
             this.getImageToolStripMenuItem.Click += new System.EventHandler(this.getImageToolStripMenuItem_Click);
             // 
+            // picVision
+            // 
+            this.picVision.ContextMenuStrip = this.contextMenuStrip1;
+            this.picVision.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picVision.Location = new System.Drawing.Point(0, 0);
+            this.picVision.Name = "picVision";
+            this.picVision.Size = new System.Drawing.Size(960, 540);
+            this.picVision.TabIndex = 1;
+            this.picVision.Paint += new System.Windows.Forms.PaintEventHandler(this.picVision_Paint);
+            this.picVision.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseDown);
+            this.picVision.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseMove);
+            this.picVision.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picVision_MouseUp);
+            // 
             // frmVIsion
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -99,7 +95,6 @@ namespace VisionAssist.Vision
             this.DoubleBuffered = true;
             this.Name = "frmVIsion";
             this.Size = new System.Drawing.Size(960, 540);
-            ((System.ComponentModel.ISupportInitialize)(this.picVision)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -109,7 +104,7 @@ namespace VisionAssist.Vision
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem stripTitle;
         private System.Windows.Forms.ToolStripMenuItem getImageToolStripMenuItem;
-        public System.Windows.Forms.PictureBox picVision;
         private System.Windows.Forms.ToolStripMenuItem tsSetMousePosition;
+        public SharpDX.Windows.RenderControl picVision;
     }
 }

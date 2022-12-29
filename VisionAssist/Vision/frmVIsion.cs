@@ -20,6 +20,7 @@ using System.Runtime.Remoting.Messaging;
 using VisionAssist.Forms;
 using VisionAssist.Classes;
 using System.Runtime.InteropServices;
+using HPKR_VisionControl;
 
 namespace VisionAssist.Vision
 {
@@ -32,6 +33,12 @@ namespace VisionAssist.Vision
 
         public static Vector2 StartRangePos;
         public static Vector2 RangeSize;
+    }
+
+    public struct stImageWork
+    {
+        public static bool isRun = false;
+        public static Mat Target = null;
     }
 
     public struct stBitmap
@@ -52,6 +59,8 @@ namespace VisionAssist.Vision
 
     public partial class frmVIsion : UserControl
     {
+        public Direct2dControl g_direct2D;
+
         private List<WindowSnap> lstSnap;
         private Rect gRect;
         public bool bDrawText = false;
@@ -85,6 +94,9 @@ namespace VisionAssist.Vision
 
             this.KeyUp += GLOBAL.hfrmMain.frmMain_KeyUp;
 
+            g_direct2D = new Direct2dControl(picVision.Handle,
+                picVision.Width, picVision.Height);
+
             Application.Idle += Application_Idle;
         }
 
@@ -109,8 +121,11 @@ namespace VisionAssist.Vision
             gImageProcess = new HPKR_ImageProcess();
         }
 
-        private void func_ImageWork(Mat VisionData)
-        {
+        public void func_ImageWork(Mat VisionData)
+        {           
+            stImageWork.isRun = true;            
+
+            // 공격 당하고 있으면 이후의 동작을 수행하지 않는다.
             if (!(GLOBAL.hfrmControl.SetAttackImagePos(ref VisionData)))
             {
 #if FAST_TESS
@@ -170,6 +185,10 @@ namespace VisionAssist.Vision
                 }
 #endif
             }
+
+            VisionData.Release();
+            VisionData.Dispose();
+            stImageWork.isRun = false;
         }
 
         public void SetMousePosition(int X, int Y)
@@ -196,26 +215,6 @@ namespace VisionAssist.Vision
         public Vector2 GetMousePosition()
         {
             return stAxis.NowPosition;
-        }
-
-        public void ShowDisplay()
-        {
-            if(lstSnap.Count == 0)
-                return;
-            
-            Monitor.Enter(GLOBAL.monitorLock);
-
-            if (lstSnap[lstSnap.Count - 1].Image != null)
-            {
-                if (picVision.Image != null)
-                {
-                    picVision.Image.Dispose();
-                }
-
-                picVision.Image = lstSnap[lstSnap.Count - 1].Image;
-            }
-
-            Monitor.Exit(GLOBAL.monitorLock);
         }
 
         public Rectangle DPIConverter(Rectangle R, IntPtr Handle)
@@ -282,18 +281,21 @@ namespace VisionAssist.Vision
 
         public void GetImageFromPictureBox(Rect rect)
         {
-            if(rect.TopLeft == rect.BottomRight)
-                return;
+            //if(rect.TopLeft == rect.BottomRight)
+            //    return;
 
-            using(Bitmap Dummy = (Bitmap)picVision.Image.Clone())
-            {
-                using(Mat test = gImageProcess.ImageCrop(Dummy, rect))
-                {
+            //using(Bitmap Dummy = (Bitmap)picVision.Image.Clone())
+            //{
+            //    using(Mat test = gImageProcess.ImageCrop(Dummy, rect))
+            //    {
 
-                }
-            }
+            //    }
+            //}
         }
 
+        int OldWidth = 0;
+        int OldHeight = 0;
+        Mat g_ResultMat = new Mat();
         public void ImageCapture(string target)
         {
             if(gImageProcess == null)
@@ -323,7 +325,9 @@ namespace VisionAssist.Vision
                         rect = DPIConverter(rect, sub);
 
                         using (Bitmap BitData = new Bitmap(rect.Width, rect.Height,
-                        System.Drawing.Imaging.PixelFormat.Format32bppPArgb))
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                        //using (Bitmap BitData = new Bitmap(rect.Width, rect.Height,
+                        //System.Drawing.Imaging.PixelFormat.Format32bppArgb))
                         using (Mat ResultMat = new Mat())
                         {
                             using(Graphics g = Graphics.FromImage(BitData))
@@ -336,8 +340,21 @@ namespace VisionAssist.Vision
 
                                 using (mat = BitmapConverter.ToMat(BitData))
                                 {
-                                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
-                                    Cv2.CvtColor(FinalImage, ResultMat, ColorConversionCodes.BGRA2BGR);
+                                    //Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
+                                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Linear);
+                                    Cv2.CvtColor(FinalImage, ResultMat, ColorConversionCodes.RGBA2RGB);
+
+
+                                    if (OldWidth != ResultMat.Width || OldHeight != ResultMat.Height)
+                                    {
+                                        OldWidth = ResultMat.Width;
+                                        OldHeight = ResultMat.Height;
+
+                                        Invoke(new Action(() =>
+                                        {
+                                            g_direct2D.Initialize(picVision.Handle, ResultMat.Width, ResultMat.Height);
+                                        }));
+                                    }
 
                                     if (bDrawText)
                                     {
@@ -363,15 +380,12 @@ namespace VisionAssist.Vision
                                         VisionRect.DrawRectArea(ResultMat);
                                     }
 
-                                    func_ImageWork(ResultMat);
-
-                                    using (var oldimage = picVision.Image)
+                                    if (stImageWork.Target == null)
                                     {
-                                        this.Invoke(new Action(() =>
-                                        {
-                                            picVision.Image = ResultMat.ToBitmap();
-                                        }));
+                                        stImageWork.Target = ResultMat.Clone();
                                     }
+                                    
+                                    g_direct2D.DrawImage(ResultMat);
                                 }
                             }
                         }
@@ -469,7 +483,7 @@ namespace VisionAssist.Vision
 
                 gRect = new Rect(gRect.Left, gRect.Top, width, height);
 
-                GetImageFromPictureBox(gRect);
+                //GetImageFromPictureBox(gRect);
                 SetMouseRangeEnd(width, height);
                 
                 MouseDown_Clicked = false;
@@ -519,9 +533,9 @@ namespace VisionAssist.Vision
                     rct.X = gRect.X;
                     rct.Y = gRect.Y;
                     rct.Width = gRect.Width;
-                    rct.Height = gRect.Height;
+                    rct.Height = gRect.Height;                    
 
-                    e.Graphics.DrawRectangle(pen, rct);
+                    //e.Graphics.DrawRectangle(pen, rct);
                     //e.Dispose();
                 }
             }
@@ -530,7 +544,7 @@ namespace VisionAssist.Vision
                 using (Pen pen = new Pen(Color.Red, 2))
                 {
                     Rectangle rct = new Rectangle(0, 0, 0, 0);
-                    e.Graphics.DrawRectangle(pen, rct);
+                    //e.Graphics.DrawRectangle(pen, rct);
                     //e.Dispose();
                 }
             }

@@ -156,10 +156,10 @@ namespace VisionAssist
 
         private static bool _bisRun = false;
 
-        public static List<Tskillbox> _tskillboxes;
-        public static List<int> _tskillpos;
+        public static List<Tskillbox> lstSkillBoxes;
+        public static List<int> lstSkillPos;
 
-        public static List<int> _mousePositions;
+        public static List<int> lstMousePos;
 
         private static decimal[][] _axisStrings;
 
@@ -174,23 +174,25 @@ namespace VisionAssist
         {
             ReadSetupFile(Directory.GetCurrentDirectory() + "\\Param.ini");
 
-            _mousePositions = new List<int>(10);
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[0][0], (int)_axisStrings[0][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[1][0], (int)_axisStrings[1][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[2][0], (int)_axisStrings[2][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[3][0], (int)_axisStrings[3][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[4][0], (int)_axisStrings[4][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[5][0], (int)_axisStrings[5][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[6][0], (int)_axisStrings[6][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[7][0], (int)_axisStrings[7][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[8][0], (int)_axisStrings[8][1]));
-            _mousePositions.Add(GetLongParameter((int)_axisStrings[9][0], (int)_axisStrings[9][1]));
+            lstMousePos = new List<int>(10)
+            {
+                GetLongParameter((int)_axisStrings[0][0], (int)_axisStrings[0][1]),
+                GetLongParameter((int)_axisStrings[1][0], (int)_axisStrings[1][1]),
+                GetLongParameter((int)_axisStrings[2][0], (int)_axisStrings[2][1]),
+                GetLongParameter((int)_axisStrings[3][0], (int)_axisStrings[3][1]),
+                GetLongParameter((int)_axisStrings[4][0], (int)_axisStrings[4][1]),
+                GetLongParameter((int)_axisStrings[5][0], (int)_axisStrings[5][1]),
+                GetLongParameter((int)_axisStrings[6][0], (int)_axisStrings[6][1]),
+                GetLongParameter((int)_axisStrings[7][0], (int)_axisStrings[7][1]),
+                GetLongParameter((int)_axisStrings[8][0], (int)_axisStrings[8][1]),
+                GetLongParameter((int)_axisStrings[9][0], (int)_axisStrings[9][1])
+            };
 
-            _tskillpos = new List<int>(4);
-            _tskillpos.Add(0);
-            _tskillpos.Add(0);
-            _tskillpos.Add(0);
-            _tskillpos.Add(0);
+            lstSkillPos = new List<int>(4);
+            lstSkillPos.Add(0);
+            lstSkillPos.Add(0);
+            lstSkillPos.Add(0);
+            lstSkillPos.Add(0);
         }
 
         public static int GetLongParameter(int low, int high)

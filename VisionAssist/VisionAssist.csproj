@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Common.cs" />
+    <Compile Include="API\Direct2D.cs" />
     <Compile Include="API\HPKR_ImageProcess.cs" />
     <Compile Include="API\KakaoHandle.cs" />
     <Compile Include="API\LMImageList.cs" />

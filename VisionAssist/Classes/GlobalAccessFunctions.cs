@@ -16,6 +16,16 @@ namespace VisionAssist.Classes
             MP,
             Location,
             Exp,
+            Slot1,
+            Slot2,
+            Slot3,
+            Slot4,
+            Slot5,
+            Slot6,
+            Slot7,
+            Slot8,
+            Slot9,
+            Slot10,
             Max
         }
 
@@ -27,6 +37,22 @@ namespace VisionAssist.Classes
             {
                 pRect.Add(new Rect(0, 0, 0, 0));
             }
+
+            pRect[(int)ePosition.Attack] = new Rect(837, 399, 42, 47);
+            pRect[(int)ePosition.HP] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.MP] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Location] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Exp] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot1] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot2] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot3] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot4] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot5] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot6] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot7] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot8] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot9] = new Rect(0, 0, 0, 0);
+            pRect[(int)ePosition.Slot10] = new Rect(0, 0, 0, 0);            
         }
 
         public static void Add(Rect rct)
@@ -47,6 +73,11 @@ namespace VisionAssist.Classes
         public static List<Rect> GetRect()
         {
             return pRect;
+        }
+
+        public static Rect GetRect(ePosition pos)
+        {
+            return pRect[(int)pos];
         }
 
         public static void DrawRectArea(Mat Data)

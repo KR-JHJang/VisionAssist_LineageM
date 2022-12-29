@@ -388,9 +388,9 @@ namespace VisionAssist.Forms
         {
             if (GLOBAL.IsRun())
             {
-                if (GLOBAL._tskillboxes[2].IsUsed() && chkUseAttackSkill.Checked == true)
+                if (GLOBAL.lstSkillBoxes[2].IsUsed() && chkUseAttackSkill.Checked == true)
                 {
-                    SimpleExcute(GLOBAL._mousePositions[GLOBAL._tskillpos[2]]);
+                    SimpleExcute(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[2]]);
                 }
             }
         }
@@ -437,9 +437,9 @@ namespace VisionAssist.Forms
 
                     if (Action)
                     {
-                        if (GLOBAL._tskillboxes[1].IsUsed())
+                        if (GLOBAL.lstSkillBoxes[1].IsUsed())
                         {
-                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[1]]);
+                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[1]]);
                         }
                     }
                 }));
@@ -520,13 +520,13 @@ namespace VisionAssist.Forms
                 switch (Action)
                 {
                     case 1:
-                        if (GLOBAL._tskillboxes[0].IsUsed())
+                        if (GLOBAL.lstSkillBoxes[0].IsUsed())
                         {
-                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[0]]);
+                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[0]]);
                         }
                         break;
                     case 2:
-                        if (GLOBAL._tskillboxes[3].IsUsed())
+                        if (GLOBAL.lstSkillBoxes[3].IsUsed())
                         {
                             // 회피 시엔 알람 필요 없음
                             // 공격당할 시 알려줄 메시지
@@ -535,7 +535,7 @@ namespace VisionAssist.Forms
                             // 이미지 저장
                             //SaveImage(ref src, "Evade");
 
-                            SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
                             return false;
                         }
                         break;
@@ -553,20 +553,22 @@ namespace VisionAssist.Forms
             if (Attacksize == OpenCvSharp.Size.Zero)
                 return false;
 
-            Rect Pos = new Rect(837, 399, 42, 47);
+            //Rect Pos = new Rect(837, 399, 42, 47);
 
-            using (Mat MatAttack = src.SubMat(Pos))
+            using (Mat MatAttack = src.SubMat(VisionRect.GetRect(VisionRect.ePosition.Attack)))
             {
-                VisionRect.SetRect(Pos, VisionRect.ePosition.Attack);
+                //VisionRect.SetRect(Pos, VisionRect.ePosition.Attack);
 
                 using (Mat ResultMat = new Mat())
                 {
                     Cv2.Resize(MatAttack, ResultMat, Attacksize, 0, 0, InterpolationFlags.Lanczos4);
 
-                    this.Invoke(new Action(()=>
+                    this.Invoke(new Action(() =>
                     {
-                        picboxUserAttack.Image = ResultMat.ToBitmap();
-                        //RefreshPicBox(ResultMat, picboxUserAttack);
+                        using (var oldimage = picboxUserAttack.Image)
+                        {
+                            picboxUserAttack.Image = ResultMat.ToBitmap();
+                        }
                     }));
 
                     if (GLOBAL.IsRun())
@@ -574,15 +576,15 @@ namespace VisionAssist.Forms
                         if (EvadeAttack(ResultMat))
                         {
                             // 공격당할 시 알려줄 메시지
-                            GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
+                            // GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
 
                             // 이미지 저장
                             SaveImage(ref src, "Attack");
 
-                            if (GLOBAL._tskillboxes[3].IsUsed())
+                            if (GLOBAL.lstSkillBoxes[3].IsUsed())
                             {
-                                System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
-                                SimpleExcuteEvade(GLOBAL._mousePositions[GLOBAL._tskillpos[3]]);
+                                System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+                                SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
 
                                 return true;
                             }

@@ -115,11 +115,11 @@ namespace VisionAssist.Forms
                 g4r10
             };
 
-            GLOBAL._tskillboxes = new List<Tskillbox>(4);
-            GLOBAL._tskillboxes.Add(new Tskillbox(checkBox1, gbox1, radioButtons1));
-            GLOBAL._tskillboxes.Add(new Tskillbox(checkBox2, gbox2, radioButtons2));
-            GLOBAL._tskillboxes.Add(new Tskillbox(checkBox3, gbox3, radioButtons3));
-            GLOBAL._tskillboxes.Add(new Tskillbox(checkBox4, gbox4, radioButtons4));
+            GLOBAL.lstSkillBoxes = new List<Tskillbox>(4);
+            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox1, gbox1, radioButtons1));
+            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox2, gbox2, radioButtons2));
+            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox3, gbox3, radioButtons3));
+            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox4, gbox4, radioButtons4));
         }
 
         private void RunThread()
@@ -168,10 +168,10 @@ namespace VisionAssist.Forms
         {
             while (true)
             {
-                if (GLOBAL._tskillboxes == null)
+                if (GLOBAL.lstSkillBoxes == null)
                     continue;
 
-                foreach (var variable in GLOBAL._tskillboxes)
+                foreach (var variable in GLOBAL.lstSkillBoxes)
                 {
                     this.Invoke(new Action(() =>
                     {
@@ -195,16 +195,16 @@ namespace VisionAssist.Forms
         {
             while (true)
             {
-                if (GLOBAL._tskillboxes == null)
+                if (GLOBAL.lstSkillBoxes == null)
                     continue;
 
-                for (int idx = 0; idx < GLOBAL._tskillboxes.Count; idx++)
+                for (int idx = 0; idx < GLOBAL.lstSkillBoxes.Count; idx++)
                 {
-                    for (int i = 0; i < GLOBAL._tskillboxes[idx].RadioButtons.Count; i++)
+                    for (int i = 0; i < GLOBAL.lstSkillBoxes[idx].RadioButtons.Count; i++)
                     {
-                        if (GLOBAL._tskillboxes[idx].RadioButtons[i].Checked)
+                        if (GLOBAL.lstSkillBoxes[idx].RadioButtons[i].Checked)
                         {
-                            GLOBAL._tskillpos[idx] = i;
+                            GLOBAL.lstSkillPos[idx] = i;
 
                             switch (idx)
                             {
