@@ -269,12 +269,10 @@ namespace VisionAssist.Forms
 
         private void btnSendMsg_Click(object sender, EventArgs e)
         {
-            KakaoHandle.sendTemplateMessageToMyself();
         }
 
         private void btnSendMsg2_Click(object sender, EventArgs e)
         {
-            KakaoHandle.sendMessageToMyself("Test");
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

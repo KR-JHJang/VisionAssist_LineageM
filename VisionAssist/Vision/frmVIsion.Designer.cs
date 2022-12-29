@@ -36,7 +36,6 @@ namespace VisionAssist.Vision
             this.stripTitle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSetMousePosition = new System.Windows.Forms.ToolStripMenuItem();
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bgwShowVIsion = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.picVision)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -93,12 +92,6 @@ namespace VisionAssist.Vision
             this.getImageToolStripMenuItem.Text = "Get Image";
             this.getImageToolStripMenuItem.Click += new System.EventHandler(this.getImageToolStripMenuItem_Click);
             // 
-            // bgwShowVIsion
-            // 
-            this.bgwShowVIsion.WorkerReportsProgress = true;
-            this.bgwShowVIsion.WorkerSupportsCancellation = true;
-            this.bgwShowVIsion.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwShowVIsion_DoWork);
-            // 
             // frmVIsion
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -113,7 +106,6 @@ namespace VisionAssist.Vision
         }
 
         #endregion
-        private System.ComponentModel.BackgroundWorker bgwShowVIsion;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem stripTitle;
         private System.Windows.Forms.ToolStripMenuItem getImageToolStripMenuItem;

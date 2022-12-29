@@ -303,7 +303,8 @@ namespace VisionAssist.Vision
             {
                 lock (_imageLock)
                 {
-                    IntPtr main = GLOBAL.FindWindow(null, target+ "(64)");
+                    //IntPtr main = GLOBAL.FindWindow(null, target+ "(64)");
+                    IntPtr main = GLOBAL.FindWindow(null, target);
                     IntPtr sub = IntPtr.Zero;
 
                     sub = GLOBAL.FindWindowEx(main, 0, "RenderWindow", "TheRender");
