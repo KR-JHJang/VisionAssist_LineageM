@@ -21,6 +21,7 @@ using Rect = OpenCvSharp.Rect;
 using Size = OpenCvSharp.Size;
 using VisionAssist.Classes;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace VisionAssist.Forms
 {
@@ -148,72 +149,80 @@ namespace VisionAssist.Forms
             }
         }
 
-        //public void GetLocation(ref Mat src)
-        //{
-        //    if (gImageProcess == null)
-        //        return;
+        public void GetLocation(Mat src)
+        {
+            if (gImageProcess == null)
+                return;
 
-        //    Rect Pos = new Rect(800, 234, 152, 18);
-        //    Mat MatLoc = src.SubMat(Pos);
-        //    WeakReference wMat = new WeakReference(MatLoc);
+            Rect Pos = VisionRect.GetRect(VisionRect.ePosition.Location);
 
-        //    var old = picboxLoc.Image;
+            if (Pos.X == 0 && Pos.Y == 0)
+                return;
 
-        //    try
-        //    {
-        //        VisionRect.SetRect(Pos, VisionRect.ePosition.Location);
+            try
+            {
+                using(Mat MatLoc = src.SubMat(Pos))
+                using(TengineLoc = new TesseractEngine(@"./tessdata", "Hangul", EngineMode.Default))
+                {
+                    Cv2.Resize(MatLoc, MatLoc, new Size(
+                    MatLoc.Width * 4,
+                    MatLoc.Height * 4), 0, 0, InterpolationFlags.Lanczos4);
 
-        //        Cv2.Resize(MatLoc, MatLoc, new Size(
-        //            MatLoc.Width * 3,
-        //            MatLoc.Height * 3), 0, 0, InterpolationFlags.Lanczos4);
+                    //Cv2.InRange(MatLoc, )
 
-        //        //Cv2.InRange(MatLoc, )
 
-        //        gImageProcess.ConvertRgb2Gray(MatLoc);
-        //        //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);
-        //        Cv2.Threshold(MatLoc, MatLoc, 170, 255, ThresholdTypes.Tozero);
+                    using (Mat Ret = gImageProcess.ConvertRgb2Gray(MatLoc))
+                    {
 
-        //        picboxLoc.Image = MatLoc.ToBitmap();
+                        //Cv2.Threshold(MatLoc, MatLoc, 140, 255, ThresholdTypes.Trunc);                                                
 
-        //        Pix pix = PixConverter.ToPix(MatLoc.ToBitmap());
-        //        TengineLoc = new TesseractEngine(@"./tessdata", "hangul", EngineMode.Default);
+                        Cv2.InRange(Ret, new Scalar(175), new Scalar(255), Ret);
+                        //Cv2.Threshold(Ret, Ret , 100, 255, ThresholdTypes.Tozero);
 
-        //        //string whitelist = "0123456789/";
-        //        //TengineLoc.SetVariable("tessedit_char_whitelist", whitelist);
+                        //Cv2.ImShow("1", Ret);
+                        //Cv2.WaitKey(0);
+                        //Cv2.DestroyAllWindows();
 
-        //        var result = TengineLoc.Process(pix);
-        //        string strLoc = result.GetText().Trim();
-        //        strLoc = strLoc.Replace(" ", "").Trim();
+                        //picboxLoc.Image = MatLoc.ToBitmap();
 
-        //        System.Console.WriteLine(strLoc);
+                        Pix pix = PixConverter.ToPix(MatLoc.ToBitmap());
+                        //TengineLoc = new TesseractEngine(@"./tessdata", "hangul", EngineMode.Default);
 
-        //    }
-        //    catch(Exception)
-        //    {
-        //        return;
-        //    }
-        //    finally
-        //    {
-        //        //result.Dispose();
+                        //string whitelist = "0123456789/";
+                        //TengineLoc.SetVariable("tessedit_char_whitelist", whitelist);
 
-        //        if(old != null)
-        //            old.Dispose();
+                        var result = TengineLoc.Process(pix);
+                        string strLoc = result.GetText().Trim();
+                        strLoc = strLoc.Replace(" ", "").Trim();
 
-        //        TengineLoc.Dispose();
-        //        TengineLoc = null;
+                        strLoc = Regex.Replace(strLoc, @"\d", "");
+                        strLoc = Regex.Replace(strLoc, @"[^a-zA-Z0-9가-힣\s]", "");
 
-        //        MatLoc.Release();
-        //        MatLoc.Dispose();
-        //        MatLoc = null;
-        //    }
-        //}
+                        System.Console.WriteLine(strLoc);
 
+                        tbxLocation.Invoke(new Action(() =>
+                        {
+                            tbxLocation.Text = strLoc;
+                        }));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            { 
+                
+            }
+        }
+        
         public void GetMPTextImage(Mat src)
         {
             if (gImageProcess == null)
                 return;
 
-            Rect Pos = new Rect(107, 28, 54, 13);
+            Rect Pos = new Rect(105, 28, 60, 13);
 
             using (Mat Source = src.Clone())
             using (Mat MatMP = Source.SubMat(Pos))

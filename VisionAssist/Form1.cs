@@ -338,5 +338,10 @@ namespace VisionAssist
         {
 
         }
+
+        private void cbxMaint_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

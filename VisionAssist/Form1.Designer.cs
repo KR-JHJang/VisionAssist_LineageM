@@ -154,6 +154,7 @@ namespace VisionAssist
             this.cbxMaint.TabIndex = 4;
             this.cbxMaint.Text = "Maintenance";
             this.cbxMaint.UseVisualStyleBackColor = true;
+            this.cbxMaint.CheckedChanged += new System.EventHandler(this.cbxMaint_CheckedChanged);
             // 
             // cbxAppPlayer
             // 
