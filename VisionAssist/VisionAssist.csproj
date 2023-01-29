@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\OpenCvSharp4.runtime.win.4.6.0.20220608\build\net48\OpenCvSharp4.runtime.win.props" Condition="Exists('packages\OpenCvSharp4.runtime.win.4.6.0.20220608\build\net48\OpenCvSharp4.runtime.win.props')" />
+  <Import Project="packages\OpenCvSharp4.runtime.win.4.7.0.20230115\build\net48\OpenCvSharp4.runtime.win.props" Condition="Exists('packages\OpenCvSharp4.runtime.win.4.7.0.20230115\build\net48\OpenCvSharp4.runtime.win.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -80,13 +80,13 @@
       <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <HintPath>packages\OpenCvSharp4.4.6.0.20220608\lib\net48\OpenCvSharp.dll</HintPath>
+      <HintPath>packages\OpenCvSharp4.4.7.0.20230115\lib\net48\OpenCvSharp.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
-      <HintPath>packages\OpenCvSharp4.Extensions.4.6.0.20220608\lib\net48\OpenCvSharp.Extensions.dll</HintPath>
+      <HintPath>packages\OpenCvSharp4.Extensions.4.7.0.20230115\lib\net48\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp.WpfExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\OpenCvSharp4.WpfExtensions.4.6.0.20220608\lib\net48\OpenCvSharp.WpfExtensions.dll</HintPath>
+      <HintPath>packages\OpenCvSharp4.WpfExtensions.4.7.0.20230115\lib\net48\OpenCvSharp.WpfExtensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -170,6 +170,7 @@
     <Compile Include="API\HPKR_ImageProcess.cs" />
     <Compile Include="API\KakaoHandle.cs" />
     <Compile Include="API\LMImageList.cs" />
+    <Compile Include="API\TelegramController.cs" />
     <Compile Include="API\WindowSnap.cs" />
     <Compile Include="API\WindowSnapCollection.cs" />
     <Compile Include="API\XPAppearance.cs" />
@@ -332,8 +333,8 @@ XCOPY "$(ProjectDir)tessdata\*.*" "$(TargetDir)tessdata\" /Y /E</PostBuildEvent>
     <PropertyGroup>
       <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\OpenCvSharp4.runtime.win.4.6.0.20220608\build\net48\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenCvSharp4.runtime.win.4.6.0.20220608\build\net48\OpenCvSharp4.runtime.win.props'))" />
     <Error Condition="!Exists('packages\Tesseract.5.2.0\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Tesseract.5.2.0\build\Tesseract.targets'))" />
+    <Error Condition="!Exists('packages\OpenCvSharp4.runtime.win.4.7.0.20230115\build\net48\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenCvSharp4.runtime.win.4.7.0.20230115\build\net48\OpenCvSharp4.runtime.win.props'))" />
   </Target>
   <Import Project="packages\Tesseract.5.2.0\build\Tesseract.targets" Condition="Exists('packages\Tesseract.5.2.0\build\Tesseract.targets')" />
 </Project>
