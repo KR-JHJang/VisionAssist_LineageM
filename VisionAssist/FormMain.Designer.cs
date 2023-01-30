@@ -35,8 +35,11 @@ namespace VisionAssist
             this.pnlTop = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pnlBottom = new System.Windows.Forms.Panel();
+            this.cbxMaint = new System.Windows.Forms.CheckBox();
+            this.cbxAppPlayer = new Sunny.UI.UIComboBox();
             this.chkDrawText = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -64,16 +67,20 @@ namespace VisionAssist
             this.bgwMousePosition = new System.ComponentModel.BackgroundWorker();
             this.bgwSizeChecker = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBottom.SuspendLayout();
+            this.cmnuNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlRight
             // 
             this.pnlRight.BackColor = System.Drawing.Color.DimGray;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1030, 116);
+            this.pnlRight.Location = new System.Drawing.Point(1030, 85);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(230, 655);
+            this.pnlRight.Size = new System.Drawing.Size(230, 654);
             this.pnlRight.TabIndex = 1;
             // 
             // pnlTop
@@ -83,7 +90,7 @@ namespace VisionAssist
             this.pnlTop.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1260, 116);
+            this.pnlTop.Size = new System.Drawing.Size(1260, 85);
             this.pnlTop.TabIndex = 4;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
             this.pnlTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseMove);
@@ -103,8 +110,11 @@ namespace VisionAssist
             // pnlBottom
             // 
             this.pnlBottom.BackColor = System.Drawing.Color.DimGray;
+            this.pnlBottom.Controls.Add(this.cbxMaint);
+            this.pnlBottom.Controls.Add(this.cbxAppPlayer);
             this.pnlBottom.Controls.Add(this.chkDrawText);
             this.pnlBottom.Controls.Add(this.label2);
+            this.pnlBottom.Controls.Add(this.label10);
             this.pnlBottom.Controls.Add(this.label6);
             this.pnlBottom.Controls.Add(this.label4);
             this.pnlBottom.Controls.Add(this.label9);
@@ -128,21 +138,64 @@ namespace VisionAssist
             this.pnlBottom.Controls.Add(this.tbxMouseY);
             this.pnlBottom.Controls.Add(this.tbxMouseX);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 707);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 675);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(1030, 64);
             this.pnlBottom.TabIndex = 6;
+            this.pnlBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlBottom_Paint);
+            // 
+            // cbxMaint
+            // 
+            this.cbxMaint.AutoSize = true;
+            this.cbxMaint.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxMaint.Location = new System.Drawing.Point(774, 34);
+            this.cbxMaint.Name = "cbxMaint";
+            this.cbxMaint.Size = new System.Drawing.Size(109, 21);
+            this.cbxMaint.TabIndex = 4;
+            this.cbxMaint.Text = "Maintenance";
+            this.cbxMaint.UseVisualStyleBackColor = true;
+            this.cbxMaint.CheckedChanged += new System.EventHandler(this.cbxMaint_CheckedChanged);
+            // 
+            // cbxAppPlayer
+            // 
+            this.cbxAppPlayer.DataSource = null;
+            this.cbxAppPlayer.FillColor = System.Drawing.Color.White;
+            this.cbxAppPlayer.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.cbxAppPlayer.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
+            this.cbxAppPlayer.ItemHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.cbxAppPlayer.ItemRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.cbxAppPlayer.Items.AddRange(new object[] {
+            "LDPlayer0",
+            "LDPlayer1",
+            "LDPlayer2",
+            "LDPlayer3"});
+            this.cbxAppPlayer.ItemSelectBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.cbxAppPlayer.ItemSelectForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.cbxAppPlayer.Location = new System.Drawing.Point(896, 32);
+            this.cbxAppPlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbxAppPlayer.MinimumSize = new System.Drawing.Size(63, 0);
+            this.cbxAppPlayer.Name = "cbxAppPlayer";
+            this.cbxAppPlayer.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.cbxAppPlayer.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.cbxAppPlayer.Size = new System.Drawing.Size(127, 29);
+            this.cbxAppPlayer.Style = Sunny.UI.UIStyle.Red;
+            this.cbxAppPlayer.TabIndex = 3;
+            this.cbxAppPlayer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.cbxAppPlayer.Watermark = "";
+            this.cbxAppPlayer.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.cbxAppPlayer.SelectedIndexChanged += new System.EventHandler(this.cbxAppPlayer_SelectedIndexChanged);
             // 
             // chkDrawText
             // 
             this.chkDrawText.AutoSize = true;
             this.chkDrawText.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkDrawText.Location = new System.Drawing.Point(876, 7);
+            this.chkDrawText.Location = new System.Drawing.Point(676, 34);
             this.chkDrawText.Name = "chkDrawText";
             this.chkDrawText.Size = new System.Drawing.Size(92, 21);
             this.chkDrawText.TabIndex = 2;
             this.chkDrawText.Text = "Draw Text";
             this.chkDrawText.UseVisualStyleBackColor = true;
+            this.chkDrawText.Visible = false;
             this.chkDrawText.CheckedChanged += new System.EventHandler(this.chkDrawText_CheckedChanged);
             // 
             // label2
@@ -151,9 +204,20 @@ namespace VisionAssist
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(14, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 16);
+            this.label2.Size = new System.Drawing.Size(49, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Mouse Y";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(892, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(120, 20);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Select APP Player";
             // 
             // label6
             // 
@@ -161,7 +225,7 @@ namespace VisionAssist
             this.label6.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(673, 12);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 16);
+            this.label6.Size = new System.Drawing.Size(52, 16);
             this.label6.TabIndex = 1;
             this.label6.Text = "Real Size";
             // 
@@ -171,7 +235,7 @@ namespace VisionAssist
             this.label4.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(137, 36);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 16);
+            this.label4.Size = new System.Drawing.Size(60, 16);
             this.label4.TabIndex = 1;
             this.label4.Text = "Real Pos Y";
             // 
@@ -181,7 +245,7 @@ namespace VisionAssist
             this.label9.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(280, 36);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 16);
+            this.label9.Size = new System.Drawing.Size(49, 16);
             this.label9.TabIndex = 1;
             this.label9.Text = "Start Pos";
             // 
@@ -191,7 +255,7 @@ namespace VisionAssist
             this.label8.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(475, 36);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 16);
+            this.label8.Size = new System.Drawing.Size(51, 16);
             this.label8.TabIndex = 1;
             this.label8.Text = "Rect Size";
             // 
@@ -201,7 +265,7 @@ namespace VisionAssist
             this.label7.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(280, 12);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 16);
+            this.label7.Size = new System.Drawing.Size(55, 16);
             this.label7.TabIndex = 1;
             this.label7.Text = "Form Size";
             // 
@@ -211,7 +275,7 @@ namespace VisionAssist
             this.label5.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(475, 12);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 16);
+            this.label5.Size = new System.Drawing.Size(58, 16);
             this.label5.TabIndex = 1;
             this.label5.Text = "Vision Size";
             // 
@@ -221,7 +285,7 @@ namespace VisionAssist
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(137, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 16);
+            this.label3.Size = new System.Drawing.Size(60, 16);
             this.label3.TabIndex = 1;
             this.label3.Text = "Real Pos X";
             // 
@@ -231,7 +295,7 @@ namespace VisionAssist
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(14, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 16);
+            this.label1.Size = new System.Drawing.Size(49, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Mouse X";
             // 
@@ -364,7 +428,8 @@ namespace VisionAssist
             // 
             // pnlVision
             // 
-            this.pnlVision.Location = new System.Drawing.Point(30, 116);
+            this.pnlVision.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.pnlVision.Location = new System.Drawing.Point(30, 85);
             this.pnlVision.Name = "pnlVision";
             this.pnlVision.Size = new System.Drawing.Size(1000, 590);
             this.pnlVision.TabIndex = 7;
@@ -390,28 +455,57 @@ namespace VisionAssist
             // 
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 116);
+            this.panel1.Location = new System.Drawing.Point(0, 85);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(30, 591);
+            this.panel1.Size = new System.Drawing.Size(30, 590);
             this.panel1.TabIndex = 0;
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.cmnuNotify;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Vision Assist";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // cmnuNotify
+            // 
+            this.cmnuNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExit});
+            this.cmnuNotify.Name = "cmnuNotify";
+            this.cmnuNotify.Size = new System.Drawing.Size(94, 26);
+            // 
+            // mnuExit
+            // 
+            this.mnuExit.Name = "mnuExit";
+            this.mnuExit.Size = new System.Drawing.Size(93, 22);
+            this.mnuExit.Text = "Exit";
+            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(237)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(1260, 771);
+            this.ClientSize = new System.Drawing.Size(1260, 739);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlVision);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlTop);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "frmMain";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vision Assist ";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
+            this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();
+            this.cmnuNotify.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -427,8 +521,6 @@ namespace VisionAssist
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbxRealMouseY;
-        private System.Windows.Forms.TextBox tbxRealMouseX;
         private System.Windows.Forms.TextBox tbxMouseY;
         private System.Windows.Forms.TextBox tbxMouseX;
         private System.Windows.Forms.CheckBox chkDrawText;
@@ -450,6 +542,14 @@ namespace VisionAssist
         private System.Windows.Forms.TextBox tbxMouseStartPosX;
         private System.Windows.Forms.TextBox tbxMouseEndPosX;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label10;
+        private Sunny.UI.UIComboBox cbxAppPlayer;
+        public System.Windows.Forms.TextBox tbxRealMouseY;
+        public System.Windows.Forms.TextBox tbxRealMouseX;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip cmnuNotify;
+        private System.Windows.Forms.ToolStripMenuItem mnuExit;
+        private System.Windows.Forms.CheckBox cbxMaint;
     }
 }
 

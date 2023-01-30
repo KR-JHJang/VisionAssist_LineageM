@@ -4,11 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisionAssist.API;
+using VisionAssist.Classes;
 using VisionAssist.Forms;
 using VisionAssist.Vision;
 
@@ -21,11 +24,14 @@ namespace VisionAssist
         private frmControl gfrmControl;
         private frmTop gfrmTop;
 
-        private bool bFindWindow = false;
+        private bool isWindowMoving;
+
+        private List<WhileThread> RunTask;
+
         public frmMain()
         {
             InitializeComponent();
-
+                        
             Application.Idle += Application_Idle;
         }
 
@@ -34,19 +40,46 @@ namespace VisionAssist
             //Idle이벤트를 없앤다.
             Application.Idle -= Application_Idle;
 
+            isWindowMoving = false;
+
             SyncForm(this);
             LoadForm();
 
-            bgwSearchWindow.RunWorkerAsync();
+            //bgwSearchWindow.RunWorkerAsync();
             bgwMousePosition.RunWorkerAsync();
             bgwSizeChecker.RunWorkerAsync();
 
-            Process currentProcess = Process.GetCurrentProcess();
+            ReadData();
 
-            foreach (ProcessThread processThread in currentProcess.Threads)
+            RunTask = new List<WhileThread>
             {
-                processThread.ProcessorAffinity = currentProcess.ProcessorAffinity;
+                new WhileThread(10, func_Task_Run),
+                new WhileThread(333, func_Vision_Process_Run)
+            };
+
+            foreach (var v in RunTask)
+            {
+                v.Start();
             }
+        }
+
+        public bool GetMaintenanceMode()
+        {
+            return cbxMaint.Checked;
+        }
+
+        public void SetNotifyPopupMsg(string TempStr)
+        {
+            Invoke(new Action(()=>
+            {
+                notifyIcon1.BalloonTipText = TempStr;
+                notifyIcon1.ShowBalloonTip(2000);
+            }));
+        }
+
+        private void ReadData()
+        {
+            GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex = int.Parse(INIControl.IniRead("Player", "SelectApp", GLOBAL.Path));            
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
@@ -56,11 +89,15 @@ namespace VisionAssist
 
         private void pnlTop_MouseMove(object sender, MouseEventArgs e)
         {
+            isWindowMoving = true;
+
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
             {
                 Location = new Point(this.Left - (MousePoint.X - e.X),
                     this.Top - (MousePoint.Y - e.Y));
             }
+
+            isWindowMoving = false;
         }
 
         public void LoadForm()                          
@@ -106,33 +143,81 @@ namespace VisionAssist
             //gfrmVision.ImageCapture("LDPlayer");
         }
 
+        //private async void TaskRun()
+        //{
+        //    await Task.Run(() => func_Task_Run());
+        //}
+
+        private void func_Vision_Process_Run()
+        {
+            if(stImageWork.isRun != true && stImageWork.Target != null)
+            {
+                gfrmVision.func_ImageWork(stImageWork.Target.Clone());
+                stImageWork.Target.Release();
+                stImageWork.Target.Dispose();
+                stImageWork.Target = null;
+            }
+        }
+
+        private void func_Task_Run()
+        {
+            if (GLOBAL.SelectAppPlayer == int.MinValue)
+                return;
+
+            if (isWindowMoving == false)
+            {
+                switch (GLOBAL.SelectAppPlayer)
+                {
+                    case 0:
+                        gfrmVision.ImageCapture("LDPlayer0");
+                        break;
+                    case 1:
+                        gfrmVision.ImageCapture("LDPlayer1");
+                        //gfrmVision.ImageCapture("BlueStacks");
+                        break;
+                    case 2:
+                        gfrmVision.ImageCapture("LDPlayer2");
+                        //gfrmVision.ImageCapture(cbxAppPlayer.Text);
+                        break;
+                    case 3:
+                        gfrmVision.ImageCapture("LDPlayer3");
+                        //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+                        break;
+                }
+            }
+        }
+
         private void bgwSearchWindow_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
-            {
-                //Monitor.Enter(GLOBAL.monitorLock);
+            //while(true)
+            //{
+            //    if(GLOBAL.SelectAppPlayer == int.MinValue)
+            //        continue;
 
-                //bFindWindow = gfrmVision.SearchWindow();
+            //    if(isWindowMoving == false)
+            //    {
+            //        switch(GLOBAL.SelectAppPlayer)
+            //        {
+            //            case 0:
+            //                gfrmVision.ImageCapture("LDPlayer0");
+            //                break;
+            //            case 1:
+            //                gfrmVision.ImageCapture("LDPlayer1");
+            //                //gfrmVision.ImageCapture("BlueStacks");
+            //                break;
+            //            case 2:
+            //                gfrmVision.ImageCapture("LDPlayer2");
+            //                //gfrmVision.ImageCapture(cbxAppPlayer.Text);
+            //                break;
+            //            case 3:
+            //                gfrmVision.ImageCapture("LDPlayer3");
+            //                //gfrmVision.ImageCapture("리니지M l " + cbxAppPlayer.Text);
+            //                break;
+            //        }
+            //    }
 
-                gfrmControl.SetMessage("Find Player!");
-                gfrmVision.ImageCapture("LDPlayer");
-
-                //Monitor.Exit(GLOBAL.monitorLock);
-
-                //if (bFindWindow)
-                //{
-                //    gfrmControl.SetMessage("Find Player!");
-                //    gfrmVision.ImageCapture("LDPlayer");
-                //}
-                //else
-                //{
-                //    gfrmControl.SetMessage("Wait Player...");
-                //    System.Threading.Thread.Sleep(50);
-                //    continue;
-                //}
-
-                System.Threading.Thread.Sleep(5);
-            }
+            //    Thread.Sleep(100);
+            //}
         }
 
         private void chkDrawText_CheckedChanged(object sender, EventArgs e)
@@ -151,47 +236,20 @@ namespace VisionAssist
         {
             while(true)
             {
-                tbxMouseX.Invoke(new Action(()=>
+                this.BeginInvoke(new Action(()=>
                 {
                     tbxMouseX.Text = stAxis.NowPosition.X.ToString();
-                }));
-
-                tbxMouseY.Invoke(new Action(()=>
-                {
                     tbxMouseY.Text = stAxis.NowPosition.Y.ToString();
-                }));
-
-                tbxRealMouseX.Invoke(new Action(() =>
-                {
                     tbxRealMouseX.Text = stAxis.NowRealPosition.X.ToString();
-                }));
-
-                tbxRealMouseY.Invoke(new Action(() =>
-                {
                     tbxRealMouseY.Text = stAxis.NowRealPosition.Y.ToString();
-                }));
-
-                tbxMouseStartPosX.Invoke(new Action(() =>
-                {
                     tbxMouseStartPosX.Text = stAxis.StartRangePos.X.ToString();
-                }));
-
-                tbxMouseStartPosY.Invoke(new Action(() =>
-                {
                     tbxMouseStartPosY.Text = stAxis.StartRangePos.Y.ToString();
-                }));
-
-                tbxMouseEndPosX.Invoke(new Action(() =>
-                {
                     tbxMouseEndPosX.Text = stAxis.RangeSize.X.ToString();
-                }));
-
-                tbxMouseEndPosY.Invoke(new Action(() =>
-                {
                     tbxMouseEndPosY.Text = stAxis.RangeSize.Y.ToString();
                 }));
 
-                Thread.Sleep(20);
+                //Task.Delay(200);
+                Thread.Sleep(200);
             }
         }
 
@@ -199,37 +257,17 @@ namespace VisionAssist
         {
             while(true)
             {
-                tbxVisionSizeHeight.Invoke(new Action(() =>
+                this.BeginInvoke(new Action(() =>
                 {
                     tbxVisionSizeHeight.Text = GLOBAL.ScaleHeight.ToString();
-                }));
-
-                tbxVisionSizeWidth.Invoke(new Action(() =>
-                {
                     tbxVisionSizeWidth.Text = GLOBAL.ScaleWidth.ToString();
-                }));
-
-                tbxRealSizeWidth.Invoke(new Action(() =>
-                {
                     tbxRealSizeWidth.Text = GLOBAL.OriginWidth.ToString();
-                }));
-
-                tbxRealSizeHeight.Invoke(new Action(() =>
-                {
                     tbxRealSizeHeight.Text = GLOBAL.OriginHeight.ToString();
-                }));
-
-                tbxFormSizeWidth.Invoke(new Action(() =>
-                {
                     tbxFormSizeWidth.Text = GLOBAL.VisionWidth.ToString();
-                }));
-
-                tbxFormSizeHeight.Invoke(new Action(() =>
-                {
                     tbxFormSizeHeight.Text = GLOBAL.VisionHeight.ToString();
-                }));
+                }));               
 
-                Thread.Sleep(50);
+                Thread.Sleep(200);
             }
         }
 
@@ -244,6 +282,64 @@ namespace VisionAssist
         }
 
         private void pnlVision_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlBottom_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cbxAppPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GLOBAL.SelectAppPlayer = cbxAppPlayer.SelectedIndex;
+            INIControl.IniWrite("Player", "SelectApp", cbxAppPlayer.SelectedIndex.ToString(), GLOBAL.Path);
+
+            notifyIcon1.Text = string.Format("Vision Assist - {0}", cbxAppPlayer.SelectedIndex);
+        }
+
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                notifyIcon1.Visible = true; // tray icon 표시
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                notifyIcon1.Visible = false;
+                this.ShowInTaskbar = true; // 작업 표시줄 표시
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Dispose();
+        }
+
+        public void frmMain_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void cbxMaint_CheckedChanged(object sender, EventArgs e)
         {
 
         }
