@@ -219,12 +219,12 @@ namespace VisionAssist.Forms
             { 
                 
             }
-        }
+        }        
         
-        public void GetMPTextImage(Mat src)
+        public bool GetMPTextImage(Mat src)
         {
             if (gImageProcess == null)
-                return;
+                return false;
 
             Rect Pos = new Rect(105, 28, 60, 13);
 
@@ -268,15 +268,15 @@ namespace VisionAssist.Forms
 
                             //if (MP.IndexOf('/') == -1)
                             if (WordNum(MP, "/") != 1)
-                                return;
+                                return false;
 
                             if (WordNum(MP, "\n") != 0)
-                                return;
+                                return false;
 
                             string[] mpStrings = MP.Split('/');
 
                             if (mpStrings[0] == string.Empty || mpStrings[1] == string.Empty || mpStrings[1] == "0")
-                                return;
+                                return false;
 
                             bool isnum = false;
                             int chk = 0;
@@ -286,7 +286,7 @@ namespace VisionAssist.Forms
 
                                 if (isnum == false)
                                 {
-                                    return;
+                                    return false;
                                 }
 
                             }
@@ -301,11 +301,17 @@ namespace VisionAssist.Forms
                             //Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
 
                             if (mpStrings.Length == 2)
-                                SimpleMPWork(mpStrings);
+                            {
+                                SimpleMPRefillWork(mpStrings);
+                                SimpleMPAttackWork(mpStrings);
+                            }
+                                
                         }
                     }
                 }
             }
+
+            return true;
         }
 
         public bool GetHPTextImage(Mat src)
@@ -324,11 +330,7 @@ namespace VisionAssist.Forms
                 Cv2.Resize(MatHP, ResultResize, new Size(MatHP.Width * 10, MatHP.Height * 10)
                     , 0, 0, InterpolationFlags.Lanczos4);
 
-                //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-                //// Stopwatch 를 시작 합니다.
-                //sw.Start();
-
-                using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
+                using(Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
                 using(Mat ThresMat = new Mat())
                 using(var old = picboxHPText.Image)
                 {
@@ -386,12 +388,9 @@ namespace VisionAssist.Forms
                                 LedMaxHP.Text = hpStrings[1];
                             }));
 
-                            //sw.Stop();
-                            //Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
-
                             if (SimpleHPWork(hpStrings, ref src))
-                            {                                
-                                return true;
+                            {
+                                //
                             }
                             else
                                 return false;
@@ -407,10 +406,20 @@ namespace VisionAssist.Forms
         {
             if (GLOBAL.IsRun())
             {
-                if (GLOBAL.lstSkillBoxes[2].IsUsed() && chkUseAttackSkill.Checked == true)
+                if (GLOBAL.GetSkillGroupStatus(2) && chkUseAttackSkill.Checked)
                 {
-                    SimpleExcute(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[2]]);
+                    Vector2 Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                        VisionRect.GetRect(GLOBAL.GetSkillPosition(2)));
+
+                    SimpleExcute(Position);
+                    //SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[1]]);
                 }
+
+
+                //if (GLOBAL.lstSkillBoxes[2].IsUsed() && chkUseAttackSkill.Checked == true)
+                //{
+                //    SimpleExcute(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[2]]);
+                //}
             }
         }
 
@@ -423,7 +432,7 @@ namespace VisionAssist.Forms
             return Num;
         }
 
-        public void SimpleMPWork(string[] data)
+        public void SimpleMPRefillWork(string[] data)
         {
             if (GLOBAL.IsRun())
             {
@@ -456,9 +465,60 @@ namespace VisionAssist.Forms
 
                     if (Action)
                     {
-                        if (GLOBAL.lstSkillBoxes[1].IsUsed())
+                        if (GLOBAL.GetSkillGroupStatus(1))
                         {
-                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[1]]);
+                            Vector2 Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                                VisionRect.GetRect(GLOBAL.GetSkillPosition(1)));
+
+                            SimpleExcute(Position);
+                            //SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[1]]);
+                        }
+                    }
+                }));
+            }
+        }
+
+        // 공격 스킬
+        public void SimpleMPAttackWork(string[] data)
+        {
+            if (GLOBAL.IsRun())
+            {
+                bool Action = false;
+
+                decimal mp = decimal.Parse(data[0]);
+                decimal max = decimal.Parse(data[1]);
+
+                if (max == 0)
+                    return;
+
+                decimal ratio = (mp / max) * 100;
+
+                ratio = Math.Round(ratio, 2);
+
+                this.BeginInvoke(new Action(() =>
+                {
+                    //lblMatchingRatioMP.Text = ratio.ToString() + " %";
+
+                    decimal Per = 0;
+                    Per = decimal.Parse(trBarMPSkill.Value.ToString()) * 10;
+
+                    if (chkUseMPSkill.Checked)
+                    {
+                        if (ratio < Per)
+                        {
+                            Action = true;
+                        }
+                    }
+
+                    if (Action)
+                    {
+                        if (GLOBAL.GetSkillGroupStatus(2))
+                        {
+                            Vector2 Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                                VisionRect.GetRect(GLOBAL.GetSkillPosition(2)));
+
+                            SimpleExcute(Position);
+                            //SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[1]]);
                         }
                     }
                 }));
@@ -554,25 +614,11 @@ namespace VisionAssist.Forms
                             Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
                                 VisionRect.GetRect(GLOBAL.GetSkillPosition(3)));
 
-                            SimpleExcute(Position);
+                            SimpleExcute(Position);                            
                             return false;
                         }
-                        
-                        //if (GLOBAL.lstSkillBoxes[3].IsUsed())
-                        //{
-                        //    // 회피 시엔 알람 필요 없음
-                        //    // 공격당할 시 알려줄 메시지
-                        //    //GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
-
-                        //    // 이미지 저장
-                        //    //SaveImage(ref src, "Evade");
-
-                        //    SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
-                        //    return false;
-                        //}
                         break;
                     default:
-                        return true;
                         break;
                 }
             }
@@ -608,15 +654,29 @@ namespace VisionAssist.Forms
                         if (EvadeAttack(ResultMat))
                         {
                             // 이미지 저장
-                            SaveImage(ref src, "Attack");
+                            //SaveImage(ref src, "Attack");
 
-                            if (GLOBAL.lstSkillBoxes[3].IsUsed())
+                            string Path = SaveImageReturnFilePath(ref src, "Attack");                            
+
+                            //if (GLOBAL.lstSkillBoxes[3].IsUsed())
+                            //{
+                            //    System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+                            //    SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+
+                            //    return true;
+                            //}
+                            if (GLOBAL.GetSkillGroupStatus(3))
                             {
-                                System.Console.WriteLine("[{0}] Evade Activate : {1}", GLOBAL.GetTime(), GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
-                                SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+                                Vector2 Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                                    VisionRect.GetRect(GLOBAL.GetSkillPosition(3)));
 
-                                return true;
+                                SimpleExcute(Position);
+                                
                             }
+
+                            GLOBAL.Func.Telegram.ImageSend(Path, "Attack");
+
+                            return true;
                         }
                     }
                 }
@@ -637,6 +697,22 @@ namespace VisionAssist.Forms
             {
                 Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 1));
             }
+        }
+
+        private string SaveImageReturnFilePath(ref Mat Src, string Msg = "")
+        {
+            string Path = $@"{Application.StartupPath}\Capture\" + @DateTime.Now.ToString("yyyy-MM-dd") + "\\";
+            string Extention = Path + @DateTime.Now.ToString("HH-mm-ss ") + Msg + ".png";
+            if (Directory.Exists(Path) == false)
+            {
+                Directory.CreateDirectory(Path);
+            }
+            else
+            {
+                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 1));
+            }
+
+            return Extention;
         }
 
         public void SetSearchSkillAreaImage(Mat src, Rect Area)
@@ -1014,6 +1090,22 @@ namespace VisionAssist.Forms
             if (msg != "")
             {
                GLOBAL.Func.Telegram.MessageSend(msg);
+            }
+        }
+
+        private void chkUseMPSkill_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkUseMPSkill.Checked)
+            {
+                chkUseAttackSkill.Checked = false;
+            }
+        }
+
+        private void chkUseAttackSkill_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUseAttackSkill.Checked)
+            {
+                chkUseMPSkill.Checked = false;
             }
         }
     }

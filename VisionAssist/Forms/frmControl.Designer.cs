@@ -72,6 +72,8 @@ namespace VisionAssist.Forms
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tbxTelegramMsg = new System.Windows.Forms.TextBox();
             this.btnSendMessage = new System.Windows.Forms.Button();
+            this.trBarMPSkill = new System.Windows.Forms.TrackBar();
+            this.chkUseMPSkill = new System.Windows.Forms.CheckBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,6 +89,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -121,7 +124,7 @@ namespace VisionAssist.Forms
             // 
             this.groupBox2.Controls.Add(this.tbxLocation);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(3, 423);
+            this.groupBox2.Location = new System.Drawing.Point(3, 501);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(216, 52);
             this.groupBox2.TabIndex = 16;
@@ -142,12 +145,12 @@ namespace VisionAssist.Forms
             // 
             this.groupBox1.Controls.Add(this.chkUseAttackSkill);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(3, 382);
+            this.groupBox1.Location = new System.Drawing.Point(3, 460);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(216, 41);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "자동스킬";
+            this.groupBox1.Text = "MP를 사용하지 않는 자동 스킬";
             // 
             // chkUseAttackSkill
             // 
@@ -161,6 +164,7 @@ namespace VisionAssist.Forms
             this.chkUseAttackSkill.TabIndex = 2;
             this.chkUseAttackSkill.Text = "사용";
             this.chkUseAttackSkill.UseVisualStyleBackColor = true;
+            this.chkUseAttackSkill.CheckedChanged += new System.EventHandler(this.chkUseAttackSkill_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -169,7 +173,7 @@ namespace VisionAssist.Forms
             this.groupBox5.Controls.Add(this.chkUserAttackEvade);
             this.groupBox5.Controls.Add(this.picboxUserAttack);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(3, 313);
+            this.groupBox5.Location = new System.Drawing.Point(3, 391);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(216, 69);
             this.groupBox5.TabIndex = 14;
@@ -223,6 +227,8 @@ namespace VisionAssist.Forms
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkUseMPSkill);
+            this.groupBox4.Controls.Add(this.trBarMPSkill);
             this.groupBox4.Controls.Add(this.LedMP);
             this.groupBox4.Controls.Add(this.LedMaxMP);
             this.groupBox4.Controls.Add(this.lblMatchingRatioMP);
@@ -232,7 +238,7 @@ namespace VisionAssist.Forms
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Location = new System.Drawing.Point(3, 192);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(216, 121);
+            this.groupBox4.Size = new System.Drawing.Size(216, 199);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "MP";
@@ -298,7 +304,6 @@ namespace VisionAssist.Forms
             // trBarMP
             // 
             this.trBarMP.BackColor = System.Drawing.Color.DarkBlue;
-            this.trBarMP.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.trBarMP.LargeChange = 1;
             this.trBarMP.Location = new System.Drawing.Point(3, 73);
             this.trBarMP.Minimum = 1;
@@ -509,7 +514,7 @@ namespace VisionAssist.Forms
             this.groupBox6.Controls.Add(this.btnSendMessage);
             this.groupBox6.Controls.Add(this.tbxTelegramMsg);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(3, 475);
+            this.groupBox6.Location = new System.Drawing.Point(3, 553);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(216, 52);
             this.groupBox6.TabIndex = 17;
@@ -534,6 +539,31 @@ namespace VisionAssist.Forms
             this.btnSendMessage.Text = "Send";
             this.btnSendMessage.UseVisualStyleBackColor = true;
             this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
+            // 
+            // trBarMPSkill
+            // 
+            this.trBarMPSkill.BackColor = System.Drawing.Color.DarkBlue;
+            this.trBarMPSkill.LargeChange = 1;
+            this.trBarMPSkill.Location = new System.Drawing.Point(3, 148);
+            this.trBarMPSkill.Minimum = 1;
+            this.trBarMPSkill.Name = "trBarMPSkill";
+            this.trBarMPSkill.Size = new System.Drawing.Size(210, 45);
+            this.trBarMPSkill.TabIndex = 13;
+            this.trBarMPSkill.Value = 5;
+            // 
+            // chkUseMPSkill
+            // 
+            this.chkUseMPSkill.AutoSize = true;
+            this.chkUseMPSkill.Checked = true;
+            this.chkUseMPSkill.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseMPSkill.ForeColor = System.Drawing.Color.Snow;
+            this.chkUseMPSkill.Location = new System.Drawing.Point(8, 126);
+            this.chkUseMPSkill.Name = "chkUseMPSkill";
+            this.chkUseMPSkill.Size = new System.Drawing.Size(99, 16);
+            this.chkUseMPSkill.TabIndex = 14;
+            this.chkUseMPSkill.Text = "MP 스킬 사용";
+            this.chkUseMPSkill.UseVisualStyleBackColor = true;
+            this.chkUseMPSkill.CheckedChanged += new System.EventHandler(this.chkUseMPSkill_CheckedChanged);
             // 
             // frmControl
             // 
@@ -565,6 +595,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -613,5 +644,7 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button btnSendMessage;
         private System.Windows.Forms.TextBox tbxTelegramMsg;
+        private System.Windows.Forms.TrackBar trBarMPSkill;
+        private System.Windows.Forms.CheckBox chkUseMPSkill;
     }
 }

@@ -10,6 +10,13 @@ namespace VisionAssist.Classes
 {
     public static class VisionRect
     {
+        public enum eSkillAction
+        {
+            ManaRefill,
+            ManaAttack,
+            Max                
+        }
+        
         public enum ePosition
         {
             Slot1,

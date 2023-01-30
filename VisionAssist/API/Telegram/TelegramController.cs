@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace VisionAssist.API.TelegramAPI
@@ -73,7 +74,7 @@ namespace VisionAssist.API.TelegramAPI
         private async Task Bot_SendImage(long chatId, string FilePath, string Caption = "")
         {
             await Bot.SendPhotoAsync(chatId,
-                new Telegram.Bot.Types.InputFiles.InputOnlineFile(FilePath), Caption);
+                new InputOnlineFile(FilePath), Caption);
         }
 
 
