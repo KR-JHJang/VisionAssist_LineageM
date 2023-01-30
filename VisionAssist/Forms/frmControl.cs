@@ -540,27 +540,36 @@ namespace VisionAssist.Forms
                 switch (Action)
                 {
                     case 1: // 자동 힐
-                        if (GLOBAL.lstSkillBoxes[0].IsUsed())
+                        if (GLOBAL.GetSkillGroupStatus(0))
                         {
                             Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
-                                VisionRect.GetRect((int)GLOBAL.lstSkillPos[0]));
+                                VisionRect.GetRect(GLOBAL.GetSkillPosition(0)));
 
                             SimpleExcute(Position);
                         }
                         break;
                     case 2: // 공격회피
-                        if (GLOBAL.lstSkillBoxes[3].IsUsed())
+                        if (GLOBAL.GetSkillGroupStatus(3))
                         {
-                            // 회피 시엔 알람 필요 없음
-                            // 공격당할 시 알려줄 메시지
-                            //GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
+                            Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                                VisionRect.GetRect(GLOBAL.GetSkillPosition(3)));
 
-                            // 이미지 저장
-                            //SaveImage(ref src, "Evade");
-
-                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+                            SimpleExcute(Position);
                             return false;
                         }
+                        
+                        //if (GLOBAL.lstSkillBoxes[3].IsUsed())
+                        //{
+                        //    // 회피 시엔 알람 필요 없음
+                        //    // 공격당할 시 알려줄 메시지
+                        //    //GLOBAL.hfrmMain.SetNotifyPopupMsg("T");
+
+                        //    // 이미지 저장
+                        //    //SaveImage(ref src, "Evade");
+
+                        //    SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[3]]);
+                        //    return false;
+                        //}
                         break;
                     default:
                         return true;

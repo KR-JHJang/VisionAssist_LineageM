@@ -203,6 +203,16 @@ namespace VisionAssist
             };
         }
 
+        public static bool GetSkillGroupStatus(int idx)
+        {
+            return lstSkillBoxes[idx].IsUsed();
+        }
+
+        public static int GetSkillPosition(int idx)
+        {
+            return lstSkillPos[idx];
+        }
+
         public static int GetLongParameter(int low, int high)
         {
             return ((high << 16) | (low & 0xffff));
