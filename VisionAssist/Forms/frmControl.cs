@@ -69,6 +69,7 @@ namespace VisionAssist.Forms
         {
             InitializeComponent();
             GLOBAL.hfrmControl = this;
+            GLOBAL.Func.Telegram = new API.Telegram.TelegramController();
 
             Application.Idle += Application_Idle;
         }
@@ -230,8 +231,12 @@ namespace VisionAssist.Forms
             {
                 VisionRect.SetRect(Pos, VisionRect.ePosition.MP);
 
-                Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 15, MatMP.Height * 15)
-                    , 0, 0, InterpolationFlags.Cubic);
+                Cv2.Resize(MatMP, ResultResize, new Size(MatMP.Width * 10, MatMP.Height * 10)
+                    , 0, 0, InterpolationFlags.Lanczos4);
+
+                //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                //// Stopwatch 를 시작 합니다.
+                //sw.Start();
 
                 using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
                 using (Mat ThresMat = new Mat())
@@ -253,7 +258,6 @@ namespace VisionAssist.Forms
                         // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
                         TengineMP.SetVariable("tessedit_char_whitelist", whitelist);
 
-                        // 인식률을 높이기위한 숫자와 '/' 만 화이트리스트 적용
                         using (var result = TengineMP.Process(pix))
                         {
                             string MP = result.GetText().Trim();
@@ -290,6 +294,9 @@ namespace VisionAssist.Forms
                                 LedMaxMP.Text = mpStrings[1];
                             }));
 
+                            //sw.Stop();
+                            //Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
+
                             if (mpStrings.Length == 2)
                                 SimpleMPWork(mpStrings);
                         }
@@ -314,9 +321,9 @@ namespace VisionAssist.Forms
                 Cv2.Resize(MatHP, ResultResize, new Size(MatHP.Width * 10, MatHP.Height * 10)
                     , 0, 0, InterpolationFlags.Lanczos4);
 
-                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-                // Stopwatch 를 시작 합니다.
-                sw.Start();
+                //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                //// Stopwatch 를 시작 합니다.
+                //sw.Start();
 
                 using (Mat GrayMat = gImageProcess.ConvertRgb2Gray(ResultResize))
                 using(Mat ThresMat = new Mat())
@@ -376,7 +383,10 @@ namespace VisionAssist.Forms
                                 LedMaxHP.Text = hpStrings[1];
                             }));
 
-                            if(SimpleHPWork(hpStrings, ref src))
+                            //sw.Stop();
+                            //Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
+
+                            if (SimpleHPWork(hpStrings, ref src))
                             {                                
                                 return true;
                             }
@@ -385,9 +395,6 @@ namespace VisionAssist.Forms
                         }
                     }
                 }
-
-                sw.Stop();
-                Console.WriteLine("END TIME :: " + sw.ElapsedMilliseconds.ToString() + " msec");
             }
 
             return true;
@@ -463,7 +470,7 @@ namespace VisionAssist.Forms
                 decimal hp = decimal.Parse(data[0]);
                 decimal max = decimal.Parse(data[1]);
 
-                if (max < 1000 || max > 15000)
+                if (max < 1000 || max > 20000)
                 {
                     System.Console.WriteLine(string.Format(@"Max Value is Abnormal : {0}", max));
                     return true;
@@ -535,6 +542,7 @@ namespace VisionAssist.Forms
                         }
                         break;
                     case 2:
+                        // 공격회피
                         if (GLOBAL.lstSkillBoxes[3].IsUsed())
                         {
                             // 회피 시엔 알람 필요 없음
@@ -584,9 +592,6 @@ namespace VisionAssist.Forms
                     {
                         if (EvadeAttack(ResultMat))
                         {
-                            // 공격당할 시 알려줄 메시지
-                            // GLOBAL.hfrmMain.SetNotifyPopupMsg("A");
-
                             // 이미지 저장
                             SaveImage(ref src, "Attack");
 
@@ -972,6 +977,16 @@ namespace VisionAssist.Forms
         {
             //TextBox textBox = sender as TextBox;
             //GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x004A, 0, tbxKeyString.Text);
+        }
+
+        private void btnSendMessage_Click(object sender, EventArgs e)
+        {
+            string msg = tbxTelegramMsg.Text;
+
+            if (msg != "")
+            {
+               GLOBAL.Func.Telegram.MessageSend(msg);
+            }
         }
     }
 }

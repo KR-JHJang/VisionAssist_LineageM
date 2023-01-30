@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisionAssist.API;
+using VisionAssist.API.Telegram;
 using VisionAssist.Forms;
 using VisionAssist.Vision;
 
@@ -137,6 +138,11 @@ namespace VisionAssist
         public static frmControl hfrmControl;
         public static frmVIsion hfrmVision;
 
+        public struct Func
+        {
+            public static TelegramController Telegram;
+        }
+
         public static Object monitorLock = new System.Object();
         public static bool Locktaken = false;
 
@@ -188,11 +194,13 @@ namespace VisionAssist
                 GetLongParameter((int)_axisStrings[9][0], (int)_axisStrings[9][1])
             };
 
-            lstSkillPos = new List<int>(4);
-            lstSkillPos.Add(0);
-            lstSkillPos.Add(0);
-            lstSkillPos.Add(0);
-            lstSkillPos.Add(0);
+            lstSkillPos = new List<int>(4)
+            {
+                0,
+                0,
+                0,
+                0
+            };
         }
 
         public static int GetLongParameter(int low, int high)

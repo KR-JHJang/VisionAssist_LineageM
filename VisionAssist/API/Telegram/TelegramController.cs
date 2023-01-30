@@ -14,8 +14,9 @@ namespace VisionAssist.API.Telegram
 {
     public class TelegramController
     {
-        public string token = "";
-        public string chat_id = "";
+        private static readonly string BaseUrl = "https://api.telegram.org/bot";
+        private static readonly string token = "6025370945:AAH-lyI2JE_g7eGWxL7w0LMrggQzOxswWzw";
+        private string chat_id = "";
         
         // Initilalize Telegram 
         public TelegramController()
@@ -27,13 +28,12 @@ namespace VisionAssist.API.Telegram
         {
             chat_id = "";
 
-            string url = string.Format(@"https://api.telegram.org/bot{0}/getUpdates", token);
+            string url = string.Format(BaseUrl + @"{0}/getUpdates", token);
             WebClient weblient = new WebClient();
 
             try
             {
                 string result = weblient.DownloadString(url);
-
 
                 if (result.IndexOf("\"ok\":true") > 0)
                 {
@@ -43,18 +43,42 @@ namespace VisionAssist.API.Telegram
                     chat_id = JsonReult["result"].Last["message"]["chat"]["id"].ToString();
                     return true;
                 }
+            }
+            catch (Exception ex) 
+            {
+                System.Console.WriteLine(ex);
+            }
+
+            return false;
+        }
+        
+        public void MessageSend(string msg)
+        {
+            if (chat_id == "")
+            {
+                if (getUpdates() == false)
+                {
+                    return;
+                }
+            }
+
+            string url = string.Format(BaseUrl + @"{0}/sendMessage?chat_id={1}&text={2}", token, chat_id, msg);
+            WebClient weblient = new WebClient();
+
+            try
+            {
+                string result = weblient.DownloadString(url);
+
+                if (result.IndexOf("\"ok\":true") > 0)
+                {
+                    //MessageBox.Show("전송 성공");
+                }
                 else
                 {
                     //MessageBox.Show(result);
                 }
             }
-            catch (Exception ex) 
-            {
-                System.Console.WriteLine(ex);
-                //MessageBox.Show(ex.Message); 
-            }
-
-            return false;
+            catch (Exception ex) { /*MessageBox.Show(ex.Message);*/ }
         }
     }
 }

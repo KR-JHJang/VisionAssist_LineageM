@@ -115,11 +115,13 @@ namespace VisionAssist.Forms
                 g4r10
             };
 
-            GLOBAL.lstSkillBoxes = new List<Tskillbox>(4);
-            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox1, gbox1, radioButtons1));
-            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox2, gbox2, radioButtons2));
-            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox3, gbox3, radioButtons3));
-            GLOBAL.lstSkillBoxes.Add(new Tskillbox(checkBox4, gbox4, radioButtons4));
+            GLOBAL.lstSkillBoxes = new List<Tskillbox>(4)
+            {
+                new Tskillbox(checkBox1, gbox1, radioButtons1),
+                new Tskillbox(checkBox2, gbox2, radioButtons2),
+                new Tskillbox(checkBox3, gbox3, radioButtons3),
+                new Tskillbox(checkBox4, gbox4, radioButtons4)
+            };
         }
 
         private void RunThread()

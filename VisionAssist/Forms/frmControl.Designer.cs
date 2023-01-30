@@ -33,6 +33,8 @@ namespace VisionAssist.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmControl));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbxLocation = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkUseAttackSkill = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -67,10 +69,12 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tbxLocation = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.tbxTelegramMsg = new System.Windows.Forms.TextBox();
+            this.btnSendMessage = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).BeginInit();
@@ -82,7 +86,7 @@ namespace VisionAssist.Forms
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -99,6 +103,7 @@ namespace VisionAssist.Forms
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.groupBox5);
@@ -111,6 +116,27 @@ namespace VisionAssist.Forms
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.tbxLocation);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(3, 423);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(216, 52);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "현재 위치";
+            // 
+            // tbxLocation
+            // 
+            this.tbxLocation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbxLocation.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tbxLocation.Location = new System.Drawing.Point(3, 17);
+            this.tbxLocation.Name = "tbxLocation";
+            this.tbxLocation.Size = new System.Drawing.Size(210, 32);
+            this.tbxLocation.TabIndex = 0;
+            this.tbxLocation.Text = "확인 중....";
             // 
             // groupBox1
             // 
@@ -478,26 +504,36 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
-            // groupBox2
+            // groupBox6
             // 
-            this.groupBox2.Controls.Add(this.tbxLocation);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(3, 423);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(216, 52);
-            this.groupBox2.TabIndex = 16;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "현재 위치";
+            this.groupBox6.Controls.Add(this.btnSendMessage);
+            this.groupBox6.Controls.Add(this.tbxTelegramMsg);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox6.Location = new System.Drawing.Point(3, 475);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(216, 52);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Telegram Debug Message";
             // 
-            // tbxLocation
+            // tbxTelegramMsg
             // 
-            this.tbxLocation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxLocation.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.tbxLocation.Location = new System.Drawing.Point(3, 17);
-            this.tbxLocation.Name = "tbxLocation";
-            this.tbxLocation.Size = new System.Drawing.Size(210, 32);
-            this.tbxLocation.TabIndex = 0;
-            this.tbxLocation.Text = "확인 중....";
+            this.tbxTelegramMsg.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tbxTelegramMsg.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tbxTelegramMsg.Location = new System.Drawing.Point(3, 17);
+            this.tbxTelegramMsg.Name = "tbxTelegramMsg";
+            this.tbxTelegramMsg.Size = new System.Drawing.Size(161, 32);
+            this.tbxTelegramMsg.TabIndex = 0;
+            // 
+            // btnSendMessage
+            // 
+            this.btnSendMessage.Location = new System.Drawing.Point(166, 17);
+            this.btnSendMessage.Name = "btnSendMessage";
+            this.btnSendMessage.Size = new System.Drawing.Size(47, 32);
+            this.btnSendMessage.TabIndex = 1;
+            this.btnSendMessage.Text = "Send";
+            this.btnSendMessage.UseVisualStyleBackColor = true;
+            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
             // 
             // frmControl
             // 
@@ -510,6 +546,8 @@ namespace VisionAssist.Forms
             this.Size = new System.Drawing.Size(230, 654);
             this.tabMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -525,8 +563,8 @@ namespace VisionAssist.Forms
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -572,5 +610,8 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picboxUserAttack;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox tbxLocation;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnSendMessage;
+        private System.Windows.Forms.TextBox tbxTelegramMsg;
     }
 }

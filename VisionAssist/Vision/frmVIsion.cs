@@ -200,6 +200,16 @@ namespace VisionAssist.Vision
             stAxis.NowRealPosition.Y = (float)VisionMoveScalingHeight(Y);
         }
 
+        public Vector2 ConvertPosition(int X, int Y)
+        {
+            Vector2 RealPos = new Vector2(0, 0);
+
+            RealPos.X = (float)VisionMoveScalingWidth(X);
+            RealPos.Y = (float)VisionMoveScalingHeight(Y);
+
+            return RealPos;
+        }
+
         public Vector2 GetRealPosition(Rect pos)
         {
             float posX = pos.X + (pos.Width / 2);
@@ -438,7 +448,7 @@ namespace VisionAssist.Vision
             else
             {
                 SetMousePosition(e.Location.X, e.Location.Y);
-
+                
                 int longParameter = GetLongParameter((int)stAxis.NowRealPosition.X, (int)stAxis.NowRealPosition.Y);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, longParameter);
 
