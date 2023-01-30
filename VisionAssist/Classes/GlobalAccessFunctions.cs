@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +12,6 @@ namespace VisionAssist.Classes
     {
         public enum ePosition
         {
-            Attack,
-            HP,
-            MP,
-            Location,
-            Exp,
             Slot1,
             Slot2,
             Slot3,
@@ -26,6 +22,13 @@ namespace VisionAssist.Classes
             Slot8,
             Slot9,
             Slot10,
+
+            Attack,
+            HP,
+            MP,
+            Location,
+            Exp,
+            
             Max
         }
 
@@ -87,6 +90,11 @@ namespace VisionAssist.Classes
             return pRect[(int)pos];
         }
 
+        public static Rect GetRect(int pos)
+        {
+            return pRect[pos];
+        }        
+
         public static void DrawRectArea(Mat Data)
         {
             int startX = 352;
@@ -115,10 +123,15 @@ namespace VisionAssist.Classes
                 }
             }
         }
+
+
     }
 
-    public class GlobalAccessFunctions
+    public static class GlobalFunctions
     {
-
+        public static int GetLongParameter(int low, int high)
+        {
+            return ((high << 16) | (low & 0xffff));
+        }
     }
 }

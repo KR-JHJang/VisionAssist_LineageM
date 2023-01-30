@@ -22,6 +22,9 @@ using Size = OpenCvSharp.Size;
 using VisionAssist.Classes;
 using System.IO;
 using System.Text.RegularExpressions;
+using VisionAssist.API.TelegramAPI;
+using static VisionAssist.Classes.VisionRect;
+using System.Numerics;
 
 namespace VisionAssist.Forms
 {
@@ -69,7 +72,7 @@ namespace VisionAssist.Forms
         {
             InitializeComponent();
             GLOBAL.hfrmControl = this;
-            GLOBAL.Func.Telegram = new API.Telegram.TelegramController();
+            GLOBAL.Func.Telegram = new TelegramController();
 
             Application.Idle += Application_Idle;
         }
@@ -533,16 +536,19 @@ namespace VisionAssist.Forms
                     }
                 }
 
+                Vector2 Position;
                 switch (Action)
                 {
-                    case 1:
+                    case 1: // 자동 힐
                         if (GLOBAL.lstSkillBoxes[0].IsUsed())
                         {
-                            SimpleExcuteEvade(GLOBAL.lstMousePos[GLOBAL.lstSkillPos[0]]);
+                            Position = GLOBAL.hfrmVision.ConvertPositionRandomize(
+                                VisionRect.GetRect((int)GLOBAL.lstSkillPos[0]));
+
+                            SimpleExcute(Position);
                         }
                         break;
-                    case 2:
-                        // 공격회피
+                    case 2: // 공격회피
                         if (GLOBAL.lstSkillBoxes[3].IsUsed())
                         {
                             // 회피 시엔 알람 필요 없음
@@ -889,6 +895,19 @@ namespace VisionAssist.Forms
             runThread.Start();
         }
 
+        private void SimpleExcute(Vector2 Param)
+        {
+            Thread runThread = new Thread(new ThreadStart(delegate
+            {
+                int Ret = GlobalFunctions.GetLongParameter((int)Param.X, (int)Param.Y);
+
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Ret);
+                Thread.Sleep(100);
+                GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Ret);
+            }));
+
+            runThread.Start();
+        }
         private void SimpleExcute(int Param)
         {
             Thread runThread = new Thread(new ThreadStart(delegate 

@@ -210,6 +210,37 @@ namespace VisionAssist.Vision
             return RealPos;
         }
 
+        public Rect ConvertPosition(Rect Source)
+        {
+            Rect RealPos = new Rect(0, 0, 0, 0);
+
+            RealPos.X = (int)VisionMoveScalingWidth(Source.X);
+            RealPos.Y = (int)VisionMoveScalingHeight(Source.Y);
+            RealPos.Width = (int)VisionMoveScalingWidth(Source.Width);
+            RealPos.Height = (int)VisionMoveScalingHeight(Source.Height);
+
+            return RealPos;
+        }
+
+        public Vector2 ConvertPositionRandomize(Rect Source)
+        {
+            Rect RealPos = new Rect(0, 0, 0, 0);
+
+            RealPos.X = (int)VisionMoveScalingWidth(Source.X);
+            RealPos.Y = (int)VisionMoveScalingHeight(Source.Y);
+            RealPos.Width = (int)VisionMoveScalingWidth(Source.Width);
+            RealPos.Height = (int)VisionMoveScalingHeight(Source.Height);
+
+            Random r = new Random();
+
+            RealPos.X = r.Next(RealPos.X + 2, RealPos.X + RealPos.Width - 2);
+            RealPos.Y = r.Next(RealPos.Y + 2, RealPos.Y + RealPos.Height - 2);
+
+            Vector2 Ret = new Vector2(RealPos.X, RealPos.Y);
+
+            return Ret;
+        }
+
         public Vector2 GetRealPosition(Rect pos)
         {
             float posX = pos.X + (pos.Width / 2);

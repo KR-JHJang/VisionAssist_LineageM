@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisionAssist.API;
-using VisionAssist.API.Telegram;
+using VisionAssist.API.TelegramAPI;
 using VisionAssist.Forms;
 using VisionAssist.Vision;
 

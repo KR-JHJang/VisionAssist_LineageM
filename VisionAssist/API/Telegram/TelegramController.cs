@@ -10,18 +10,31 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace VisionAssist.API.Telegram
+namespace VisionAssist.API.TelegramAPI
 {
     public class TelegramController
     {
         private static readonly string BaseUrl = "https://api.telegram.org/bot";
         private static readonly string token = "6025370945:AAH-lyI2JE_g7eGWxL7w0LMrggQzOxswWzw";
         private string chat_id = "";
+
+        private TelegramBotClient Bot;
+
+        public bool isConnected = false;
         
         // Initilalize Telegram 
         public TelegramController()
         {
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+            try
+            {
+                Bot = new TelegramBotClient(token);
+                isConnected = true;
+            }
+            catch(Exception ex)
+            {
+                System.Console.WriteLine(ex);
+                isConnected = false;
+            }
         }
 
         public bool getUpdates()
@@ -51,7 +64,19 @@ namespace VisionAssist.API.Telegram
 
             return false;
         }
-        
+
+        private async Task Bot_SendMessage(long chatId, string message)
+        {
+            await Bot.SendTextMessageAsync(chatId, message);
+        }
+
+        private async Task Bot_SendImage(long chatId, string FilePath, string Caption = "")
+        {
+            await Bot.SendPhotoAsync(chatId,
+                new Telegram.Bot.Types.InputFiles.InputOnlineFile(FilePath), Caption);
+        }
+
+
         public void MessageSend(string msg)
         {
             if (chat_id == "")
@@ -62,23 +87,12 @@ namespace VisionAssist.API.Telegram
                 }
             }
 
-            string url = string.Format(BaseUrl + @"{0}/sendMessage?chat_id={1}&text={2}", token, chat_id, msg);
-            WebClient weblient = new WebClient();
+            _ = Bot_SendMessage(long.Parse(chat_id), msg);
+        }
 
-            try
-            {
-                string result = weblient.DownloadString(url);
-
-                if (result.IndexOf("\"ok\":true") > 0)
-                {
-                    //MessageBox.Show("전송 성공");
-                }
-                else
-                {
-                    //MessageBox.Show(result);
-                }
-            }
-            catch (Exception ex) { /*MessageBox.Show(ex.Message);*/ }
+        public void ImageSend(string FilePath, string Caption)
+        {
+            _ = Bot_SendImage(long.Parse(chat_id), FilePath, Caption);
         }
     }
 }
