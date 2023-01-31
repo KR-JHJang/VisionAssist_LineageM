@@ -54,7 +54,7 @@ namespace VisionAssist
             RunTask = new List<WhileThread>
             {
                 new WhileThread(10, func_Task_Run),
-                new WhileThread(333, func_Vision_Process_Run)
+                new WhileThread(444, func_Vision_Process_Run)
             };
 
             foreach (var v in RunTask)

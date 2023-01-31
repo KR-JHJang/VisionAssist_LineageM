@@ -136,11 +136,12 @@ namespace VisionAssist.Vision
                     {
                         // 자동 스킬 공격
                         GLOBAL.hfrmControl.SimpleAttackSkill();
+                        GLOBAL.hfrmControl.GetMPTextImage(VisionData);
                     }
                 },
                 () =>
                 {
-                    GLOBAL.hfrmControl.GetMPTextImage(VisionData);
+                    
                 },
                 () =>
                 {
@@ -233,8 +234,8 @@ namespace VisionAssist.Vision
 
             Random r = new Random();
 
-            RealPos.X = r.Next(RealPos.X + 2, RealPos.X + RealPos.Width - 2);
-            RealPos.Y = r.Next(RealPos.Y + 2, RealPos.Y + RealPos.Height - 2);
+            RealPos.X = r.Next(RealPos.X + 4, RealPos.X + RealPos.Width - 4);
+            RealPos.Y = r.Next(RealPos.Y + 4, RealPos.Y + RealPos.Height - 4);
 
             Vector2 Ret = new Vector2(RealPos.X, RealPos.Y);
 

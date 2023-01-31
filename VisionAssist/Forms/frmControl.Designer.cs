@@ -550,6 +550,7 @@ namespace VisionAssist.Forms
             this.trBarMPSkill.Size = new System.Drawing.Size(210, 45);
             this.trBarMPSkill.TabIndex = 13;
             this.trBarMPSkill.Value = 5;
+            this.trBarMPSkill.Scroll += new System.EventHandler(this.trBarMPSkill_Scroll);
             // 
             // chkUseMPSkill
             // 

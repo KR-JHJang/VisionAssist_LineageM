@@ -98,9 +98,14 @@ namespace VisionAssist.Forms
             chkRefillMP.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseReFillMP", GLOBAL.Path)));
             chkUserAttackEvade.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseEvadeAttack", GLOBAL.Path)));
 
-            trBarHP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerReFillHP", GLOBAL.Path)); ;
-            trBarHPEvade.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerEvadeHP", GLOBAL.Path)); ;
-            trBarMP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerRefillMP", GLOBAL.Path)); ;
+            trBarHP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerReFillHP", GLOBAL.Path)); 
+            trBarHPEvade.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerEvadeHP", GLOBAL.Path)); 
+            trBarMP.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerRefillMP", GLOBAL.Path));
+
+            trBarMPSkill.Value = int.Parse(INIControl.IniRead("ControlParameter", "PerMPSkill", GLOBAL.Path));
+
+            chkUseMPSkill.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseMPSkill", GLOBAL.Path)));
+            chkUseAttackSkill.Checked = Convert.ToBoolean(int.Parse(INIControl.IniRead("ControlParameter", "UseAttackSkill", GLOBAL.Path)));
         }
 
         private void LoadResource()
@@ -504,7 +509,7 @@ namespace VisionAssist.Forms
 
                     if (chkUseMPSkill.Checked)
                     {
-                        if (ratio < Per)
+                        if (ratio > Per)
                         {
                             Action = true;
                         }
@@ -674,7 +679,7 @@ namespace VisionAssist.Forms
                                 
                             }
 
-                            GLOBAL.Func.Telegram.ImageSend(Path, "Attack");
+                            //GLOBAL.Func.Telegram.ImageSend(Path, "Attack");
 
                             return true;
                         }
@@ -692,6 +697,7 @@ namespace VisionAssist.Forms
             if (Directory.Exists(Path) == false)
             {
                 Directory.CreateDirectory(Path);
+                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 1));
             }
             else
             {
@@ -706,6 +712,7 @@ namespace VisionAssist.Forms
             if (Directory.Exists(Path) == false)
             {
                 Directory.CreateDirectory(Path);
+                Src.SaveImage(Extention, new ImageEncodingParam(ImwriteFlags.PngCompression, 1));
             }
             else
             {
@@ -987,7 +994,7 @@ namespace VisionAssist.Forms
                 int Ret = GlobalFunctions.GetLongParameter((int)Param.X, (int)Param.Y);
 
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Ret);
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Ret);
             }));
 
@@ -1057,6 +1064,12 @@ namespace VisionAssist.Forms
             INIControl.IniWrite("ControlParameter", "PerRefillMP", trBarMP.Value.ToString(), GLOBAL.Path);
         }
 
+        private void trBarMPSkill_Scroll(object sender, EventArgs e)
+        {
+            ttMP.SetToolTip(trBarMPSkill, (trBarMPSkill.Value * 10) + "%".ToString());
+            INIControl.IniWrite("ControlParameter", "PerMPSkill", trBarMPSkill.Value.ToString(), GLOBAL.Path);
+        }
+
         private void chkUserAttackEvade_CheckedChanged(object sender, EventArgs e)
         {
             INIControl.IniWrite("ControlParameter", "UseEvadeAttack", Convert.ToInt32(chkUserAttackEvade.Checked).ToString(), GLOBAL.Path);
@@ -1099,6 +1112,10 @@ namespace VisionAssist.Forms
             {
                 chkUseAttackSkill.Checked = false;
             }
+
+            INIControl.IniWrite("ControlParameter", "UseMPSkill", Convert.ToInt32(chkUseMPSkill.Checked).ToString(), GLOBAL.Path);
+            INIControl.IniWrite("ControlParameter", "UseAttackSkill", Convert.ToInt32(chkUseAttackSkill.Checked).ToString(), GLOBAL.Path);
+
         }
 
         private void chkUseAttackSkill_CheckedChanged(object sender, EventArgs e)
@@ -1107,6 +1124,11 @@ namespace VisionAssist.Forms
             {
                 chkUseMPSkill.Checked = false;
             }
+
+            INIControl.IniWrite("ControlParameter", "UseMPSkill", Convert.ToInt32(chkUseMPSkill.Checked).ToString(), GLOBAL.Path);
+            INIControl.IniWrite("ControlParameter", "UseAttackSkill", Convert.ToInt32(chkUseAttackSkill.Checked).ToString(), GLOBAL.Path);
         }
+
+
     }
 }
