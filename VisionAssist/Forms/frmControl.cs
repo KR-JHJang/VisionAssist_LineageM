@@ -679,6 +679,7 @@ namespace VisionAssist.Forms
                                 
                             }
 
+                            //GLOBAL.Func.Telegram.MessageSend("공격 회피 !!");
                             //GLOBAL.Func.Telegram.ImageSend(Path, "Attack");
 
                             return true;
