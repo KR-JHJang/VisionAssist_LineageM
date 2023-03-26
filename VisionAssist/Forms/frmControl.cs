@@ -995,7 +995,7 @@ namespace VisionAssist.Forms
                 int Ret = GlobalFunctions.GetLongParameter((int)Param.X, (int)Param.Y);
 
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONDOWN, 0, Ret);
-                Thread.Sleep(50);
+                //Thread.Sleep(50);
                 GLOBAL.SendMessage(GLOBAL.TargetHandle, GLOBAL.WM_LBUTTONUP, 0, Ret);
             }));
 
