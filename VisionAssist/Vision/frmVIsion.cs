@@ -383,65 +383,65 @@ namespace VisionAssist.Vision
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb))
                         //using (Bitmap BitData = new Bitmap(rect.Width, rect.Height,
                         //System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-                        using (Mat ResultMat = new Mat())
+                        
+                        using(Graphics g = Graphics.FromImage(BitData))
                         {
-                            using(Graphics g = Graphics.FromImage(BitData))
+                            IntPtr hdc = g.GetHdc();
+
+                            bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
+                            g.ReleaseHdc(hdc);
+                            ret = GLOBAL.DeleteDC(hdc);
+
+                            using (Mat Originmat = BitmapConverter.ToMat(BitData))
+                            using (Mat FinalImage = new Mat())
+                            using (Mat ResultMat = new Mat())
                             {
-                                IntPtr hdc = g.GetHdc();
-
-                                bool ret = GLOBAL.PrintWindow(sub, hdc, 2);
-                                g.ReleaseHdc(hdc);
-                                ret = GLOBAL.DeleteDC(hdc);
-
-                                using (mat = BitmapConverter.ToMat(BitData))
-                                {
-                                    //Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
-                                    Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Linear);
-                                    Cv2.CvtColor(FinalImage, ResultMat, ColorConversionCodes.RGBA2RGB);
-
-
-                                    if (OldWidth != ResultMat.Width || OldHeight != ResultMat.Height)
-                                    {
-                                        OldWidth = ResultMat.Width;
-                                        OldHeight = ResultMat.Height;
-
-                                        Invoke(new Action(() =>
-                                        {
-                                            g_direct2D.Initialize(picVision.Handle, ResultMat.Width, ResultMat.Height);
-                                        }));
-                                    }
-
-                                    if (bDrawText)
-                                    {
-                                        // Text Location
-                                        OpenCvSharp.Point myPoint;
-                                        myPoint.X = FinalImage.Width - 400;
-                                        myPoint.Y = FinalImage.Height - 10;
-
-                                        // Font Face
-                                        int myFontFace = 2;
-
-                                        Vector2 Pos = GetMousePosition();
-                                        string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
-
-                                        // Font Scale
-                                        gImageProcess.DrawTextToImage(myPoint, ResultMat, frame, Scalar.Red);
-                                    }
-
-                                    // Maint 체크박스 활성화 시
-                                    if (GLOBAL.hfrmMain.GetMaintenanceMode())
-                                    {
-                                        // 설정한 영역에 대한 사각박스를 그린다.
-                                        VisionRect.DrawRectArea(ResultMat);
-                                    }
-
-                                    if (stImageWork.Target == null)
-                                    {
-                                        stImageWork.Target = ResultMat.Clone();
-                                    }
                                     
-                                    g_direct2D.DrawImage(ResultMat);
+                                //Cv2.Resize(mat, FinalImage, Picsize, 0, 0, InterpolationFlags.Lanczos4);
+                                Cv2.Resize(Originmat, FinalImage, Picsize, 0, 0, InterpolationFlags.Linear);
+                                Cv2.CvtColor(FinalImage, ResultMat, ColorConversionCodes.RGBA2RGB);
+
+                                if (OldWidth != ResultMat.Width || OldHeight != ResultMat.Height)
+                                {
+                                    OldWidth = ResultMat.Width;
+                                    OldHeight = ResultMat.Height;
+
+                                    Invoke(new Action(() =>
+                                    {
+                                        g_direct2D.Initialize(picVision.Handle, ResultMat.Width, ResultMat.Height);
+                                    }));
                                 }
+
+                                if (bDrawText)
+                                {
+                                    // Text Location
+                                    OpenCvSharp.Point myPoint;
+                                    myPoint.X = FinalImage.Width - 400;
+                                    myPoint.Y = FinalImage.Height - 10;
+
+                                    // Font Face
+                                    int myFontFace = 2;
+
+                                    Vector2 Pos = GetMousePosition();
+                                    string frame = string.Format("Pos : {0}, {1}", Pos.X, Pos.Y);
+
+                                    // Font Scale
+                                    gImageProcess.DrawTextToImage(myPoint, ResultMat, frame, Scalar.Red);
+                                }
+
+                                // Maint 체크박스 활성화 시
+                                if (GLOBAL.hfrmMain.GetMaintenanceMode())
+                                {
+                                    // 설정한 영역에 대한 사각박스를 그린다.
+                                    VisionRect.DrawRectArea(ResultMat);
+                                }
+
+                                if (stImageWork.Target == null)
+                                {
+                                    stImageWork.Target = ResultMat.Clone();
+                                }
+                                    
+                                g_direct2D.DrawImage(ResultMat);
                             }
                         }
                     }
