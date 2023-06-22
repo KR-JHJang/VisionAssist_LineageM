@@ -22,7 +22,6 @@ using Size = OpenCvSharp.Size;
 using VisionAssist.Classes;
 using System.IO;
 using System.Text.RegularExpressions;
-using VisionAssist.API.TelegramAPI;
 using static VisionAssist.Classes.VisionRect;
 using System.Numerics;
 
@@ -72,7 +71,6 @@ namespace VisionAssist.Forms
         {
             InitializeComponent();
             GLOBAL.hfrmControl = this;
-            GLOBAL.Func.Telegram = new TelegramController();
 
             Application.Idle += Application_Idle;
         }
@@ -1095,16 +1093,6 @@ namespace VisionAssist.Forms
         {
             //TextBox textBox = sender as TextBox;
             //GLOBAL.SendMessage(GLOBAL.TargetHandle, 0x004A, 0, tbxKeyString.Text);
-        }
-
-        private void btnSendMessage_Click(object sender, EventArgs e)
-        {
-            string msg = tbxTelegramMsg.Text;
-
-            if (msg != "")
-            {
-               GLOBAL.Func.Telegram.MessageSend(msg);
-            }
         }
 
         private void chkUseMPSkill_CheckedChanged(object sender, EventArgs e)

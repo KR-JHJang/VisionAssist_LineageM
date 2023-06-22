@@ -177,7 +177,6 @@
     <Compile Include="API\HPKR_ImageProcess.cs" />
     <Compile Include="API\KakaoHandle.cs" />
     <Compile Include="API\LMImageList.cs" />
-    <Compile Include="API\Telegram\TelegramController.cs" />
     <Compile Include="API\WindowSnap.cs" />
     <Compile Include="API\WindowSnapCollection.cs" />
     <Compile Include="API\XPAppearance.cs" />

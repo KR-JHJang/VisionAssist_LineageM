@@ -43,6 +43,8 @@ namespace VisionAssist.Forms
             this.chkUserAttackEvade = new System.Windows.Forms.CheckBox();
             this.picboxUserAttack = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkUseMPSkill = new System.Windows.Forms.CheckBox();
+            this.trBarMPSkill = new System.Windows.Forms.TrackBar();
             this.LedMP = new Sunny.UI.UILedDisplay();
             this.LedMaxMP = new Sunny.UI.UILedDisplay();
             this.lblMatchingRatioMP = new System.Windows.Forms.Label();
@@ -69,11 +71,6 @@ namespace VisionAssist.Forms
             this.bgwEvadeAttack = new System.ComponentModel.BackgroundWorker();
             this.bgwMP = new System.ComponentModel.BackgroundWorker();
             this.bgwHP = new System.ComponentModel.BackgroundWorker();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.tbxTelegramMsg = new System.Windows.Forms.TextBox();
-            this.btnSendMessage = new System.Windows.Forms.Button();
-            this.trBarMPSkill = new System.Windows.Forms.TrackBar();
-            this.chkUseMPSkill = new System.Windows.Forms.CheckBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -81,6 +78,7 @@ namespace VisionAssist.Forms
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trBarHPEvade)).BeginInit();
@@ -88,8 +86,6 @@ namespace VisionAssist.Forms
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).BeginInit();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -106,7 +102,6 @@ namespace VisionAssist.Forms
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
-            this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.groupBox5);
@@ -243,6 +238,32 @@ namespace VisionAssist.Forms
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "MP";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // chkUseMPSkill
+            // 
+            this.chkUseMPSkill.AutoSize = true;
+            this.chkUseMPSkill.Checked = true;
+            this.chkUseMPSkill.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseMPSkill.ForeColor = System.Drawing.Color.Snow;
+            this.chkUseMPSkill.Location = new System.Drawing.Point(8, 126);
+            this.chkUseMPSkill.Name = "chkUseMPSkill";
+            this.chkUseMPSkill.Size = new System.Drawing.Size(99, 16);
+            this.chkUseMPSkill.TabIndex = 14;
+            this.chkUseMPSkill.Text = "MP 스킬 사용";
+            this.chkUseMPSkill.UseVisualStyleBackColor = true;
+            this.chkUseMPSkill.CheckedChanged += new System.EventHandler(this.chkUseMPSkill_CheckedChanged);
+            // 
+            // trBarMPSkill
+            // 
+            this.trBarMPSkill.BackColor = System.Drawing.Color.DarkBlue;
+            this.trBarMPSkill.LargeChange = 1;
+            this.trBarMPSkill.Location = new System.Drawing.Point(3, 148);
+            this.trBarMPSkill.Minimum = 1;
+            this.trBarMPSkill.Name = "trBarMPSkill";
+            this.trBarMPSkill.Size = new System.Drawing.Size(210, 45);
+            this.trBarMPSkill.TabIndex = 13;
+            this.trBarMPSkill.Value = 5;
+            this.trBarMPSkill.Scroll += new System.EventHandler(this.trBarMPSkill_Scroll);
             // 
             // LedMP
             // 
@@ -509,63 +530,6 @@ namespace VisionAssist.Forms
             this.bgwHP.WorkerSupportsCancellation = true;
             this.bgwHP.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwHP_DoWork);
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.btnSendMessage);
-            this.groupBox6.Controls.Add(this.tbxTelegramMsg);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(3, 553);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(216, 52);
-            this.groupBox6.TabIndex = 17;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Telegram Debug Message";
-            // 
-            // tbxTelegramMsg
-            // 
-            this.tbxTelegramMsg.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tbxTelegramMsg.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.tbxTelegramMsg.Location = new System.Drawing.Point(3, 17);
-            this.tbxTelegramMsg.Name = "tbxTelegramMsg";
-            this.tbxTelegramMsg.Size = new System.Drawing.Size(161, 32);
-            this.tbxTelegramMsg.TabIndex = 0;
-            // 
-            // btnSendMessage
-            // 
-            this.btnSendMessage.Location = new System.Drawing.Point(166, 17);
-            this.btnSendMessage.Name = "btnSendMessage";
-            this.btnSendMessage.Size = new System.Drawing.Size(47, 32);
-            this.btnSendMessage.TabIndex = 1;
-            this.btnSendMessage.Text = "Send";
-            this.btnSendMessage.UseVisualStyleBackColor = true;
-            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
-            // 
-            // trBarMPSkill
-            // 
-            this.trBarMPSkill.BackColor = System.Drawing.Color.DarkBlue;
-            this.trBarMPSkill.LargeChange = 1;
-            this.trBarMPSkill.Location = new System.Drawing.Point(3, 148);
-            this.trBarMPSkill.Minimum = 1;
-            this.trBarMPSkill.Name = "trBarMPSkill";
-            this.trBarMPSkill.Size = new System.Drawing.Size(210, 45);
-            this.trBarMPSkill.TabIndex = 13;
-            this.trBarMPSkill.Value = 5;
-            this.trBarMPSkill.Scroll += new System.EventHandler(this.trBarMPSkill_Scroll);
-            // 
-            // chkUseMPSkill
-            // 
-            this.chkUseMPSkill.AutoSize = true;
-            this.chkUseMPSkill.Checked = true;
-            this.chkUseMPSkill.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseMPSkill.ForeColor = System.Drawing.Color.Snow;
-            this.chkUseMPSkill.Location = new System.Drawing.Point(8, 126);
-            this.chkUseMPSkill.Name = "chkUseMPSkill";
-            this.chkUseMPSkill.Size = new System.Drawing.Size(99, 16);
-            this.chkUseMPSkill.TabIndex = 14;
-            this.chkUseMPSkill.Text = "MP 스킬 사용";
-            this.chkUseMPSkill.UseVisualStyleBackColor = true;
-            this.chkUseMPSkill.CheckedChanged += new System.EventHandler(this.chkUseMPSkill_CheckedChanged);
-            // 
             // frmControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -586,6 +550,7 @@ namespace VisionAssist.Forms
             ((System.ComponentModel.ISupportInitialize)(this.picboxUserAttack)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBarMP)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -594,9 +559,6 @@ namespace VisionAssist.Forms
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picboxMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxHPText)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trBarMPSkill)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -642,9 +604,6 @@ namespace VisionAssist.Forms
         private System.Windows.Forms.PictureBox picboxUserAttack;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox tbxLocation;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Button btnSendMessage;
-        private System.Windows.Forms.TextBox tbxTelegramMsg;
         private System.Windows.Forms.TrackBar trBarMPSkill;
         private System.Windows.Forms.CheckBox chkUseMPSkill;
     }
