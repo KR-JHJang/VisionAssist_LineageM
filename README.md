@@ -1,4 +1,4 @@
-# VisionAssist_LineageM
+# VisionAssist for LineageM
 Lineage M support program utilizing LDPlayer
 
 1. You can specify skills to be used automatically.
